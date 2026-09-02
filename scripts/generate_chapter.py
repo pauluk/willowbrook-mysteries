@@ -62,22 +62,50 @@ NEWS_RSS_FEEDS = [
     {
         'name': 'BBC News (Explainers)',
         'url': 'http://feeds.bbci.co.uk/news/explainers/rss.xml',
-        'category': 'Curiosities & Everyday Mysteries'
+        'category': 'Curiosities & Everyday Mysteries',
+        'format': 'rss'
     },
     {
         'name': 'Good News Network',
         'url': 'https://www.goodnewsnetwork.org/feed/',
-        'category': 'Uplifting & Community News'
+        'category': 'Uplifting & Community News',
+        'format': 'rss'
     },
     {
         'name': 'BBC News (Technology)',
         'url': 'http://feeds.bbci.co.uk/news/technology/rss.xml',
-        'category': 'Curious Technology & Innovation'
+        'category': 'Curious Technology & Innovation',
+        'format': 'rss'
     },
     {
         'name': 'BBC News (Science & Environment)',
         'url': 'http://feeds.bbci.co.uk/news/science_and_environment/rss.xml',
-        'category': 'Nature & Curious Science'
+        'category': 'Nature & Curious Science',
+        'format': 'rss'
+    },
+    {
+        'name': 'Country Life',
+        'url': 'https://www.countrylife.co.uk/feed',
+        'category': 'Country Life & Rural England',
+        'format': 'rss'
+    },
+    {
+        'name': 'Caravan Times',
+        'url': 'https://www.caravantimes.co.uk/feed/',
+        'category': 'Caravan & Motorhome Life',
+        'format': 'rss'
+    },
+    {
+        'name': 'Gloucestershire Live (Cotswolds area)',
+        'url': 'https://www.gloucestershirelive.co.uk/news/?service=rss',
+        'category': 'Cotswolds & Local Gloucestershire News',
+        'format': 'rss'
+    },
+    {
+        'name': 'DEFRA (Farming & Rural Affairs)',
+        'url': 'https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs.atom',
+        'category': 'Farming & Rural Affairs',
+        'format': 'atom'
     },
 ]
 
@@ -178,55 +206,138 @@ def load_or_init_book():
 
     return data
 
-def fetch_random_news_story(used_headlines):
+ATOM_NS = '{http://www.w3.org/2005/Atom}'
+
+def _parse_feed_entries(xml_data, feed_format):
+    """Returns a list of raw (title, description_html, link) tuples for
+    either RSS (<item>) or Atom (<entry>) feeds."""
+    root = ET.fromstring(xml_data)
+    entries = []
+
+    if feed_format == 'atom':
+        for entry in root.findall(f'.//{ATOM_NS}entry'):
+            title_elem = entry.find(f'{ATOM_NS}title')
+            summary_elem = entry.find(f'{ATOM_NS}summary')
+            if summary_elem is None:
+                summary_elem = entry.find(f'{ATOM_NS}content')
+            link_elem = entry.find(f'{ATOM_NS}link')
+            title = title_elem.text.strip() if title_elem is not None and title_elem.text else ''
+            desc = summary_elem.text.strip() if summary_elem is not None and summary_elem.text else ''
+            link = link_elem.get('href', '').strip() if link_elem is not None else ''
+            entries.append((title, desc, link))
+    else:
+        for item in root.findall('.//item'):
+            title_elem = item.find('title')
+            desc_elem = item.find('description')
+            link_elem = item.find('link')
+            title = title_elem.text.strip() if title_elem is not None and title_elem.text else ''
+            desc = desc_elem.text.strip() if desc_elem is not None and desc_elem.text else ''
+            link = link_elem.text.strip() if link_elem is not None and link_elem.text else ''
+            entries.append((title, desc, link))
+
+    return entries
+
+def fetch_news_stories(used_headlines, count=2):
+    """Pulls `count` distinct, safe headlines, preferring different feeds
+    for variety. Returns full (untruncated) article detail per the brief
+    to make fuller use of what each source actually reports."""
     shuffled_feeds = list(NEWS_RSS_FEEDS)
     random.shuffle(shuffled_feeds)
 
+    collected = []
+    used_feed_names = set()
+
     for feed_info in shuffled_feeds:
+        if len(collected) >= count:
+            break
         print(f"📡 Polling Live Feed: {feed_info['name']} ({feed_info['url']})...")
         try:
             req = urllib.request.Request(feed_info['url'], headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)'})
             with urllib.request.urlopen(req, timeout=7) as resp:
                 xml_data = resp.read()
-                root = ET.fromstring(xml_data)
+                entries = _parse_feed_entries(xml_data, feed_info.get('format', 'rss'))
+                random.shuffle(entries)
 
-                items = root.findall('.//item')
-                random.shuffle(items)
-
-                for item in items:
-                    title_elem = item.find('title')
-                    desc_elem = item.find('description')
-                    link_elem = item.find('link')
-
-                    title = title_elem.text.strip() if title_elem is not None and title_elem.text else ''
-                    desc = desc_elem.text.strip() if desc_elem is not None and desc_elem.text else ''
-                    link = link_elem.text.strip() if link_elem is not None and link_elem.text else ''
-
+                for title, desc, link in entries:
                     clean_desc = re.sub(r'<[^>]+>', ' ', desc).strip()
                     clean_desc = re.sub(r'\s+', ' ', clean_desc)
 
-                    if title and UNSAFE_HEADLINE_PATTERN.search(title):
+                    if not title:
+                        continue
+                    if UNSAFE_HEADLINE_PATTERN.search(title):
                         print(f"⛔ Skipping unsuitable headline: '{title}'")
                         continue
+                    if title in used_headlines or title in [c['headline'] for c in collected]:
+                        continue
 
-                    if title and title not in used_headlines:
-                        print(f"✓ Selected Unique Story from {feed_info['name']}: '{title}'")
-                        return {
-                            'headline': title,
-                            'category': feed_info['category'],
-                            'sourceUrl': link,
-                            'extractedContextSnippet': clean_desc[:350] if clean_desc else f"Real-world news item reported by {feed_info['name']}."
-                        }
+                    print(f"✓ Selected Story from {feed_info['name']}: '{title}'")
+                    collected.append({
+                        'headline': title,
+                        'category': feed_info['category'],
+                        'sourceUrl': link,
+                        # Full article detail (not truncated) — use everything the feed gives us.
+                        'extractedContextSnippet': clean_desc if clean_desc else f"Real-world item reported by {feed_info['name']}."
+                    })
+                    used_feed_names.add(feed_info['name'])
+                    break  # one headline per feed, for source variety
         except Exception as e:
             print(f"⚠️ Notice: Could not fetch {feed_info['name']} ({e}). Trying next feed...", file=sys.stderr)
 
-    seq = len(used_headlines) + 1
-    return {
-        'headline': f'A Curious Small Matter Reported in the Willowbrook Parish Newsletter (Case #{seq})',
-        'category': 'Curiosities & Everyday Mysteries',
-        'sourceUrl': '',
-        'extractedContextSnippet': 'An unremarkable-seeming event that will, of course, turn out not to be unremarkable at all.'
-    }
+    while len(collected) < count:
+        seq = len(used_headlines) + len(collected) + 1
+        collected.append({
+            'headline': f'A Curious Small Matter Reported in the Willowbrook Parish Newsletter (Case #{seq})',
+            'category': 'Curiosities & Everyday Mysteries',
+            'sourceUrl': '',
+            'extractedContextSnippet': 'An unremarkable-seeming event that will, of course, turn out not to be unremarkable at all.'
+        })
+
+    return collected
+
+# Willowbrook-on-Fen is fictional but sits in spirit in the Cotswolds —
+# use Stow-on-the-Wold's coordinates for real, current weather.
+WEATHER_LAT, WEATHER_LON = 51.9308, -1.7217
+
+# Open-Meteo — genuinely free, no API key or signup required.
+# https://open-meteo.com
+WMO_WEATHER_CODES = {
+    0: ('clear sky', 'sun'), 1: ('mainly clear', 'sun'), 2: ('partly cloudy', 'cloud'), 3: ('overcast', 'cloud'),
+    45: ('fog', 'fog'), 48: ('depositing rime fog', 'fog'),
+    51: ('light drizzle', 'rain'), 53: ('drizzle', 'rain'), 55: ('dense drizzle', 'rain'),
+    56: ('light freezing drizzle', 'rain'), 57: ('freezing drizzle', 'rain'),
+    61: ('slight rain', 'rain'), 63: ('rain', 'rain'), 65: ('heavy rain', 'rain'),
+    66: ('light freezing rain', 'rain'), 67: ('freezing rain', 'rain'),
+    71: ('slight snow', 'snow'), 73: ('snow', 'snow'), 75: ('heavy snow', 'snow'), 77: ('snow grains', 'snow'),
+    80: ('slight rain showers', 'rain'), 81: ('rain showers', 'rain'), 82: ('violent rain showers', 'rain'),
+    85: ('slight snow showers', 'snow'), 86: ('snow showers', 'snow'),
+    95: ('thunderstorm', 'storm'), 96: ('thunderstorm with hail', 'storm'), 99: ('severe thunderstorm with hail', 'storm'),
+}
+
+def fetch_current_weather():
+    """Real current weather for the Cotswolds, via Open-Meteo (no API key)."""
+    url = (
+        f"https://api.open-meteo.com/v1/forecast?latitude={WEATHER_LAT}&longitude={WEATHER_LON}"
+        f"&current=temperature_2m,weather_code,wind_speed_10m&timezone=Europe/London"
+    )
+    try:
+        print("🌦️  Fetching current Cotswolds weather from Open-Meteo...")
+        req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+        with urllib.request.urlopen(req, timeout=8) as resp:
+            data = json.loads(resp.read().decode('utf-8'))
+        current = data.get('current', {})
+        code = current.get('weather_code', 3)
+        label, animation = WMO_WEATHER_CODES.get(code, ('changeable weather', 'cloud'))
+        weather = {
+            'label': label,
+            'animation': animation,
+            'temperatureC': current.get('temperature_2m'),
+            'windKmh': current.get('wind_speed_10m'),
+        }
+        print(f"✓ Current weather: {label}, {weather['temperatureC']}°C")
+        return weather
+    except Exception as e:
+        print(f"⚠️ Weather fetch notice ({e}). Using a sensible default.", file=sys.stderr)
+        return {'label': 'a mild, changeable English afternoon', 'animation': 'cloud', 'temperatureC': None, 'windKmh': None}
 
 ABBREVIATIONS = {
     'mr', 'mrs', 'ms', 'mx', 'dr', 'prof', 'rev', 'st', 'sr', 'jr',
@@ -333,7 +444,7 @@ Output strictly JSON matching this structure:
         c['arcHistory'].append(f"Chapter {new_chapter['chapterNumber']}: Actively involved in '{new_chapter['title']}'.")
         c['lastObservedUk'] = time.strftime('%d/%m/%y %H:%M')
 
-def generate_chapter_prose(chapter_num, feed, tone, characters, previous_chapters):
+def generate_chapter_prose(chapter_num, feeds, weather, tone, characters, previous_chapters):
     prev_summary = ""
     if previous_chapters:
         last_ch = previous_chapters[-1]
@@ -341,7 +452,14 @@ def generate_chapter_prose(chapter_num, feed, tone, characters, previous_chapter
 
     char_desc = "\n".join([f"- **{c['name']}** ({c['role']}) at {c['location']}. Status: {c['status']}." for c in characters])
 
-    prompt = f"""You are a Master Novelist writing Chapter {chapter_num} of a continuous British cosy mystery series set in the fictional village of Willowbrook-on-Fen.
+    inspirations = "\n\n".join([
+        f"**Item {i+1} ({feed['category']}):**\n- Headline: {feed['headline']}\n- Detail: {feed['extractedContextSnippet']}"
+        for i, feed in enumerate(feeds)
+    ])
+
+    temp_str = f", {weather['temperatureC']}°C" if weather.get('temperatureC') is not None else ""
+
+    prompt = f"""You are a Master Novelist writing Chapter {chapter_num} of a continuous British cosy mystery series set in the fictional village of Willowbrook-on-Fen, in the Cotswolds.
 
 **World Context & Active Characters:**
 {char_desc}
@@ -349,10 +467,11 @@ def generate_chapter_prose(chapter_num, feed, tone, characters, previous_chapter
 **Previous Story Thread:**
 {prev_summary if prev_summary else "This is Chapter 1. Establish the village of Willowbrook-on-Fen and the small, curious matter that draws Marigold's attention."}
 
-**Real-World News Item Loosely Inspiring This Chapter's Small Mystery (fictionalise it completely — invent a village-scale mystery in the same spirit, do not report real events or name real people):**
-- Headline: {feed['headline']}
-- Category: {feed['category']}
-- Context: {feed['extractedContextSnippet']}
+**Real Current Weather in the Cotswolds Right Now (weave this into the scene-setting — it is genuinely today's weather):**
+{weather['label']}{temp_str}
+
+**Two Real-World Items Loosely Inspiring This Chapter's Small Mystery (fictionalise both completely — invent a village-scale mystery that draws on the spirit of each, do not report real events or name real people or organisations):**
+{inspirations}
 
 **Tone & Atmospheric Genre for this Chapter:**
 {tone}
@@ -360,9 +479,10 @@ def generate_chapter_prose(chapter_num, feed, tone, characters, previous_chapter
 **Mandatory Writing Directives:**
 1. Write strictly in **British English** (e.g. colour, centre, favourite, travelling, autumn).
 2. Keep it gentle and cosy — no graphic violence, nothing grim. This is Agatha Christie warmth, not true crime.
-3. Focus on sensory village detail: tea, hedgerows, church bells, the tearoom, gossip over the counter.
-4. MUST END ON A COMPLETE, FINISHED SENTENCE with a small, intriguing hook for next time.
-5. Format output:
+3. Focus on sensory village detail: tea, hedgerows, church bells, the tearoom, gossip over the counter, and the real weather above.
+4. Weave in a thread from BOTH inspiration items above, however lightly — the mystery may connect them, or they may just colour two different scenes.
+5. MUST END ON A COMPLETE, FINISHED SENTENCE with a small, intriguing hook for next time.
+6. Format output:
 TITLE: [Evocative Chapter Title]
 SUBTITLE: [One-line witty synopsis]
 [3-4 Paragraphs of Chapter Prose in Markdown]"""
@@ -398,6 +518,14 @@ Marigold set down her pen with the particular care of someone who has just decid
         else:
             content_lines.append(line)
 
+    # A cosy series shouldn't ship a title like "The Willowbrook Murders" even
+    # when the actual prose is gentle — the model sometimes picks a punchy
+    # noir-ish title that doesn't match the tone. Soften it if so.
+    DARK_TITLE_PATTERN = re.compile(r'\b(murder|kill|dead|death|corpse|homicide)\b', re.IGNORECASE)
+    if DARK_TITLE_PATTERN.search(title):
+        print(f"🔧 Softening tonally-mismatched title: '{title}'")
+        title = f"Chapter {chapter_num}: A Willowbrook Puzzle"
+
     raw_prose = "\n\n".join(content_lines)
     # Strip any unprompted meta-commentary the model appends (e.g. "Hook for
     # Next Time:", "---", "Author's note:") before sentence validation, since
@@ -421,7 +549,9 @@ Marigold set down her pen with the particular care of someone who has just decid
         'readingTimeMinutes': reading_time,
         'modelUsed': model_used,
         'tone': tone.split(' (')[0],
-        'sourceTrigger': feed,
+        'sourceTrigger': feeds[0],
+        'sourceTriggers': feeds,
+        'weather': weather,
         'generatedAtUk': time.strftime('%d/%m/%y %H:%M'),
         'charactersInvolved': ['Marigold Pemberton-Hale', 'Reverend Aubrey Finch', 'Mrs. Ottoline Vance']
     }
@@ -444,6 +574,38 @@ def chapter_header_image_url(chapter_num, width=800, height=320):
     """Free, no-API-key placeholder photo, seeded so it's stable across rebuilds.
     https://picsum.photos — no key, no rate-limit auth needed for this volume."""
     return f"https://picsum.photos/seed/willowbrook-{chapter_num}/{width}/{height}"
+
+def weather_widget_html(weather):
+    if not weather:
+        return ""
+    animation = weather.get('animation', 'cloud')
+    label = weather.get('label', 'changeable weather')
+    temp = weather.get('temperatureC')
+    temp_str = f"{round(temp)}°C" if temp is not None else ""
+
+    if animation == 'sun':
+        scene = """<div class="wx-sun"><div class="wx-sun-core"></div><div class="wx-sun-rays"></div></div>"""
+    elif animation == 'rain':
+        drops = "".join([f'<span class="wx-drop" style="left:{12+i*13}%;animation-delay:{i*0.18}s"></span>' for i in range(6)])
+        scene = f"""<div class="wx-cloud"></div><div class="wx-rain">{drops}</div>"""
+    elif animation == 'snow':
+        flakes = "".join([f'<span class="wx-flake" style="left:{10+i*14}%;animation-delay:{i*0.3}s">❄</span>' for i in range(6)])
+        scene = f"""<div class="wx-cloud"></div><div class="wx-snow">{flakes}</div>"""
+    elif animation == 'fog':
+        bands = "".join([f'<span class="wx-fog-band" style="top:{15+i*18}%;animation-delay:{i*0.7}s"></span>' for i in range(4)])
+        scene = f"""<div class="wx-fog">{bands}</div>"""
+    elif animation == 'storm':
+        drops = "".join([f'<span class="wx-drop" style="left:{15+i*16}%;animation-delay:{i*0.15}s"></span>' for i in range(5)])
+        scene = f"""<div class="wx-cloud wx-cloud-storm"></div><div class="wx-rain">{drops}</div><div class="wx-bolt">⚡</div>"""
+    else:
+        scene = """<div class="wx-cloud"></div><div class="wx-cloud wx-cloud-2"></div>"""
+
+    return f"""
+    <div class="weather-widget" title="Real Cotswolds weather when this chapter was written">
+      <div class="wx-scene wx-{animation}">{scene}</div>
+      <div class="wx-caption"><strong>{label}</strong>{f' • {temp_str}' if temp_str else ''}</div>
+    </div>
+    """
 
 def compile_kindle_html_reader(book):
     total_chapters = len(book['chapters'])
@@ -477,6 +639,19 @@ def compile_kindle_html_reader(book):
         featuring_html = "".join([
             f'<span class="featuring-avatar" title="{name}"><img src="{avatar_by_name[name]}" alt="{name}" width="28" height="28" loading="lazy"></span>'
             for name in ch.get('charactersInvolved', []) if name in avatar_by_name
+        ])
+
+        weather_html = weather_widget_html(ch.get('weather'))
+
+        source_items = ch.get('sourceTriggers') or [ch['sourceTrigger']]
+        source_items_html = "".join([
+            f"""<div class="source-item">
+                  <span class="source-tag">{s['category']}</span>
+                  <strong class="source-headline">{s['headline']}</strong>
+                  <p class="source-snippet">{s['extractedContextSnippet']}</p>
+                  {f'<a href="{s["sourceUrl"]}" target="_blank" rel="noopener noreferrer" class="threat-link">🔗 Read the real article ➔</a>' if s.get('sourceUrl') else ''}
+                </div>"""
+            for s in source_items
         ])
 
         bottom_nav_html = ""
@@ -520,6 +695,7 @@ def compile_kindle_html_reader(book):
               <div class="featuring-row">
                 <span class="featuring-label">Featuring</span>
                 {featuring_html}
+                {weather_html}
               </div>
               <div class="chapter-meta-line">
                 <span>Model: <strong>{ch['modelUsed']}</strong></span> •
@@ -533,13 +709,10 @@ def compile_kindle_html_reader(book):
 
               <details class="source-story-details">
                 <summary class="source-summary">
-                  <span>📰 Real-World News Inspiration</span>
-                  <span class="source-tag">{ch['sourceTrigger']['category']}</span>
+                  <span>📰 Real-World Inspiration ({len(source_items)} sources)</span>
                 </summary>
                 <div class="source-content">
-                  <strong class="source-headline">{ch['sourceTrigger']['headline']}</strong>
-                  <p class="source-snippet">{ch['sourceTrigger']['extractedContextSnippet']}</p>
-                  {f'<a href="{ch["sourceTrigger"]["sourceUrl"]}" target="_blank" rel="noopener noreferrer" class="threat-link">🔗 Read the real article ➔</a>' if ch['sourceTrigger'].get('sourceUrl') else ''}
+                  {source_items_html}
                 </div>
               </details>
             </header>
@@ -703,6 +876,42 @@ def compile_kindle_html_reader(book):
     summary.source-summary {{ padding: 8px 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 700; color: var(--accent); }}
     .source-tag {{ background: rgba(0,0,0,0.08); padding: 1px 6px; border-radius: 3px; font-size: 10px; text-transform: uppercase; }}
     .source-content {{ padding: 10px 12px; border-top: 1px dashed var(--border); }}
+    .source-item {{ margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px dashed var(--border); }}
+    .source-item:last-child {{ margin-bottom: 0; padding-bottom: 0; border-bottom: none; }}
+
+    /* --- Animated weather widget (real Cotswolds weather via Open-Meteo) --- */
+    .weather-widget {{ display: flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.03); border: 1px solid var(--border); border-radius: 20px; padding: 3px 10px 3px 3px; }}
+    .wx-scene {{ position: relative; width: 32px; height: 32px; flex: none; overflow: hidden; }}
+    .wx-caption {{ font-size: 11px; font-family: -apple-system, sans-serif; }}
+
+    .wx-sun {{ position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }}
+    .wx-sun-core {{ width: 14px; height: 14px; border-radius: 50%; background: #f4b942; box-shadow: 0 0 8px 2px rgba(244, 185, 66, 0.6); }}
+    .wx-sun-rays {{ position: absolute; inset: 0; animation: wx-spin 8s linear infinite; }}
+    .wx-sun-rays::before, .wx-sun-rays::after {{ content: ''; position: absolute; top: 50%; left: 50%; width: 2px; height: 30px; background: rgba(244, 185, 66, 0.35); transform: translate(-50%, -50%); }}
+    .wx-sun-rays::after {{ transform: translate(-50%, -50%) rotate(90deg); }}
+    @keyframes wx-spin {{ from {{ transform: rotate(0deg); }} to {{ transform: rotate(360deg); }} }}
+
+    .wx-cloud {{ position: absolute; top: 8px; left: 4px; width: 20px; height: 10px; background: #d8d2c4; border-radius: 10px; }}
+    .wx-cloud::before {{ content: ''; position: absolute; top: -5px; left: 3px; width: 10px; height: 10px; background: #d8d2c4; border-radius: 50%; }}
+    .wx-cloud-2 {{ top: 16px; left: 12px; width: 14px; height: 7px; opacity: 0.7; animation: wx-drift 6s ease-in-out infinite alternate; }}
+    .wx-cloud-storm {{ background: #9c9484; }}
+    .wx-cloud-storm::before {{ background: #9c9484; }}
+    @keyframes wx-drift {{ from {{ transform: translateX(-3px); }} to {{ transform: translateX(3px); }} }}
+
+    .wx-rain {{ position: absolute; inset: 0; }}
+    .wx-drop {{ position: absolute; top: 16px; width: 2px; height: 8px; background: #6fa8c9; border-radius: 2px; animation: wx-fall 0.9s linear infinite; }}
+    @keyframes wx-fall {{ from {{ transform: translateY(0); opacity: 1; }} to {{ transform: translateY(14px); opacity: 0; }} }}
+
+    .wx-snow {{ position: absolute; inset: 0; }}
+    .wx-flake {{ position: absolute; top: 14px; font-size: 8px; color: #cfe4f2; animation: wx-flutter 2.2s linear infinite; }}
+    @keyframes wx-flutter {{ 0% {{ transform: translate(0,0); opacity: 1; }} 100% {{ transform: translate(3px, 16px); opacity: 0; }} }}
+
+    .wx-fog {{ position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; gap: 4px; }}
+    .wx-fog-band {{ position: absolute; left: 0; width: 100%; height: 3px; background: rgba(180, 180, 180, 0.5); border-radius: 2px; animation: wx-fogslide 4s ease-in-out infinite alternate; }}
+    @keyframes wx-fogslide {{ from {{ transform: translateX(-4px); opacity: 0.4; }} to {{ transform: translateX(4px); opacity: 0.9; }} }}
+
+    .wx-bolt {{ position: absolute; bottom: 2px; right: 4px; font-size: 12px; animation: wx-flicker 1.4s ease-in-out infinite; }}
+    @keyframes wx-flicker {{ 0%, 100% {{ opacity: 0; }} 48%, 52% {{ opacity: 1; }} 60% {{ opacity: 0.3; }} }}
     .source-headline {{ display: block; margin-bottom: 4px; }}
     .source-snippet {{ margin: 0; opacity: 0.8; font-size: 11.5px; }}
     .threat-link {{ color: var(--accent); font-size: 11px; text-decoration: underline; font-weight: bold; display: inline-block; margin-top: 6px; }}
@@ -868,16 +1077,18 @@ def main():
     base = get_base_dir()
     book = load_or_init_book()
 
-    chosen_feed = fetch_random_news_story(book['usedSourceHeadlines'])
+    chosen_feeds = fetch_news_stories(book['usedSourceHeadlines'], count=2)
+    chosen_weather = fetch_current_weather()
     chosen_tone = random.choice(TONES)
 
     next_chapter_num = len(book['chapters']) + 1
-    print(f"📖 Synthesising Chapter {next_chapter_num} with Trigger: '{chosen_feed['headline']}' ({chosen_feed['category']})...")
+    print(f"📖 Synthesising Chapter {next_chapter_num} with {len(chosen_feeds)} triggers: {[f['headline'] for f in chosen_feeds]}...")
     print(f"🎨 Narrative Tone: {chosen_tone}")
 
     new_chapter = generate_chapter_prose(
         next_chapter_num,
-        chosen_feed,
+        chosen_feeds,
+        chosen_weather,
         chosen_tone,
         book['characters'],
         book['chapters']
@@ -886,7 +1097,7 @@ def main():
     book['chapters'].append(new_chapter)
     book['totalChapters'] = len(book['chapters'])
     book['totalWords'] = sum(c['wordCount'] for c in book['chapters'])
-    book['usedSourceHeadlines'].append(chosen_feed['headline'])
+    book['usedSourceHeadlines'].extend(f['headline'] for f in chosen_feeds)
     book['lastUpdatedUk'] = time.strftime('%d/%m/%y %H:%M')
 
     evolve_characters_with_llm(book['characters'], new_chapter)

@@ -103,6 +103,42 @@
     summary.source-summary { padding: 8px 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 700; color: var(--accent); }
     .source-tag { background: rgba(0,0,0,0.08); padding: 1px 6px; border-radius: 3px; font-size: 10px; text-transform: uppercase; }
     .source-content { padding: 10px 12px; border-top: 1px dashed var(--border); }
+    .source-item { margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px dashed var(--border); }
+    .source-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+
+    /* --- Animated weather widget (real Cotswolds weather via Open-Meteo) --- */
+    .weather-widget { display: flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.03); border: 1px solid var(--border); border-radius: 20px; padding: 3px 10px 3px 3px; }
+    .wx-scene { position: relative; width: 32px; height: 32px; flex: none; overflow: hidden; }
+    .wx-caption { font-size: 11px; font-family: -apple-system, sans-serif; }
+
+    .wx-sun { position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+    .wx-sun-core { width: 14px; height: 14px; border-radius: 50%; background: #f4b942; box-shadow: 0 0 8px 2px rgba(244, 185, 66, 0.6); }
+    .wx-sun-rays { position: absolute; inset: 0; animation: wx-spin 8s linear infinite; }
+    .wx-sun-rays::before, .wx-sun-rays::after { content: ''; position: absolute; top: 50%; left: 50%; width: 2px; height: 30px; background: rgba(244, 185, 66, 0.35); transform: translate(-50%, -50%); }
+    .wx-sun-rays::after { transform: translate(-50%, -50%) rotate(90deg); }
+    @keyframes wx-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+    .wx-cloud { position: absolute; top: 8px; left: 4px; width: 20px; height: 10px; background: #d8d2c4; border-radius: 10px; }
+    .wx-cloud::before { content: ''; position: absolute; top: -5px; left: 3px; width: 10px; height: 10px; background: #d8d2c4; border-radius: 50%; }
+    .wx-cloud-2 { top: 16px; left: 12px; width: 14px; height: 7px; opacity: 0.7; animation: wx-drift 6s ease-in-out infinite alternate; }
+    .wx-cloud-storm { background: #9c9484; }
+    .wx-cloud-storm::before { background: #9c9484; }
+    @keyframes wx-drift { from { transform: translateX(-3px); } to { transform: translateX(3px); } }
+
+    .wx-rain { position: absolute; inset: 0; }
+    .wx-drop { position: absolute; top: 16px; width: 2px; height: 8px; background: #6fa8c9; border-radius: 2px; animation: wx-fall 0.9s linear infinite; }
+    @keyframes wx-fall { from { transform: translateY(0); opacity: 1; } to { transform: translateY(14px); opacity: 0; } }
+
+    .wx-snow { position: absolute; inset: 0; }
+    .wx-flake { position: absolute; top: 14px; font-size: 8px; color: #cfe4f2; animation: wx-flutter 2.2s linear infinite; }
+    @keyframes wx-flutter { 0% { transform: translate(0,0); opacity: 1; } 100% { transform: translate(3px, 16px); opacity: 0; } }
+
+    .wx-fog { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; gap: 4px; }
+    .wx-fog-band { position: absolute; left: 0; width: 100%; height: 3px; background: rgba(180, 180, 180, 0.5); border-radius: 2px; animation: wx-fogslide 4s ease-in-out infinite alternate; }
+    @keyframes wx-fogslide { from { transform: translateX(-4px); opacity: 0.4; } to { transform: translateX(4px); opacity: 0.9; } }
+
+    .wx-bolt { position: absolute; bottom: 2px; right: 4px; font-size: 12px; animation: wx-flicker 1.4s ease-in-out infinite; }
+    @keyframes wx-flicker { 0%, 100% { opacity: 0; } 48%, 52% { opacity: 1; } 60% { opacity: 0.3; } }
     .source-headline { display: block; margin-bottom: 4px; }
     .source-snippet { margin: 0; opacity: 0.8; font-size: 11.5px; }
     .threat-link { color: var(--accent); font-size: 11px; text-decoration: underline; font-weight: bold; display: inline-block; margin-top: 6px; }
@@ -183,7 +219,7 @@
         <h1 class="book-title">The Willowbrook Mysteries</h1>
         <div class="book-subtitle">Small Village. Large Curiosity. Continuous Cases Synthesised by Edge Intelligence</div>
         <div style="font-size:12px; font-family:-apple-system,sans-serif; opacity:0.8;">
-          Authored by Edge AI Collective • 1 Chapters • 329 Words • Real Headlines Woven In ✓
+          Authored by Edge AI Collective • 1 Chapters • 325 Words • Real Headlines Woven In ✓
         </div>
       </div>
       <details class="toc-box" open>
@@ -193,8 +229,8 @@
               <button class="toc-link" onclick="scrollToChapter(1)">
                 <span class="toc-num">1</span>
                 <span class="toc-text">
-                  <strong>Shadows at Willowbrook Manor</strong>
-                  <em>A quaint village mystery shrouded in the fog of a forgotten past.</em>
+                  <strong>Willowbrook Whispers</strong>
+                  <em>A village tale of tea, gossip, and unexpected weight loss.</em>
                 </span>
               </button>
             </li>
@@ -213,12 +249,12 @@
           <summary class="chapter-summary">
             <div class="summary-left">
               <span class="chapter-badge">Chapter 1</span>
-              <strong class="summary-title">Shadows at Willowbrook Manor</strong>
+              <strong class="summary-title">Willowbrook Whispers</strong>
             </div>
             <div class="summary-right">
               <span class="summary-pill">2 min read</span>
-              <span class="summary-pill">329 words</span>
-              <span class="summary-pill tone">Quietly Unsettling Village Mystery</span>
+              <span class="summary-pill">325 words</span>
+              <span class="summary-pill tone">Gentle Cosy Mystery</span>
               <span class="chevron">▼</span>
             </div>
           </summary>
@@ -226,14 +262,20 @@
           <article class="chapter-body">
             <img class="chapter-hero-img" src="https://picsum.photos/seed/willowbrook-1/800/320" alt="" loading="lazy" width="800" height="320">
             <header class="chapter-header">
-              <div class="chapter-subtitle">A quaint village mystery shrouded in the fog of a forgotten past.</div>
+              <div class="chapter-subtitle">A village tale of tea, gossip, and unexpected weight loss.</div>
               <div class="featuring-row">
                 <span class="featuring-label">Featuring</span>
                 <span class="featuring-avatar" title="Marigold Pemberton-Hale"><img src="https://api.dicebear.com/9.x/adventurer/svg?seed=char_marigold&backgroundType=gradientLinear&backgroundColor=f4e9d8,e8d5b7" alt="Marigold Pemberton-Hale" width="28" height="28" loading="lazy"></span><span class="featuring-avatar" title="Reverend Aubrey Finch"><img src="https://api.dicebear.com/9.x/adventurer/svg?seed=char_aubrey&backgroundType=gradientLinear&backgroundColor=f4e9d8,e8d5b7" alt="Reverend Aubrey Finch" width="28" height="28" loading="lazy"></span><span class="featuring-avatar" title="Mrs. Ottoline Vance"><img src="https://api.dicebear.com/9.x/adventurer/svg?seed=char_ottoline&backgroundType=gradientLinear&backgroundColor=f4e9d8,e8d5b7" alt="Mrs. Ottoline Vance" width="28" height="28" loading="lazy"></span>
+                
+    <div class="weather-widget" title="Real Cotswolds weather when this chapter was written">
+      <div class="wx-scene wx-rain"><div class="wx-cloud"></div><div class="wx-rain"><span class="wx-drop" style="left:12%;animation-delay:0.0s"></span><span class="wx-drop" style="left:25%;animation-delay:0.18s"></span><span class="wx-drop" style="left:38%;animation-delay:0.36s"></span><span class="wx-drop" style="left:51%;animation-delay:0.54s"></span><span class="wx-drop" style="left:64%;animation-delay:0.72s"></span><span class="wx-drop" style="left:77%;animation-delay:0.8999999999999999s"></span></div></div>
+      <div class="wx-caption"><strong>light drizzle</strong> • 16°C</div>
+    </div>
+    
               </div>
               <div class="chapter-meta-line">
                 <span>Model: <strong>qwen2.5-coder:7b</strong></span> •
-                <span>Generated: 02/09/26 13:07 UK</span> •
+                <span>Generated: 02/09/26 13:32 UK</span> •
                 <span class="quick-nav-links">
                   
                   
@@ -243,19 +285,26 @@
 
               <details class="source-story-details">
                 <summary class="source-summary">
-                  <span>📰 Real-World News Inspiration</span>
-                  <span class="source-tag">Curious Technology & Innovation</span>
+                  <span>📰 Real-World Inspiration (2 sources)</span>
                 </summary>
                 <div class="source-content">
-                  <strong class="source-headline">Nvidia revenue doubles on continued AI demand</strong>
-                  <p class="source-snippet">Chipmaker's $96bn quarter beat forecasts as demand for AI hardware continues to accelerate.</p>
-                  <a href="https://www.bbc.co.uk/news/articles/ce871n7lyvlo?at_medium=RSS&at_campaign=rss" target="_blank" rel="noopener noreferrer" class="threat-link">🔗 Read the real article ➔</a>
+                  <div class="source-item">
+                  <span class="source-tag">Cotswolds & Local Gloucestershire News</span>
+                  <strong class="source-headline">'I'm a fitness instructor and you need to do only 1 thing for weight loss'</strong>
+                  <p class="source-snippet">A fitness instructor has shared that doing one thing for weight loss could be more effective than running or high-intensity workouts – and it's even backed by the NHS</p>
+                  <a href="https://www.gloucestershirelive.co.uk/news/health/im-fitness-instructor-you-need-11132521" target="_blank" rel="noopener noreferrer" class="threat-link">🔗 Read the real article ➔</a>
+                </div><div class="source-item">
+                  <span class="source-tag">Caravan & Motorhome Life</span>
+                  <strong class="source-headline">5 weekend-friendly DIY projects to improve your motorhome</strong>
+                  <p class="source-snippet">A motorhome should feel like home from the moment you step inside, but small niggles can chip away at that feeling over time. The good news is you don&#8217;t need any real DIY experience to fix them. These five projects can each be done in a weekend and every one makes a noticeable difference on... Read more &#187; The post 5 weekend-friendly DIY projects to improve your motorhome appeared first on CaravanTimes .</p>
+                  <a href="https://www.caravantimes.co.uk/news/5-weekend-friendly-diy-projects-to-improve-your-motorhome/" target="_blank" rel="noopener noreferrer" class="threat-link">🔗 Read the real article ➔</a>
+                </div>
                 </div>
               </details>
             </header>
 
             <div class="prose-content">
-              <p>As Marigold Pemberton-Hale quietly catalogued new arrivals at her beloved bookshop, Pemberton Books, she couldn’t help but notice an unusual silence. The normally bustling hub of the village was strangely quiet. The church bells, which usually tolled out with cheerful regularity, had fallen silent for a whole afternoon.</p><p>Marigold’s keen eyes caught sight of Reverend Aubrey Finch, who was supposed to be tending to Sunday’s sermon but seemed unusually preoccupied. She discreetly followed him down the narrow cobblestone street towards St. Wilfred's Church. Inside, she found him pacing nervously, his hands clasped tightly together.</p><p>"Rev'nd Finch," Marigold called out softly. "Is everything alright?"</p><p>Reverend Aubrey jumped at her voice and turned to face her with a look of relief etched on his weathered face. "Ah, Marigold! I was just thinking. It's been ages since we had such a quiet day."</p><p>Marigold nodded, trying to keep the curiosity out of her tone. "And what has you so worried?"</p><p>Reverend Aubrey sighed and leaned against the pew. "You know how much the villagers love a good mystery? Well, there’s this old manor on the outskirts that hasn’t been used for years. The previous owner, Sir Cedric Blackwood, left quite the legacy behind."</p><p>"Sir Cedric Blackwood?" Marigold repeated, her mind racing with possibilities. "What kind of legacy?"</p><p>Reverend Aubrey shook his head. "That’s what I’m trying to find out. People say he was always secretive about the contents of his manor. Some say he had a curse on it, others that he was hiding something valuable."</p><p>Marigold's eyes narrowed as she took in Reverend Finch’s nervousness. She knew better than anyone how easily gossip spread in Willowbrook-on-Fen.</p><p>"Have you spoken to Mrs. Vance about this?" Marigold asked, her voice tinged with a hint of authority.</p><p>Reverend Aubrey looked at her sharply. "You know who she is?"</p><p>Marigold nodded, remembering the unofficial mayor of Willowbrook opinion. "Yes, I do. She’s like the wind in the village – always blowing around and hearing everything."</p>
+              <p>Marigold Pemberton-Hale stood beneath the drizzly sky of the Cotswolds, her eyes scanning the rows of bookshelves at Pemberton Books. The light rain pattered softly against the windowsill, casting a gentle sheen over the old stone walls. Today was Sunday, and her mind wandered as it often did during these quiet afternoons.</p><p>The latest addition to her collection caught her eye—a small, leather-bound journal titled "A Day in the Life of an Unlikely Fitness Guru." Curious, Marigold opened it to find a fitness instructor's advice on weight loss. The simplicity of his suggestion—doing only one thing for weight loss—made her smile. Who knew that even in the sleepy Cotswolds, there could be such a practical guide?</p><p>Meanwhile, Reverend Aubrey Finch stood at the vestry door, listening intently to the conversations filtering through the walls. "Mrs. Vance," he heard someone call out from inside the tearoom. His heart skipped a beat as he recognized the voice of his old friend and rival.</p><p>"Good afternoon, Reverend," Mrs. Vance replied warmly, her eyes twinkling behind the lacey veil she wore. "I was just telling Marigold about this fantastic new fitness journal I found."</p><p>Reverend Finch's ears perked up. "Oh, really? What did it say?"</p><p>"It all boils down to doing one thing for weight loss," Mrs. Vance explained excitedly. "The NHS even backs it!"</p><p>Reverend Finch felt a pang of envy. He had always prided himself on his knowledge and expertise, but now it seemed that the Cotswolds could offer something more practical than his theological musings.</p><p>As Marigold closed the journal, she felt a twinge of curiosity. What exactly did this one thing entail? And why was it so effective?</p><p>The village buzzed with activity around her—children playing in the hedgerows, women chatting over tea at the tearoom, and men discussing the latest news from the Cotswolds. Yet, Marigold couldn't shake off the feeling that there was something more to this quiet Sunday than met the eye.</p>
             </div>
 
             
@@ -288,7 +337,7 @@
                 <span class="char-role-badge">Retired Detective Inspector, now runs the village bookshop</span>
               </div>
               <div class="char-location">📍 Pemberton Books, on the corner of Willow Lane, Willowbrook-on-Fen</div>
-              <div class="char-status">⚡ <em>Status:</em> <strong>Alertly watching the village from her shop window, her mind racing with possibilities.</strong></div>
+              <div class="char-status">⚡ <em>Status:</em> <strong>Quietly cataloguing new arrivals while keeping one ear on village gossip</strong></div>
             </div>
           </div>
 
@@ -307,7 +356,7 @@
           <div class="char-section">
             <div class="char-section-title">Case History (Multi-Chapter Memory)</div>
             <ul class="arc-list">
-              <li class='arc-item'>Solved the matter of the vanishing church silver quietly, without telling anyone.</li><li class='arc-item'>Reluctantly agreed the bookshop needed a "Mystery" section after all.</li><li class='arc-item'>Chapter 1: She discovers a faint rustling sound coming from the church.</li>
+              <li class='arc-item'>Solved the matter of the vanishing church silver quietly, without telling anyone.</li><li class='arc-item'>Reluctantly agreed the bookshop needed a "Mystery" section after all.</li><li class='arc-item'>Chapter 1: Marigold discovers an old diary in a dusty attic, which contains clues to a local legend.</li>
             </ul>
           </div>
         </div>
@@ -324,7 +373,7 @@
                 <span class="char-role-badge">Vicar of St. Wilfred's, amateur historian, terrible gossip</span>
               </div>
               <div class="char-location">📍 St. Wilfred's Church, Willowbrook-on-Fen</div>
-              <div class="char-status">⚡ <em>Status:</em> <strong>Listening intently at the vestry door for any sign of trouble or unusual sounds.</strong></div>
+              <div class="char-status">⚡ <em>Status:</em> <strong>Pretending to work on Sunday's sermon while listening at the vestry door</strong></div>
             </div>
           </div>
 
@@ -343,7 +392,7 @@
           <div class="char-section">
             <div class="char-section-title">Case History (Multi-Chapter Memory)</div>
             <ul class="arc-list">
-              <li class='arc-item'>Accidentally revealed a fifty-year-old scandal during a christening.</li><li class='arc-item'>Won the village fete raffle three years running, which some find suspicious.</li><li class='arc-item'>Chapter 1: He hears a whispered conversation about the church bells being sabotaged.</li>
+              <li class='arc-item'>Accidentally revealed a fifty-year-old scandal during a christening.</li><li class='arc-item'>Won the village fete raffle three years running, which some find suspicious.</li><li class='arc-item'>Chapter 1: Aubrey overhears a group of villagers plotting a surprise wedding for an elderly bachelor.</li>
             </ul>
           </div>
         </div>
@@ -360,7 +409,7 @@
                 <span class="char-role-badge">Owner of the Willowbrook Tearoom, unofficial mayor of village opinion</span>
               </div>
               <div class="char-location">📍 The Willowbrook Tearoom, the Green, Willowbrook-on-Fen</div>
-              <div class="char-status">⚡ <em>Status:</em> <strong>Gazing out her shop window with suspicion, trying to piece together what she's hearing.</strong></div>
+              <div class="char-status">⚡ <em>Status:</em> <strong>Behind the counter, hearing absolutely everything</strong></div>
             </div>
           </div>
 
@@ -379,7 +428,7 @@
           <div class="char-section">
             <div class="char-section-title">Case History (Multi-Chapter Memory)</div>
             <ul class="arc-list">
-              <li class='arc-item'>Once refused to serve the Mayor his usual until he apologised to the postman.</li><li class='arc-item'>Keeps a "suspicious behaviour" ledger she insists is just for the parish newsletter.</li><li class='arc-item'>Chapter 1: She catches a glimpse of Reverend Finch arguing with someone outside the church.</li>
+              <li class='arc-item'>Once refused to serve the Mayor his usual until he apologised to the postman.</li><li class='arc-item'>Keeps a "suspicious behaviour" ledger she insists is just for the parish newsletter.</li><li class='arc-item'>Chapter 1: Ottoline notices a new customer with an unusually keen interest in rare tea leaves.</li>
             </ul>
           </div>
         </div>
