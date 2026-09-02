@@ -1,0 +1,115 @@
+{
+  "bookTitle": "The Willowbrook Mysteries",
+  "subtitle": "Small Village. Large Curiosity. Continuous Cases Synthesised by Edge Intelligence",
+  "author": "Edge LLM Collective & Autonomous Multi-Agent System",
+  "lastUpdatedUk": "02/09/26 13:07",
+  "characters": [
+    {
+      "id": "char_marigold",
+      "name": "Marigold Pemberton-Hale",
+      "role": "Retired Detective Inspector, now runs the village bookshop",
+      "avatar": "\ud83d\udd75\ufe0f\u200d\u2640\ufe0f\ud83d\udcda",
+      "status": "Alertly watching the village from her shop window, her mind racing with possibilities.",
+      "personality": "Sharp-eyed, dryly witty, deceptively unhurried, misses nothing.",
+      "location": "Pemberton Books, on the corner of Willow Lane, Willowbrook-on-Fen",
+      "backstory": "Thirty years with the Yard before retiring to her late aunt's bookshop. Insists she is done with detective work. She is not.",
+      "inventory": [
+        "Battered leather notebook",
+        "Reading glasses on a chain",
+        "A rather good magnifying glass",
+        "Thermos of Earl Grey"
+      ],
+      "relationships": {
+        "Reverend Aubrey Finch": "Old friend and reluctant partner-in-snooping (Trust: 91%)",
+        "PC Nesbit": "Fond but exasperated (Trust: 70%)"
+      },
+      "arcHistory": [
+        "Solved the matter of the vanishing church silver quietly, without telling anyone.",
+        "Reluctantly agreed the bookshop needed a \"Mystery\" section after all.",
+        "Chapter 1: She discovers a faint rustling sound coming from the church."
+      ],
+      "lastObservedUk": "02/09/26 13:08"
+    },
+    {
+      "id": "char_aubrey",
+      "name": "Reverend Aubrey Finch",
+      "role": "Vicar of St. Wilfred's, amateur historian, terrible gossip",
+      "avatar": "\u26ea\ufe0f\ud83e\udde3",
+      "status": "Listening intently at the vestry door for any sign of trouble or unusual sounds.",
+      "personality": "Kind, curious to a fault, hopelessly nosy, surprisingly good at cards.",
+      "location": "St. Wilfred's Church, Willowbrook-on-Fen",
+      "backstory": "Came to Willowbrook twelve years ago from London and never left. Knows every family secret in the parish register.",
+      "inventory": [
+        "Dog-eared parish records",
+        "A bicycle called Bertha",
+        "Emergency biscuit tin",
+        "Reading spectacles, usually lost"
+      ],
+      "relationships": {
+        "Marigold Pemberton-Hale": "Partner-in-crime-solving, mostly against his will (Trust: 91%)",
+        "Mrs. Ottoline Vance": "Wary respect (Trust: 60%)"
+      },
+      "arcHistory": [
+        "Accidentally revealed a fifty-year-old scandal during a christening.",
+        "Won the village fete raffle three years running, which some find suspicious.",
+        "Chapter 1: He hears a whispered conversation about the church bells being sabotaged."
+      ],
+      "lastObservedUk": "02/09/26 13:08"
+    },
+    {
+      "id": "char_ottoline",
+      "name": "Mrs. Ottoline Vance",
+      "role": "Owner of the Willowbrook Tearoom, unofficial mayor of village opinion",
+      "avatar": "\u2615\ufe0f\ud83e\uddc1",
+      "status": "Gazing out her shop window with suspicion, trying to piece together what she's hearing.",
+      "personality": "Formidable, warm underneath it, terrifyingly well-informed, loyal.",
+      "location": "The Willowbrook Tearoom, the Green, Willowbrook-on-Fen",
+      "backstory": "Has run the tearoom for thirty years. Nothing happens in Willowbrook that does not pass through her counter first.",
+      "inventory": [
+        "A tray that never wobbles",
+        "A ledger of who owes what gossip",
+        "Spare umbrella for regulars",
+        "A truly excellent Victoria sponge recipe"
+      ],
+      "relationships": {
+        "Marigold Pemberton-Hale": "Trusted confidante (Trust: 88%)",
+        "Reverend Aubrey Finch": "Wary respect, mutual (Trust: 60%)"
+      },
+      "arcHistory": [
+        "Once refused to serve the Mayor his usual until he apologised to the postman.",
+        "Keeps a \"suspicious behaviour\" ledger she insists is just for the parish newsletter.",
+        "Chapter 1: She catches a glimpse of Reverend Finch arguing with someone outside the church."
+      ],
+      "lastObservedUk": "02/09/26 13:08"
+    }
+  ],
+  "usedSourceHeadlines": [
+    "Nvidia revenue doubles on continued AI demand"
+  ],
+  "chapters": [
+    {
+      "chapterNumber": 1,
+      "title": "Shadows at Willowbrook Manor",
+      "subtitle": "A quaint village mystery shrouded in the fog of a forgotten past.",
+      "contentMarkdown": "As Marigold Pemberton-Hale quietly catalogued new arrivals at her beloved bookshop, Pemberton Books, she couldn\u2019t help but notice an unusual silence. The normally bustling hub of the village was strangely quiet. The church bells, which usually tolled out with cheerful regularity, had fallen silent for a whole afternoon.\n\nMarigold\u2019s keen eyes caught sight of Reverend Aubrey Finch, who was supposed to be tending to Sunday\u2019s sermon but seemed unusually preoccupied. She discreetly followed him down the narrow cobblestone street towards St. Wilfred's Church. Inside, she found him pacing nervously, his hands clasped tightly together.\n\n\"Rev'nd Finch,\" Marigold called out softly. \"Is everything alright?\"\n\nReverend Aubrey jumped at her voice and turned to face her with a look of relief etched on his weathered face. \"Ah, Marigold! I was just thinking. It's been ages since we had such a quiet day.\"\n\nMarigold nodded, trying to keep the curiosity out of her tone. \"And what has you so worried?\"\n\nReverend Aubrey sighed and leaned against the pew. \"You know how much the villagers love a good mystery? Well, there\u2019s this old manor on the outskirts that hasn\u2019t been used for years. The previous owner, Sir Cedric Blackwood, left quite the legacy behind.\"\n\n\"Sir Cedric Blackwood?\" Marigold repeated, her mind racing with possibilities. \"What kind of legacy?\"\n\nReverend Aubrey shook his head. \"That\u2019s what I\u2019m trying to find out. People say he was always secretive about the contents of his manor. Some say he had a curse on it, others that he was hiding something valuable.\"\n\nMarigold's eyes narrowed as she took in Reverend Finch\u2019s nervousness. She knew better than anyone how easily gossip spread in Willowbrook-on-Fen.\n\n\"Have you spoken to Mrs. Vance about this?\" Marigold asked, her voice tinged with a hint of authority.\n\nReverend Aubrey looked at her sharply. \"You know who she is?\"\n\nMarigold nodded, remembering the unofficial mayor of Willowbrook opinion. \"Yes, I do. She\u2019s like the wind in the village \u2013 always blowing around and hearing everything.\"",
+      "wordCount": 329,
+      "readingTimeMinutes": 2,
+      "modelUsed": "qwen2.5-coder:7b",
+      "tone": "Quietly Unsettling Village Mystery",
+      "sourceTrigger": {
+        "headline": "Nvidia revenue doubles on continued AI demand",
+        "category": "Curious Technology & Innovation",
+        "sourceUrl": "https://www.bbc.co.uk/news/articles/ce871n7lyvlo?at_medium=RSS&at_campaign=rss",
+        "extractedContextSnippet": "Chipmaker's $96bn quarter beat forecasts as demand for AI hardware continues to accelerate."
+      },
+      "generatedAtUk": "02/09/26 13:07",
+      "charactersInvolved": [
+        "Marigold Pemberton-Hale",
+        "Reverend Aubrey Finch",
+        "Mrs. Ottoline Vance"
+      ]
+    }
+  ],
+  "totalChapters": 1,
+  "totalWords": 329
+}
