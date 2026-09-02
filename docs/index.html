@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="paperwhite" data-font="bookerly" data-size="base" data-width="optimal" data-spacing="relaxed">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Willowbrook Mysteries — Kindle Reader</title>
+  <style>
+    :root {
+      --bg: #f6f1e4;
+      --text: #2b2013;
+      --header-bg: rgba(246, 241, 228, 0.95);
+      --border: #ded2b3;
+      --card-bg: rgba(255, 255, 255, 0.65);
+      --accent: #3f6b4f;
+      --font-family: 'Bookerly', 'Georgia', serif;
+      --font-size: 19px;
+      --line-height: 1.8;
+      --max-width: 760px;
+    }
+    [data-theme="sepia"] {
+      --bg: #f4ecd8; --text: #2c2217; --header-bg: rgba(244, 236, 216, 0.95);
+      --border: #d8cca8; --card-bg: rgba(255, 255, 255, 0.5); --accent: #78350f;
+    }
+    [data-theme="dark"] {
+      --bg: #14120e; --text: #ecdfc4; --header-bg: rgba(20, 18, 14, 0.95);
+      --border: #3a3327; --card-bg: #211d16; --accent: #8fbc94;
+    }
+    [data-theme="mint"] {
+      --bg: #0d1b14; --text: #c2e0cb; --header-bg: rgba(13, 27, 20, 0.95);
+      --border: #1f3d2a; --card-bg: #112519; --accent: #52d18a;
+    }
+    [data-font="bookerly"] { --font-family: 'Bookerly', 'Georgia', serif; }
+    [data-font="georgia"] { --font-family: 'Georgia', 'Times New Roman', serif; }
+    [data-font="atkinson"] { --font-family: 'Atkinson Hyperlegible', sans-serif; }
+    [data-font="sans"] { --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+    [data-size="sm"] { --font-size: 16px; }
+    [data-size="base"] { --font-size: 19px; }
+    [data-size="lg"] { --font-size: 22px; }
+    [data-size="xl"] { --font-size: 26px; }
+    [data-width="narrow"] { --max-width: 620px; }
+    [data-width="optimal"] { --max-width: 760px; }
+    [data-width="wide"] { --max-width: 940px; }
+    body { background-color: var(--bg); color: var(--text); font-family: var(--font-family); font-size: var(--font-size); line-height: var(--line-height); margin: 0; padding: 0; transition: all 0.2s ease; cursor: default; }
+    .top-nav { position: sticky; top: 0; background: var(--header-bg); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 10px 20px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; z-index: 100; font-family: -apple-system, sans-serif; font-size: 13px; }
+    .nav-left { display: flex; align-items: center; gap: 14px; }
+    .nav-title { font-weight: 800; letter-spacing: 0.5px; color: var(--accent); text-transform: uppercase; }
+    .nav-tabs { display: flex; gap: 4px; background: rgba(0,0,0,0.05); padding: 3px; border-radius: 6px; border: 1px solid var(--border); }
+    .nav-tab-btn { background: transparent; border: none; color: var(--text); padding: 4px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; }
+    .nav-tab-btn.active { background: var(--accent); color: #ffffff; }
+    .controls-group { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+    .ctrl-btn { background: transparent; border: 1px solid var(--border); color: var(--text); padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; transition: all 0.15s ease; }
+    .ctrl-btn:hover { border-color: var(--accent); background: rgba(0,0,0,0.05); }
+    .ctrl-btn.jump-latest { background: var(--accent); color: #ffffff; border-color: var(--accent); }
+    .floating-nav-hud { position: fixed; right: 20px; bottom: 70px; display: flex; flex-direction: column; gap: 8px; z-index: 99; font-family: -apple-system, sans-serif; }
+    .hud-btn { background: var(--header-bg); backdrop-filter: blur(12px); border: 1px solid var(--border); color: var(--text); padding: 8px 14px; border-radius: 20px; cursor: pointer; font-size: 12px; font-weight: bold; box-shadow: 0 4px 14px rgba(0,0,0,0.15); transition: transform 0.15s ease, background 0.15s ease; display: flex; align-items: center; gap: 6px; }
+    .hud-btn:hover { transform: translateY(-2px); border-color: var(--accent); color: var(--accent); }
+    .hud-btn.primary { background: var(--accent); color: #ffffff; border-color: var(--accent); }
+    .hud-btn.primary:hover { opacity: 0.9; color: #ffffff; }
+    .book-container { max-width: var(--max-width); margin: 0 auto; padding: 40px 20px 140px; transition: max-width 0.3s ease; }
+    .book-cover { text-align: center; margin-bottom: 40px; padding-bottom: 30px; border-bottom: 2px solid var(--border); }
+    .book-title { font-size: 2.2em; font-weight: 900; margin: 0 0 10px; line-height: 1.2; }
+    .book-subtitle { font-size: 1.1em; font-style: italic; opacity: 0.85; margin-bottom: 16px; }
+    .global-collapse-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; font-family: -apple-system, sans-serif; font-size: 13px; font-weight: bold; }
+    details.chapter-details { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 28px; overflow: hidden; scroll-margin-top: 80px; transition: box-shadow 0.2s ease, border-color 0.2s ease; }
+    details.chapter-details.focused { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); }
+    summary.chapter-summary { padding: 16px 20px; cursor: pointer; user-select: none; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.02); border-bottom: 1px solid transparent; font-family: -apple-system, sans-serif; }
+    details.chapter-details[open] summary.chapter-summary { border-bottom: 1px solid var(--border); }
+    .summary-left { display: flex; align-items: center; gap: 10px; }
+    .chapter-badge { background: var(--accent); color: #ffffff; font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; }
+    .summary-title { font-size: 17px; font-weight: 800; }
+    .summary-right { display: flex; align-items: center; gap: 8px; }
+    .summary-pill { font-size: 11px; background: rgba(0,0,0,0.05); border: 1px solid var(--border); padding: 2px 8px; border-radius: 12px; font-weight: 600; }
+    .summary-pill.tone { background: rgba(63, 107, 79, 0.12); color: var(--accent); border-color: var(--accent); }
+    .chevron { font-size: 12px; transition: transform 0.2s ease; }
+    details.chapter-details[open] .chevron { transform: rotate(180deg); }
+    .chapter-body { padding: 28px 24px 20px; }
+    .chapter-header { margin-bottom: 24px; border-bottom: 1px solid var(--border); padding-bottom: 16px; }
+    .chapter-subtitle { font-size: 1.05em; font-style: italic; opacity: 0.85; margin-bottom: 8px; }
+    .chapter-meta-line { font-size: 12px; font-family: -apple-system, sans-serif; opacity: 0.8; margin-bottom: 14px; }
+    .quick-nav-links { margin-left: 8px; }
+    .mini-link { color: var(--text); text-decoration: underline; cursor: pointer; font-weight: 600; margin: 0 4px; }
+    .mini-link.highlight { color: var(--accent); font-weight: 800; }
+    details.source-story-details { background: rgba(0,0,0,0.03); border: 1px dashed var(--border); border-radius: 6px; margin: 12px 0; font-family: -apple-system, sans-serif; font-size: 12px; }
+    summary.source-summary { padding: 8px 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 700; color: var(--accent); }
+    .source-tag { background: rgba(0,0,0,0.08); padding: 1px 6px; border-radius: 3px; font-size: 10px; text-transform: uppercase; }
+    .source-content { padding: 10px 12px; border-top: 1px dashed var(--border); }
+    .source-headline { display: block; margin-bottom: 4px; }
+    .source-snippet { margin: 0; opacity: 0.8; font-size: 11.5px; }
+    .threat-link { color: var(--accent); font-size: 11px; text-decoration: underline; font-weight: bold; display: inline-block; margin-top: 6px; }
+    .prose-content p { margin-bottom: 24px; text-align: justify; text-justify: inter-word; hyphens: auto; }
+    .prose-content p:first-of-type::first-letter { font-size: 3.2em; float: left; line-height: 0.85; padding-right: 8px; padding-top: 4px; color: var(--accent); font-weight: bold; }
+    .chapter-footer-nav { margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; font-family: -apple-system, sans-serif; }
+    .ch-nav-btn { background: var(--accent); color: #ffffff; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 14px; display: flex; align-items: center; gap: 8px; transition: opacity 0.15s ease, transform 0.15s ease; }
+    .ch-nav-btn:hover { opacity: 0.9; transform: translateX(3px); }
+    .chapter-footer-nav.latest-badge { display: flex; flex-direction: column; align-items: center; text-align: center; background: rgba(0,0,0,0.03); padding: 16px; border-radius: 6px; }
+    .pulse-dot { width: 10px; height: 10px; background: #10b981; border-radius: 50%; margin-bottom: 6px; box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2); }
+    .character-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 24px; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    .char-header { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 16px; border-bottom: 1px solid var(--border); padding-bottom: 16px; }
+    .char-avatar { font-size: 40px; background: rgba(0,0,0,0.04); padding: 10px; border-radius: 12px; border: 1px solid var(--border); line-height: 1; }
+    .char-title-area { flex: 1; }
+    .char-name-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 4px; }
+    .char-name { font-size: 22px; font-weight: 900; margin: 0; color: var(--accent); }
+    .char-role-badge { font-size: 11px; font-family: -apple-system, sans-serif; background: rgba(0,0,0,0.06); padding: 2px 8px; border-radius: 4px; font-weight: 700; border: 1px solid var(--border); }
+    .char-location { font-size: 13px; font-family: -apple-system, sans-serif; opacity: 0.85; margin-bottom: 4px; }
+    .char-status { font-size: 13px; font-family: -apple-system, sans-serif; color: var(--accent); }
+    .char-backstory { font-size: 15px; font-style: italic; margin-bottom: 18px; opacity: 0.9; }
+    .char-section { margin-top: 14px; font-family: -apple-system, sans-serif; }
+    .char-section-title { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; color: var(--accent); }
+    .inv-wrapper { display: flex; flex-wrap: wrap; gap: 6px; }
+    .inv-pill { font-size: 11px; background: rgba(0,0,0,0.05); border: 1px solid var(--border); padding: 3px 8px; border-radius: 4px; font-weight: 600; }
+    .rel-line { font-size: 12px; margin-bottom: 4px; }
+    .arc-list { margin: 0; padding-left: 20px; font-size: 13px; }
+    .arc-item { margin-bottom: 6px; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .progress-bar-fixed { position: fixed; bottom: 0; left: 0; right: 0; background: var(--header-bg); border-top: 1px solid var(--border); padding: 8px 24px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-family: -apple-system, sans-serif; opacity: 0.95; z-index: 100; }
+    .cursor-help { font-size: 11px; opacity: 0.7; }
+  </style>
+</head>
+<body>
+
+  <nav class="top-nav">
+    <div class="nav-left">
+      <div class="nav-title">📖 The Willowbrook Mysteries</div>
+      <div class="nav-tabs">
+        <button id="btnTabNovel" class="nav-tab-btn active" onclick="switchMainTab('novel')">📖 Read (1)</button>
+        <button id="btnTabCodex" class="nav-tab-btn" onclick="switchMainTab('codex')">👥 Cast (3)</button>
+      </div>
+    </div>
+    <div class="controls-group">
+      <button class="ctrl-btn jump-latest" onclick="scrollToChapter(1)">⚡ Latest (Ch 1)</button>
+      <button class="ctrl-btn" onclick="setFontSize('sm')">A-</button>
+      <button class="ctrl-btn" onclick="setFontSize('base')">A</button>
+      <button class="ctrl-btn" onclick="setFontSize('lg')">A+</button>
+      <button class="ctrl-btn" onclick="setFontSize('xl')">A++</button>
+      <select onchange="setFontFamily(this.value)" class="ctrl-btn" style="background:var(--header-bg);">
+        <option value="bookerly">Bookerly (Serif)</option>
+        <option value="georgia">Georgia</option>
+        <option value="atkinson">Atkinson (Accessible)</option>
+        <option value="sans">System Sans</option>
+      </select>
+      <button class="ctrl-btn" onclick="setColumnWidth('narrow')">Narrow</button>
+      <button class="ctrl-btn" onclick="setColumnWidth('optimal')">Optimal</button>
+      <button class="ctrl-btn" onclick="setColumnWidth('wide')">Wide</button>
+      <button class="ctrl-btn" onclick="setTheme('paperwhite')">Paperwhite</button>
+      <button class="ctrl-btn" onclick="setTheme('sepia')">Sepia</button>
+      <button class="ctrl-btn" onclick="setTheme('dark')">Dark</button>
+      <button class="ctrl-btn" onclick="setTheme('mint')">Mint</button>
+    </div>
+  </nav>
+
+  <aside class="floating-nav-hud">
+    <button class="hud-btn primary" onclick="scrollToChapter(1)" title="Jump to latest (Press End or L)"><span>⏩ Latest (Ch 1)</span></button>
+    <button class="hud-btn" onclick="scrollPrevChapter()" title="Previous chapter (Press ArrowLeft or P)"><span>▲ Prev Ch</span></button>
+    <button class="hud-btn" onclick="scrollNextChapter()" title="Next chapter (Press ArrowRight or N)"><span>▼ Next Ch</span></button>
+    <button class="hud-btn" onclick="scrollToChapter(1)" title="Return to Chapter 1 (Press Home)"><span>⏮️ Ch 1</span></button>
+  </aside>
+
+  <main class="book-container">
+    <div id="tabNovel" class="tab-content active">
+      <div class="book-cover">
+        <h1 class="book-title">The Willowbrook Mysteries</h1>
+        <div class="book-subtitle">Small Village. Large Curiosity. Continuous Cases Synthesised by Edge Intelligence</div>
+        <div style="font-size:12px; font-family:-apple-system,sans-serif; opacity:0.8;">
+          Authored by Edge AI Collective • 1 Chapters • 329 Words • Real Headlines Woven In ✓
+        </div>
+      </div>
+      <div class="global-collapse-bar">
+        <span>Table of Contents (1 Chapters)</span>
+        <div class="controls-group">
+          <button class="ctrl-btn" onclick="toggleAllChapters(true)">📂 Expand All</button>
+          <button class="ctrl-btn" onclick="toggleAllChapters(false)">📁 Collapse All</button>
+        </div>
+      </div>
+      
+        <details class="chapter-details" id="chapter-1" data-chapter-index="1" open>
+          <summary class="chapter-summary">
+            <div class="summary-left">
+              <span class="chapter-badge">Chapter 1</span>
+              <strong class="summary-title">Shadows at Willowbrook Manor</strong>
+            </div>
+            <div class="summary-right">
+              <span class="summary-pill">2 min read</span>
+              <span class="summary-pill">329 words</span>
+              <span class="summary-pill tone">Quietly Unsettling Village Mystery</span>
+              <span class="chevron">▼</span>
+            </div>
+          </summary>
+
+          <article class="chapter-body">
+            <header class="chapter-header">
+              <div class="chapter-subtitle">A quaint village mystery shrouded in the fog of a forgotten past.</div>
+              <div class="chapter-meta-line">
+                <span>Model: <strong>qwen2.5-coder:7b</strong></span> •
+                <span>Generated: 02/09/26 13:07 UK</span> •
+                <span class="quick-nav-links">
+                  
+                  
+                  <a href="#chapter-1" onclick="scrollToChapter(1); return false;" class="mini-link highlight">Latest (Ch 1) ⏩</a>
+                </span>
+              </div>
+
+              <details class="source-story-details">
+                <summary class="source-summary">
+                  <span>📰 Real-World News Inspiration</span>
+                  <span class="source-tag">Curious Technology & Innovation</span>
+                </summary>
+                <div class="source-content">
+                  <strong class="source-headline">Nvidia revenue doubles on continued AI demand</strong>
+                  <p class="source-snippet">Chipmaker's $96bn quarter beat forecasts as demand for AI hardware continues to accelerate.</p>
+                  <a href="https://www.bbc.co.uk/news/articles/ce871n7lyvlo?at_medium=RSS&at_campaign=rss" target="_blank" rel="noopener noreferrer" class="threat-link">🔗 Read the real article ➔</a>
+                </div>
+              </details>
+            </header>
+
+            <div class="prose-content">
+              <p>As Marigold Pemberton-Hale quietly catalogued new arrivals at her beloved bookshop, Pemberton Books, she couldn’t help but notice an unusual silence. The normally bustling hub of the village was strangely quiet. The church bells, which usually tolled out with cheerful regularity, had fallen silent for a whole afternoon.</p><p>Marigold’s keen eyes caught sight of Reverend Aubrey Finch, who was supposed to be tending to Sunday’s sermon but seemed unusually preoccupied. She discreetly followed him down the narrow cobblestone street towards St. Wilfred's Church. Inside, she found him pacing nervously, his hands clasped tightly together.</p><p>"Rev'nd Finch," Marigold called out softly. "Is everything alright?"</p><p>Reverend Aubrey jumped at her voice and turned to face her with a look of relief etched on his weathered face. "Ah, Marigold! I was just thinking. It's been ages since we had such a quiet day."</p><p>Marigold nodded, trying to keep the curiosity out of her tone. "And what has you so worried?"</p><p>Reverend Aubrey sighed and leaned against the pew. "You know how much the villagers love a good mystery? Well, there’s this old manor on the outskirts that hasn’t been used for years. The previous owner, Sir Cedric Blackwood, left quite the legacy behind."</p><p>"Sir Cedric Blackwood?" Marigold repeated, her mind racing with possibilities. "What kind of legacy?"</p><p>Reverend Aubrey shook his head. "That’s what I’m trying to find out. People say he was always secretive about the contents of his manor. Some say he had a curse on it, others that he was hiding something valuable."</p><p>Marigold's eyes narrowed as she took in Reverend Finch’s nervousness. She knew better than anyone how easily gossip spread in Willowbrook-on-Fen.</p><p>"Have you spoken to Mrs. Vance about this?" Marigold asked, her voice tinged with a hint of authority.</p><p>Reverend Aubrey looked at her sharply. "You know who she is?"</p><p>Marigold nodded, remembering the unofficial mayor of Willowbrook opinion. "Yes, I do. She’s like the wind in the village – always blowing around and hearing everything."</p>
+            </div>
+
+            
+            <div class="chapter-footer-nav latest-badge">
+              <span class="pulse-dot"></span>
+              <strong>You have reached the latest chapter (Chapter 1).</strong>
+              <p>A new case unfolds automatically.</p>
+            </div>
+            
+          </article>
+        </details>
+        
+    </div>
+
+    <div id="tabCodex" class="tab-content">
+      <div class="book-cover">
+        <h1 class="book-title">👥 The Willowbrook Cast</h1>
+        <div class="book-subtitle">Persistent memory, evolving case history, updated after each chapter</div>
+      </div>
+      
+        <div class="character-card">
+          <div class="char-header">
+            <div class="char-avatar">🕵️‍♀️📚</div>
+            <div class="char-title-area">
+              <div class="char-name-row">
+                <h3 class="char-name">Marigold Pemberton-Hale</h3>
+                <span class="char-role-badge">Retired Detective Inspector, now runs the village bookshop</span>
+              </div>
+              <div class="char-location">📍 Pemberton Books, on the corner of Willow Lane, Willowbrook-on-Fen</div>
+              <div class="char-status">⚡ <em>Status:</em> <strong>Alertly watching the village from her shop window, her mind racing with possibilities.</strong></div>
+            </div>
+          </div>
+
+          <p class="char-backstory">Thirty years with the Yard before retiring to her late aunt's bookshop. Insists she is done with detective work. She is not.</p>
+
+          <div class="char-section">
+            <div class="char-section-title">Current Effects</div>
+            <div class="inv-wrapper"><span class='inv-pill'>🎒 Battered leather notebook</span><span class='inv-pill'>🎒 Reading glasses on a chain</span><span class='inv-pill'>🎒 A rather good magnifying glass</span><span class='inv-pill'>🎒 Thermos of Earl Grey</span></div>
+          </div>
+
+          <div class="char-section">
+            <div class="char-section-title">Relationships</div>
+            <div class="rel-wrapper"><div class='rel-line'><strong>Reverend Aubrey Finch:</strong> Old friend and reluctant partner-in-snooping (Trust: 91%)</div><div class='rel-line'><strong>PC Nesbit:</strong> Fond but exasperated (Trust: 70%)</div></div>
+          </div>
+
+          <div class="char-section">
+            <div class="char-section-title">Case History (Multi-Chapter Memory)</div>
+            <ul class="arc-list">
+              <li class='arc-item'>Solved the matter of the vanishing church silver quietly, without telling anyone.</li><li class='arc-item'>Reluctantly agreed the bookshop needed a "Mystery" section after all.</li><li class='arc-item'>Chapter 1: She discovers a faint rustling sound coming from the church.</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="character-card">
+          <div class="char-header">
+            <div class="char-avatar">⛪️🧣</div>
+            <div class="char-title-area">
+              <div class="char-name-row">
+                <h3 class="char-name">Reverend Aubrey Finch</h3>
+                <span class="char-role-badge">Vicar of St. Wilfred's, amateur historian, terrible gossip</span>
+              </div>
+              <div class="char-location">📍 St. Wilfred's Church, Willowbrook-on-Fen</div>
+              <div class="char-status">⚡ <em>Status:</em> <strong>Listening intently at the vestry door for any sign of trouble or unusual sounds.</strong></div>
+            </div>
+          </div>
+
+          <p class="char-backstory">Came to Willowbrook twelve years ago from London and never left. Knows every family secret in the parish register.</p>
+
+          <div class="char-section">
+            <div class="char-section-title">Current Effects</div>
+            <div class="inv-wrapper"><span class='inv-pill'>🎒 Dog-eared parish records</span><span class='inv-pill'>🎒 A bicycle called Bertha</span><span class='inv-pill'>🎒 Emergency biscuit tin</span><span class='inv-pill'>🎒 Reading spectacles, usually lost</span></div>
+          </div>
+
+          <div class="char-section">
+            <div class="char-section-title">Relationships</div>
+            <div class="rel-wrapper"><div class='rel-line'><strong>Marigold Pemberton-Hale:</strong> Partner-in-crime-solving, mostly against his will (Trust: 91%)</div><div class='rel-line'><strong>Mrs. Ottoline Vance:</strong> Wary respect (Trust: 60%)</div></div>
+          </div>
+
+          <div class="char-section">
+            <div class="char-section-title">Case History (Multi-Chapter Memory)</div>
+            <ul class="arc-list">
+              <li class='arc-item'>Accidentally revealed a fifty-year-old scandal during a christening.</li><li class='arc-item'>Won the village fete raffle three years running, which some find suspicious.</li><li class='arc-item'>Chapter 1: He hears a whispered conversation about the church bells being sabotaged.</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="character-card">
+          <div class="char-header">
+            <div class="char-avatar">☕️🧁</div>
+            <div class="char-title-area">
+              <div class="char-name-row">
+                <h3 class="char-name">Mrs. Ottoline Vance</h3>
+                <span class="char-role-badge">Owner of the Willowbrook Tearoom, unofficial mayor of village opinion</span>
+              </div>
+              <div class="char-location">📍 The Willowbrook Tearoom, the Green, Willowbrook-on-Fen</div>
+              <div class="char-status">⚡ <em>Status:</em> <strong>Gazing out her shop window with suspicion, trying to piece together what she's hearing.</strong></div>
+            </div>
+          </div>
+
+          <p class="char-backstory">Has run the tearoom for thirty years. Nothing happens in Willowbrook that does not pass through her counter first.</p>
+
+          <div class="char-section">
+            <div class="char-section-title">Current Effects</div>
+            <div class="inv-wrapper"><span class='inv-pill'>🎒 A tray that never wobbles</span><span class='inv-pill'>🎒 A ledger of who owes what gossip</span><span class='inv-pill'>🎒 Spare umbrella for regulars</span><span class='inv-pill'>🎒 A truly excellent Victoria sponge recipe</span></div>
+          </div>
+
+          <div class="char-section">
+            <div class="char-section-title">Relationships</div>
+            <div class="rel-wrapper"><div class='rel-line'><strong>Marigold Pemberton-Hale:</strong> Trusted confidante (Trust: 88%)</div><div class='rel-line'><strong>Reverend Aubrey Finch:</strong> Wary respect, mutual (Trust: 60%)</div></div>
+          </div>
+
+          <div class="char-section">
+            <div class="char-section-title">Case History (Multi-Chapter Memory)</div>
+            <ul class="arc-list">
+              <li class='arc-item'>Once refused to serve the Mayor his usual until he apologised to the postman.</li><li class='arc-item'>Keeps a "suspicious behaviour" ledger she insists is just for the parish newsletter.</li><li class='arc-item'>Chapter 1: She catches a glimpse of Reverend Finch arguing with someone outside the church.</li>
+            </ul>
+          </div>
+        </div>
+        
+    </div>
+  </main>
+
+  <div class="progress-bar-fixed">
+    <span>The Willowbrook Mysteries (1 Total Chapters)</span>
+    <span class="cursor-help">⌨️ [◀ / ▶] Next/Prev • [End / L] Latest • [Home] Ch 1</span>
+  </div>
+
+  <script>
+    const TOTAL_CHAPTERS = 1;
+    let currentChapterIndex = 1;
+    function scrollToChapter(chNum) {
+      if (chNum < 1) chNum = 1;
+      if (chNum > TOTAL_CHAPTERS) chNum = TOTAL_CHAPTERS;
+      currentChapterIndex = chNum;
+      switchMainTab('novel');
+      const el = document.getElementById('chapter-' + chNum);
+      if (el) {
+        el.open = true;
+        document.querySelectorAll('details.chapter-details').forEach(c => c.classList.remove('focused'));
+        el.classList.add('focused');
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+    function scrollNextChapter() { if (currentChapterIndex < TOTAL_CHAPTERS) scrollToChapter(currentChapterIndex + 1); else scrollToChapter(TOTAL_CHAPTERS); }
+    function scrollPrevChapter() { if (currentChapterIndex > 1) scrollToChapter(currentChapterIndex - 1); }
+    window.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowRight' || e.key === 'n' || e.key === 'N') scrollNextChapter();
+      else if (e.key === 'ArrowLeft' || e.key === 'p' || e.key === 'P') scrollPrevChapter();
+      else if (e.key === 'End' || e.key === 'l' || e.key === 'L') scrollToChapter(TOTAL_CHAPTERS);
+      else if (e.key === 'Home') scrollToChapter(1);
+    });
+    function switchMainTab(tab) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-tab-btn').forEach(el => el.classList.remove('active'));
+      if (tab === 'novel') { document.getElementById('tabNovel').classList.add('active'); document.getElementById('btnTabNovel').classList.add('active'); }
+      else { document.getElementById('tabCodex').classList.add('active'); document.getElementById('btnTabCodex').classList.add('active'); }
+    }
+    function setTheme(t) { document.documentElement.setAttribute('data-theme', t); localStorage.setItem('wb_theme', t); }
+    function setFontSize(s) { document.documentElement.setAttribute('data-size', s); localStorage.setItem('wb_size', s); }
+    function setFontFamily(f) { document.documentElement.setAttribute('data-font', f); localStorage.setItem('wb_font', f); }
+    function setColumnWidth(w) { document.documentElement.setAttribute('data-width', w); localStorage.setItem('wb_width', w); }
+    function toggleAllChapters(openState) { document.querySelectorAll('details.chapter-details').forEach(el => { el.open = openState; }); }
+    if (localStorage.getItem('wb_theme')) setTheme(localStorage.getItem('wb_theme'));
+    if (localStorage.getItem('wb_size')) setFontSize(localStorage.getItem('wb_size'));
+    if (localStorage.getItem('wb_font')) setFontFamily(localStorage.getItem('wb_font'));
+    if (localStorage.getItem('wb_width')) setColumnWidth(localStorage.getItem('wb_width'));
+  </script>
+
+</body>
+</html>
