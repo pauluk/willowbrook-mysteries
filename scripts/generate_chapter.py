@@ -434,18 +434,50 @@ def markdown_inline_to_html(text):
     escaped = re.sub(r'(?<!_)_(?!_)(.+?)(?<!_)_(?!_)', r'<em>\1</em>', escaped)
     return escaped
 
+def dicebear_avatar_url(seed, style='adventurer'):
+    """Free, no-API-key SVG avatar. https://www.dicebear.com — stable, static URL."""
+    import urllib.parse
+    q = urllib.parse.quote(seed)
+    return f"https://api.dicebear.com/9.x/{style}/svg?seed={q}&backgroundType=gradientLinear&backgroundColor=f4e9d8,e8d5b7"
+
+def chapter_header_image_url(chapter_num, width=800, height=320):
+    """Free, no-API-key placeholder photo, seeded so it's stable across rebuilds.
+    https://picsum.photos — no key, no rate-limit auth needed for this volume."""
+    return f"https://picsum.photos/seed/willowbrook-{chapter_num}/{width}/{height}"
+
 def compile_kindle_html_reader(book):
     total_chapters = len(book['chapters'])
     chapters_html = ""
+
+    avatar_by_name = {c['name']: dicebear_avatar_url(c['id']) for c in book['characters']}
+
+    toc_items = "".join([
+        f"""<li class="toc-item">
+              <button class="toc-link" onclick="scrollToChapter({ch['chapterNumber']})">
+                <span class="toc-num">{ch['chapterNumber']}</span>
+                <span class="toc-text">
+                  <strong>{markdown_inline_to_html(ch['title'])}</strong>
+                  <em>{markdown_inline_to_html(ch['subtitle'])}</em>
+                </span>
+              </button>
+            </li>"""
+        for ch in book['chapters']
+    ])
 
     for idx, ch in enumerate(book['chapters']):
         ch_num = ch['chapterNumber']
         is_last = (idx == total_chapters - 1)
         next_ch_num = ch_num + 1 if not is_last else None
         prev_ch_num = ch_num - 1 if ch_num > 1 else None
+        header_img = chapter_header_image_url(ch_num)
 
         paragraphs = ch['contentMarkdown'].split('\n\n')
         paras_html = "".join([f"<p>{markdown_inline_to_html(p.strip())}</p>" for p in paragraphs if p.strip()])
+
+        featuring_html = "".join([
+            f'<span class="featuring-avatar" title="{name}"><img src="{avatar_by_name[name]}" alt="{name}" width="28" height="28" loading="lazy"></span>'
+            for name in ch.get('charactersInvolved', []) if name in avatar_by_name
+        ])
 
         bottom_nav_html = ""
         if next_ch_num:
@@ -482,8 +514,13 @@ def compile_kindle_html_reader(book):
           </summary>
 
           <article class="chapter-body">
+            <img class="chapter-hero-img" src="{header_img}" alt="" loading="lazy" width="800" height="320">
             <header class="chapter-header">
               <div class="chapter-subtitle">{markdown_inline_to_html(ch['subtitle'])}</div>
+              <div class="featuring-row">
+                <span class="featuring-label">Featuring</span>
+                {featuring_html}
+              </div>
               <div class="chapter-meta-line">
                 <span>Model: <strong>{ch['modelUsed']}</strong></span> •
                 <span>Generated: {ch['generatedAtUk']} UK</span> •
@@ -522,10 +559,14 @@ def compile_kindle_html_reader(book):
         rel_lines = "".join([f"<div class='rel-line'><strong>{k}:</strong> {v}</div>" for k, v in c['relationships'].items()])
         arc_items = "".join([f"<li class='arc-item'>{event}</li>" for event in c['arcHistory']])
 
+        avatar_url = dicebear_avatar_url(c['id'])
         characters_html += f"""
         <div class="character-card">
           <div class="char-header">
-            <div class="char-avatar">{c['avatar']}</div>
+            <div class="char-avatar">
+              <img src="{avatar_url}" alt="" loading="lazy" width="56" height="56">
+              <span class="char-avatar-emoji">{c['avatar']}</span>
+            </div>
             <div class="char-title-area">
               <div class="char-name-row">
                 <h3 class="char-name">{c['name']}</h3>
@@ -565,28 +606,33 @@ def compile_kindle_html_reader(book):
   <title>{book['bookTitle']} — Kindle Reader</title>
   <style>
     :root {{
-      --bg: #f6f1e4;
-      --text: #2b2013;
-      --header-bg: rgba(246, 241, 228, 0.95);
-      --border: #ded2b3;
-      --card-bg: rgba(255, 255, 255, 0.65);
-      --accent: #3f6b4f;
+      --bg: #f7efe1;
+      --text: #3a2c1c;
+      --header-bg: rgba(247, 239, 225, 0.95);
+      --border: #e3d3ae;
+      --card-bg: rgba(255, 255, 255, 0.72);
+      --accent: #7a8f5c;
+      --accent-2: #c17a63;
       --font-family: 'Bookerly', 'Georgia', serif;
       --font-size: 19px;
       --line-height: 1.8;
       --max-width: 760px;
+      --paper-texture:
+        radial-gradient(circle at 15% 20%, rgba(196, 164, 108, 0.05) 0%, transparent 45%),
+        radial-gradient(circle at 85% 75%, rgba(122, 143, 92, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(193, 122, 99, 0.03) 0%, transparent 60%);
     }}
     [data-theme="sepia"] {{
       --bg: #f4ecd8; --text: #2c2217; --header-bg: rgba(244, 236, 216, 0.95);
-      --border: #d8cca8; --card-bg: rgba(255, 255, 255, 0.5); --accent: #78350f;
+      --border: #d8cca8; --card-bg: rgba(255, 255, 255, 0.5); --accent: #78350f; --accent-2: #a8622f;
     }}
     [data-theme="dark"] {{
-      --bg: #14120e; --text: #ecdfc4; --header-bg: rgba(20, 18, 14, 0.95);
-      --border: #3a3327; --card-bg: #211d16; --accent: #8fbc94;
+      --bg: #191510; --text: #ecdfc4; --header-bg: rgba(25, 21, 16, 0.95);
+      --border: #3d3527; --card-bg: #241f17; --accent: #9bc17e; --accent-2: #d99678;
     }}
     [data-theme="mint"] {{
       --bg: #0d1b14; --text: #c2e0cb; --header-bg: rgba(13, 27, 20, 0.95);
-      --border: #1f3d2a; --card-bg: #112519; --accent: #52d18a;
+      --border: #1f3d2a; --card-bg: #112519; --accent: #52d18a; --accent-2: #6fb8d9;
     }}
     [data-font="bookerly"] {{ --font-family: 'Bookerly', 'Georgia', serif; }}
     [data-font="georgia"] {{ --font-family: 'Georgia', 'Times New Roman', serif; }}
@@ -599,7 +645,7 @@ def compile_kindle_html_reader(book):
     [data-width="narrow"] {{ --max-width: 620px; }}
     [data-width="optimal"] {{ --max-width: 760px; }}
     [data-width="wide"] {{ --max-width: 940px; }}
-    body {{ background-color: var(--bg); color: var(--text); font-family: var(--font-family); font-size: var(--font-size); line-height: var(--line-height); margin: 0; padding: 0; transition: all 0.2s ease; cursor: default; }}
+    body {{ background-color: var(--bg); background-image: var(--paper-texture); color: var(--text); font-family: var(--font-family); font-size: var(--font-size); line-height: var(--line-height); margin: 0; padding: 0; transition: all 0.2s ease; cursor: default; }}
     .top-nav {{ position: sticky; top: 0; background: var(--header-bg); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 10px 20px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; z-index: 100; font-family: -apple-system, sans-serif; font-size: 13px; }}
     .nav-left {{ display: flex; align-items: center; gap: 14px; }}
     .nav-title {{ font-weight: 800; letter-spacing: 0.5px; color: var(--accent); text-transform: uppercase; }}
@@ -620,7 +666,21 @@ def compile_kindle_html_reader(book):
     .book-title {{ font-size: 2.2em; font-weight: 900; margin: 0 0 10px; line-height: 1.2; }}
     .book-subtitle {{ font-size: 1.1em; font-style: italic; opacity: 0.85; margin-bottom: 16px; }}
     .global-collapse-bar {{ display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; font-family: -apple-system, sans-serif; font-size: 13px; font-weight: bold; }}
-    details.chapter-details {{ background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 28px; overflow: hidden; scroll-margin-top: 80px; transition: box-shadow 0.2s ease, border-color 0.2s ease; }}
+    details.chapter-details {{ background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; margin-bottom: 28px; overflow: hidden; scroll-margin-top: 80px; transition: box-shadow 0.2s ease, border-color 0.2s ease; box-shadow: 0 3px 14px rgba(60, 40, 20, 0.06); }}
+    .chapter-hero-img {{ display: block; width: 100%; height: 220px; object-fit: cover; border-bottom: 1px solid var(--border); background: var(--border); }}
+    .featuring-row {{ display: flex; align-items: center; gap: 6px; margin: 6px 0 12px; font-family: -apple-system, sans-serif; }}
+    .featuring-label {{ font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; color: var(--accent-2); margin-right: 4px; }}
+    .featuring-avatar img {{ width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--card-bg); box-shadow: 0 0 0 1px var(--border); display: block; margin-left: -8px; }}
+    .featuring-avatar:first-of-type img {{ margin-left: 0; }}
+    .toc-box {{ background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; margin-bottom: 28px; overflow: hidden; box-shadow: 0 3px 14px rgba(60, 40, 20, 0.06); }}
+    .toc-box-summary {{ padding: 16px 20px; cursor: pointer; font-weight: 800; font-family: -apple-system, sans-serif; font-size: 14px; color: var(--accent-2); user-select: none; }}
+    .toc-list {{ list-style: none; margin: 0; padding: 0 12px 12px; }}
+    .toc-item {{ margin: 0 0 4px; }}
+    .toc-link {{ width: 100%; text-align: left; background: transparent; border: none; border-radius: 10px; padding: 10px 12px; cursor: pointer; display: flex; align-items: center; gap: 12px; font-family: inherit; color: var(--text); transition: background 0.15s ease; }}
+    .toc-link:hover {{ background: rgba(0,0,0,0.04); }}
+    .toc-num {{ flex: none; width: 26px; height: 26px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; font-family: -apple-system, sans-serif; }}
+    .toc-text {{ display: flex; flex-direction: column; gap: 1px; font-size: 14.5px; }}
+    .toc-text em {{ font-family: -apple-system, sans-serif; font-size: 12px; opacity: 0.75; font-style: italic; }}
     details.chapter-details.focused {{ border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); }}
     summary.chapter-summary {{ padding: 16px 20px; cursor: pointer; user-select: none; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.02); border-bottom: 1px solid transparent; font-family: -apple-system, sans-serif; }}
     details.chapter-details[open] summary.chapter-summary {{ border-bottom: 1px solid var(--border); }}
@@ -653,9 +713,11 @@ def compile_kindle_html_reader(book):
     .ch-nav-btn:hover {{ opacity: 0.9; transform: translateX(3px); }}
     .chapter-footer-nav.latest-badge {{ display: flex; flex-direction: column; align-items: center; text-align: center; background: rgba(0,0,0,0.03); padding: 16px; border-radius: 6px; }}
     .pulse-dot {{ width: 10px; height: 10px; background: #10b981; border-radius: 50%; margin-bottom: 6px; box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2); }}
-    .character-card {{ background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 24px; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }}
+    .character-card {{ background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 24px; box-shadow: 0 3px 14px rgba(60, 40, 20, 0.06); }}
     .char-header {{ display: flex; gap: 16px; align-items: flex-start; margin-bottom: 16px; border-bottom: 1px solid var(--border); padding-bottom: 16px; }}
-    .char-avatar {{ font-size: 40px; background: rgba(0,0,0,0.04); padding: 10px; border-radius: 12px; border: 1px solid var(--border); line-height: 1; }}
+    .char-avatar {{ position: relative; flex: none; width: 72px; height: 72px; background: rgba(0,0,0,0.04); border-radius: 50%; border: 1px solid var(--border); overflow: visible; }}
+    .char-avatar img {{ width: 100%; height: 100%; border-radius: 50%; display: block; }}
+    .char-avatar-emoji {{ position: absolute; bottom: -4px; right: -4px; font-size: 20px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; line-height: 1; }}
     .char-title-area {{ flex: 1; }}
     .char-name-row {{ display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 4px; }}
     .char-name {{ font-size: 22px; font-weight: 900; margin: 0; color: var(--accent); }}
@@ -724,8 +786,15 @@ def compile_kindle_html_reader(book):
           Authored by Edge AI Collective • {total_chapters} Chapters • {book['totalWords']} Words • Real Headlines Woven In ✓
         </div>
       </div>
+      <details class="toc-box" open>
+        <summary class="toc-box-summary">📑 Table of Contents ({total_chapters} Chapters)</summary>
+        <ol class="toc-list">
+          {toc_items}
+        </ol>
+      </details>
+
       <div class="global-collapse-bar">
-        <span>Table of Contents ({total_chapters} Chapters)</span>
+        <span>All Chapters</span>
         <div class="controls-group">
           <button class="ctrl-btn" onclick="toggleAllChapters(true)">📂 Expand All</button>
           <button class="ctrl-btn" onclick="toggleAllChapters(false)">📁 Collapse All</button>
