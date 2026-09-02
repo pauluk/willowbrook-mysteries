@@ -2,16 +2,16 @@
   "bookTitle": "The Willowbrook Mysteries",
   "subtitle": "Small Village. Large Curiosity. Continuous Cases Synthesised by Edge Intelligence",
   "author": "Edge LLM Collective & Autonomous Multi-Agent System",
-  "lastUpdatedUk": "02/09/26 13:39",
+  "lastUpdatedUk": "02/09/26 13:44",
   "characters": [
     {
       "id": "char_marigold",
       "name": "Marigold Pemberton-Hale",
       "role": "Retired Detective Inspector, now runs the village bookshop",
       "avatar": "\ud83d\udd75\ufe0f\u200d\u2640\ufe0f\ud83d\udcda",
-      "status": "Continuing her walk through the drizzle, determined to uncover more about 'The Echoes of Berkeley Castle'.",
+      "status": "Reaching Pemberton Books, she finds a mysterious envelope under the door with her name on it.",
       "personality": "Sharp-eyed, dryly witty, deceptively unhurried, misses nothing.",
-      "location": "Wandering down Willow Lane towards Pemberton Books.",
+      "location": "Outside Pemberton Books",
       "backstory": "Thirty years with the Yard before retiring to her late aunt's bookshop. Insists she is done with detective work. She is not.",
       "inventory": [
         "Battered leather notebook",
@@ -29,18 +29,19 @@
         "Chapter 1: Marigold discovers an old diary in a dusty attic, which contains clues to a local legend.",
         "Chapter 2: Marigold overhears a conversation between Mrs. Vance and Reverend Finch about an old manuscript in her possession.",
         "Chapter 3: Marigold notices an unusual silence in the rain that coincides with her latest discovery.",
-        "Chapter 4: Marigold discovers a rare edition of 'The Echoes of Berkeley Castle' at an old antique shop."
+        "Chapter 4: Marigold discovers a rare edition of 'The Echoes of Berkeley Castle' at an old antique shop.",
+        "Chapter 5: Marigold discovers an unexpected letter that could lead to more information about 'The Echoes of Berkeley Castle'."
       ],
-      "lastObservedUk": "02/09/26 13:39"
+      "lastObservedUk": "02/09/26 13:44"
     },
     {
       "id": "char_aubrey",
       "name": "Reverend Aubrey Finch",
       "role": "Vicar of St. Wilfred's, amateur historian, terrible gossip",
       "avatar": "\u26ea\ufe0f\ud83e\udde3",
-      "status": "Rehearsing his sermon, the church's steeple casting long shadows across the graveyard below.",
+      "status": "Completed his sermon, Aubrey prepares to ring the church bell for Sunday's service.",
       "personality": "Kind, curious to a fault, hopelessly nosy, surprisingly good at cards.",
-      "location": "St. Wilfred's Church, preparing for Sunday's service.",
+      "location": "St. Wilfred's Church",
       "backstory": "Came to Willowbrook twelve years ago from London and never left. Knows every family secret in the parish register.",
       "inventory": [
         "Dog-eared parish records",
@@ -58,18 +59,19 @@
         "Chapter 1: Aubrey overhears a group of villagers plotting a surprise wedding for an elderly bachelor.",
         "Chapter 2: Aubrey notices a faint disturbance outside the church during his supposed sermon prep.",
         "Chapter 3: Aubrey overhears Marigold and Mrs. Ottoline discussing a rare book's history.",
-        "Chapter 4: Aubrey overhears a whispered conversation about a missing heirloom from Berkeley Castle that could be in Willowbrook."
+        "Chapter 4: Aubrey overhears a whispered conversation about a missing heirloom from Berkeley Castle that could be in Willowbrook.",
+        "Chapter 5: As he rings the bell, he notices a curious figure lingering outside the church gates."
       ],
-      "lastObservedUk": "02/09/26 13:39"
+      "lastObservedUk": "02/09/26 13:44"
     },
     {
       "id": "char_ottoline",
       "name": "Mrs. Ottoline Vance",
       "role": "Owner of the Willowbrook Tearoom, unofficial mayor of village opinion",
       "avatar": "\u2615\ufe0f\ud83e\uddc1",
-      "status": "Serving tea and listening to the latest gossip, her eyes fixed on the door of Pemberton Books.",
+      "status": "Engaged in conversation with an intriguing new customer at the tearoom.",
       "personality": "Formidable, warm underneath it, terrifyingly well-informed, loyal.",
-      "location": "The Willowbrook Tearoom, the Green.",
+      "location": "The Willowbrook Tearoom, the Green",
       "backstory": "Has run the tearoom for thirty years. Nothing happens in Willowbrook that does not pass through her counter first.",
       "inventory": [
         "A tray that never wobbles",
@@ -87,9 +89,10 @@
         "Chapter 1: Ottoline notices a new customer with an unusually keen interest in rare tea leaves.",
         "Chapter 2: Ottoline spots Marigold consulting a rare book on the shelf, which matches Mrs. Vance's description.",
         "Chapter 3: Ottoline notices an unusually quiet atmosphere in the village and decides to investigate.",
-        "Chapter 4: Ottoline learns from a local that 'The Echoes of Berkeley Castle' has been borrowed from the library by an unknown person."
+        "Chapter 4: Ottoline learns from a local that 'The Echoes of Berkeley Castle' has been borrowed from the library by an unknown person.",
+        "Chapter 5: Ottoline overheard a customer discussing odd events happening around the castle, hinting at potential supernatural activities."
       ],
-      "lastObservedUk": "02/09/26 13:39"
+      "lastObservedUk": "02/09/26 13:44"
     }
   ],
   "usedSourceHeadlines": [
@@ -100,7 +103,9 @@
     "More hosepipe bans in force as drought declared - is your area affected?",
     "Guidance: Fishing opportunities for British fishing boats: summary of current determinations",
     "Charles Berkeley on the arch at the castle that's been in his family since the 1100s",
-    "From blast off to splashdown: My days following Nasa's historic mission to the Moon"
+    "From blast off to splashdown: My days following Nasa's historic mission to the Moon",
+    "It's karaoke in the Country Life Quiz of the Day, August 24, 2026",
+    "Inventor Envisioned a Waterless Toilet for Astronauts, Realized it Could Solve a Global Sanitation Crisis Instead"
   ],
   "chapters": [
     {
@@ -270,8 +275,50 @@
         "Reverend Aubrey Finch",
         "Mrs. Ottoline Vance"
       ]
+    },
+    {
+      "chapterNumber": 5,
+      "title": "The Echoes of Willowbrook",
+      "subtitle": "A Tea-Time Revelation and a Moonlit Mystery",
+      "contentMarkdown": "Marigold Pemberton-Hale waded through the light drizzle, her umbrella barely keeping up with the gentle rain. The air was crisp at 15.7\u00b0C, the kind that made her think of cozy evenings spent indoors over steaming cups of tea. She strolled down Willow Lane towards Pemberton Books, determined to uncover more about 'The Echoes of Berkeley Castle'. As she approached the small bookshop, the scent of old paper and ink filled the air, drawing her inside.\n\nInside, the shop was dimly lit by the soft glow of candlelight and the gentle murmur of conversation. Mrs. Ottoline Vance, the owner of The Willowbrook Tearoom, sat at the counter, serving tea and listening to the latest gossip. Her eyes fixed on Marigold as she passed by, her expression a mix of curiosity and disapproval.\n\n\"Good evening, Inspector Pemberton-Hale,\" Mrs. Vance greeted warmly, almost too warmly for Marigold\u2019s liking. \"What brings you to our little bookshop this fine evening?\"\n\nMarigold smiled politely, trying not to let her irritation show. \"I'm just looking for a few more clues about 'The Echoes of Berkeley Castle'. I've been chasing some leads all day.\"\n\nMrs. Vance's eyes narrowed slightly as she continued serving tea. \"That case is causing quite the stir around here, Inspector. People have been whispering and gossiping like it\u2019s their own personal scandal.\"\n\nMarigold shook her head. \"Nonsense. It's just a bit of local history that needs some unraveling.\"\n\nAs she settled into a chair by the window, Marigold couldn't help but notice the steeple of St. Wilfred's Church casting long shadows across the graveyard below. The vicar, Reverend Aubrey Finch, was rehearsing his sermon in the church hall. His voice carried through the air, echoing off the walls and adding to the quiet atmosphere.\n\nReverend Finch's voice filled her with a strange mix of admiration and dread. \"And now, let us pray that this world may be transformed by our faith,\" he was saying, his tone somber but sincere. \"May we find peace in our hearts and strength in our unity.\"\n\nAs she listened, Marigold couldn't help but feel a connection to the man's words. She had always admired Reverend Finch's passion for history and his commitment to preserving the village's heritage. But she couldn\u2019t shake the feeling that there was more to him than met the eye.\n\nThe church bell tolled, signaling the start of Sunday's service. Marigold stood up and made her way towards the door, her mind already racing with new ideas. She had to find out what Reverend Finch was hiding, and she knew exactly where to look.",
+      "wordCount": 428,
+      "readingTimeMinutes": 2,
+      "modelUsed": "qwen2.5-coder:7b",
+      "tone": "Warm-Hearted Amateur Sleuth Caper",
+      "sourceTrigger": {
+        "headline": "It's karaoke in the Country Life Quiz of the Day, August 24, 2026",
+        "category": "Country Life & Rural England",
+        "sourceUrl": "https://www.countrylife.co.uk/quiz/its-karaoke-in-the-country-life-quiz-of-the-day-august-24-2026",
+        "extractedContextSnippet": "We have the lyrics, but do you know the song titles? Put your knowledge to the test in today's quiz."
+      },
+      "sourceTriggers": [
+        {
+          "headline": "It's karaoke in the Country Life Quiz of the Day, August 24, 2026",
+          "category": "Country Life & Rural England",
+          "sourceUrl": "https://www.countrylife.co.uk/quiz/its-karaoke-in-the-country-life-quiz-of-the-day-august-24-2026",
+          "extractedContextSnippet": "We have the lyrics, but do you know the song titles? Put your knowledge to the test in today's quiz."
+        },
+        {
+          "headline": "Inventor Envisioned a Waterless Toilet for Astronauts, Realized it Could Solve a Global Sanitation Crisis Instead",
+          "category": "Uplifting & Community News",
+          "sourceUrl": "https://www.goodnewsnetwork.org/inventor-envisioned-a-waterless-toilet-for-astronauts-realized-it-could-solve-a-global-sanitation-crisis-instead/",
+          "extractedContextSnippet": "An inventor and serial entrepreneur has created a non-flushing, waterless toilet that&#8217;s already making sanitation safer and accessible for some 20,000 households, Deployed in Uganda, Panama, and the United States, the &#8216;iThrone&#8217; was created when Diana Yousef was working at NASA on spaceborne sanitation. While brainstorming bathrooms on board space stations, Yousef realized that the [&#8230;] The post Inventor Envisioned a Waterless Toilet for Astronauts, Realized it Could Solve a Global Sanitation Crisis Instead appeared first on Good News Network ."
+        }
+      ],
+      "weather": {
+        "label": "light drizzle",
+        "animation": "rain",
+        "temperatureC": 15.7,
+        "windKmh": 20.2
+      },
+      "generatedAtUk": "02/09/26 13:44",
+      "charactersInvolved": [
+        "Marigold Pemberton-Hale",
+        "Reverend Aubrey Finch",
+        "Mrs. Ottoline Vance"
+      ]
     }
   ],
-  "totalChapters": 4,
-  "totalWords": 1329
+  "totalChapters": 5,
+  "totalWords": 1757
 }

@@ -449,6 +449,9 @@ def generate_chapter_prose(chapter_num, feeds, weather, tone, characters, previo
         last_ch = previous_chapters[-1]
         prev_summary = f"Previous Chapter ({last_ch['title']}): {last_ch['subtitle']} — {last_ch['contentMarkdown'][:180]}..."
 
+    recent_titles = [c['title'] for c in previous_chapters[-5:]]
+    recent_titles_str = ", ".join(f'"{t}"' for t in recent_titles) if recent_titles else "(none yet)"
+
     char_desc = "\n".join([f"- **{c['name']}** ({c['role']}) at {c['location']}. Status: {c['status']}." for c in characters])
 
     inspirations = "\n\n".join([
@@ -479,6 +482,7 @@ def generate_chapter_prose(chapter_num, feeds, weather, tone, characters, previo
 1. Write strictly in **British English** (e.g. colour, centre, favourite, travelling, autumn).
 2. Keep it gentle and cosy — no graphic violence, nothing grim. This is Agatha Christie warmth, not true crime.
 3. Focus on sensory village detail: tea, hedgerows, church bells, the tearoom, gossip over the counter, and the real weather above.
+3a. Recent chapter titles already used, in case it helps: {recent_titles_str}. Pick a genuinely different title for this chapter — do not reuse or lightly rephrase any of those.
 4. Weave in a thread from BOTH inspiration items above, however lightly — the mystery may connect them, or they may just colour two different scenes.
 5. MUST END ON A COMPLETE, FINISHED SENTENCE with a small, intriguing hook for next time.
 6. Format output:
@@ -524,6 +528,12 @@ Marigold set down her pen with the particular care of someone who has just decid
     if DARK_TITLE_PATTERN.search(title):
         print(f"🔧 Softening tonally-mismatched title: '{title}'")
         title = f"Chapter {chapter_num}: A Willowbrook Puzzle"
+
+    # Belt-and-braces: the model is told not to reuse a recent title, but
+    # sometimes does anyway. Disambiguate rather than ship an exact repeat.
+    if title in recent_titles:
+        print(f"🔧 Title repeated a recent chapter, disambiguating: '{title}'")
+        title = f"{title} — Chapter {chapter_num}"
 
     raw_prose = "\n\n".join(content_lines)
     # Strip any unprompted meta-commentary the model appends (e.g. "Hook for
