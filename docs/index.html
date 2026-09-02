@@ -180,12 +180,12 @@
     <div class="nav-left">
       <div class="nav-title">📖 The Willowbrook Mysteries</div>
       <div class="nav-tabs">
-        <button id="btnTabNovel" class="nav-tab-btn active" onclick="switchMainTab('novel')">📖 Read (1)</button>
+        <button id="btnTabNovel" class="nav-tab-btn active" onclick="switchMainTab('novel')">📖 Read (4)</button>
         <button id="btnTabCodex" class="nav-tab-btn" onclick="switchMainTab('codex')">👥 Cast (3)</button>
       </div>
     </div>
     <div class="controls-group">
-      <button class="ctrl-btn jump-latest" onclick="scrollToChapter(1)">⚡ Latest (Ch 1)</button>
+      <button class="ctrl-btn jump-latest" onclick="scrollToChapter(4)">⚡ Latest (Ch 4)</button>
       <button class="ctrl-btn" onclick="setFontSize('sm')">A-</button>
       <button class="ctrl-btn" onclick="setFontSize('base')">A</button>
       <button class="ctrl-btn" onclick="setFontSize('lg')">A+</button>
@@ -207,7 +207,7 @@
   </nav>
 
   <aside class="floating-nav-hud">
-    <button class="hud-btn primary" onclick="scrollToChapter(1)" title="Jump to latest (Press End or L)"><span>⏩ Latest (Ch 1)</span></button>
+    <button class="hud-btn primary" onclick="scrollToChapter(4)" title="Jump to latest (Press End or L)"><span>⏩ Latest (Ch 4)</span></button>
     <button class="hud-btn" onclick="scrollPrevChapter()" title="Previous chapter (Press ArrowLeft or P)"><span>▲ Prev Ch</span></button>
     <button class="hud-btn" onclick="scrollNextChapter()" title="Next chapter (Press ArrowRight or N)"><span>▼ Next Ch</span></button>
     <button class="hud-btn" onclick="scrollToChapter(1)" title="Return to Chapter 1 (Press Home)"><span>⏮️ Ch 1</span></button>
@@ -219,11 +219,11 @@
         <h1 class="book-title">The Willowbrook Mysteries</h1>
         <div class="book-subtitle">Small Village. Large Curiosity. Continuous Cases Synthesised by Edge Intelligence</div>
         <div style="font-size:12px; font-family:-apple-system,sans-serif; opacity:0.8;">
-          Authored by Edge AI Collective • 1 Chapters • 325 Words • Real Headlines Woven In ✓
+          Authored by Edge AI Collective • 4 Chapters • 1329 Words • Real Headlines Woven In ✓
         </div>
       </div>
       <details class="toc-box" open>
-        <summary class="toc-box-summary">📑 Table of Contents (1 Chapters)</summary>
+        <summary class="toc-box-summary">📑 Table of Contents (4 Chapters)</summary>
         <ol class="toc-list">
           <li class="toc-item">
               <button class="toc-link" onclick="scrollToChapter(1)">
@@ -231,6 +231,30 @@
                 <span class="toc-text">
                   <strong>Willowbrook Whispers</strong>
                   <em>A village tale of tea, gossip, and unexpected weight loss.</em>
+                </span>
+              </button>
+            </li><li class="toc-item">
+              <button class="toc-link" onclick="scrollToChapter(2)">
+                <span class="toc-num">2</span>
+                <span class="toc-text">
+                  <strong>Willowbrook Whispers Unraveled</strong>
+                  <em>A Mysterious Manor and a Hidden History Unveiled</em>
+                </span>
+              </button>
+            </li><li class="toc-item">
+              <button class="toc-link" onclick="scrollToChapter(3)">
+                <span class="toc-num">3</span>
+                <span class="toc-text">
+                  <strong>Willowbrook Whispers Unraveled</strong>
+                  <em>The Manor’s Mysterious Past and the Rain's Unusual Silence</em>
+                </span>
+              </button>
+            </li><li class="toc-item">
+              <button class="toc-link" onclick="scrollToChapter(4)">
+                <span class="toc-num">4</span>
+                <span class="toc-text">
+                  <strong>The Mysterious Echoes of Berkeley Castle</strong>
+                  <em>A Tea-Time Revelation and a Moonlit Mystery</em>
                 </span>
               </button>
             </li>
@@ -278,8 +302,8 @@
                 <span>Generated: 02/09/26 13:32 UK</span> •
                 <span class="quick-nav-links">
                   
-                  
-                  <a href="#chapter-1" onclick="scrollToChapter(1); return false;" class="mini-link highlight">Latest (Ch 1) ⏩</a>
+                  <a href="#chapter-2" onclick="scrollToChapter(2); return false;" class="mini-link">Next Ch ▶</a> •
+                  <a href="#chapter-4" onclick="scrollToChapter(4); return false;" class="mini-link highlight">Latest (Ch 4) ⏩</a>
                 </span>
               </div>
 
@@ -308,9 +332,228 @@
             </div>
 
             
+            <div class="chapter-footer-nav">
+              <button class="ch-nav-btn next" onclick="scrollToChapter(2)">
+                <span>Continue to Chapter 2</span>
+                <span class="btn-arrow">➔</span>
+              </button>
+            </div>
+            
+          </article>
+        </details>
+        
+        <details class="chapter-details" id="chapter-2" data-chapter-index="2" open>
+          <summary class="chapter-summary">
+            <div class="summary-left">
+              <span class="chapter-badge">Chapter 2</span>
+              <strong class="summary-title">Willowbrook Whispers Unraveled</strong>
+            </div>
+            <div class="summary-right">
+              <span class="summary-pill">2 min read</span>
+              <span class="summary-pill">343 words</span>
+              <span class="summary-pill tone">Quietly Unsettling Village Mystery</span>
+              <span class="chevron">▼</span>
+            </div>
+          </summary>
+
+          <article class="chapter-body">
+            <img class="chapter-hero-img" src="https://picsum.photos/seed/willowbrook-2/800/320" alt="" loading="lazy" width="800" height="320">
+            <header class="chapter-header">
+              <div class="chapter-subtitle">A Mysterious Manor and a Hidden History Unveiled</div>
+              <div class="featuring-row">
+                <span class="featuring-label">Featuring</span>
+                <span class="featuring-avatar" title="Marigold Pemberton-Hale"><img src="https://api.dicebear.com/9.x/adventurer/svg?seed=char_marigold&backgroundType=gradientLinear&backgroundColor=f4e9d8,e8d5b7" alt="Marigold Pemberton-Hale" width="28" height="28" loading="lazy"></span><span class="featuring-avatar" title="Reverend Aubrey Finch"><img src="https://api.dicebear.com/9.x/adventurer/svg?seed=char_aubrey&backgroundType=gradientLinear&backgroundColor=f4e9d8,e8d5b7" alt="Reverend Aubrey Finch" width="28" height="28" loading="lazy"></span><span class="featuring-avatar" title="Mrs. Ottoline Vance"><img src="https://api.dicebear.com/9.x/adventurer/svg?seed=char_ottoline&backgroundType=gradientLinear&backgroundColor=f4e9d8,e8d5b7" alt="Mrs. Ottoline Vance" width="28" height="28" loading="lazy"></span>
+                
+    <div class="weather-widget" title="Real Cotswolds weather when this chapter was written">
+      <div class="wx-scene wx-rain"><div class="wx-cloud"></div><div class="wx-rain"><span class="wx-drop" style="left:12%;animation-delay:0.0s"></span><span class="wx-drop" style="left:25%;animation-delay:0.18s"></span><span class="wx-drop" style="left:38%;animation-delay:0.36s"></span><span class="wx-drop" style="left:51%;animation-delay:0.54s"></span><span class="wx-drop" style="left:64%;animation-delay:0.72s"></span><span class="wx-drop" style="left:77%;animation-delay:0.8999999999999999s"></span></div></div>
+      <div class="wx-caption"><strong>light drizzle</strong> • 16°C</div>
+    </div>
+    
+              </div>
+              <div class="chapter-meta-line">
+                <span>Model: <strong>qwen2.5-coder:7b</strong></span> •
+                <span>Generated: 02/09/26 13:38 UK</span> •
+                <span class="quick-nav-links">
+                  <a href="#chapter-1" onclick="scrollToChapter(1); return false;" class="mini-link">◀ Prev Ch</a> •
+                  <a href="#chapter-3" onclick="scrollToChapter(3); return false;" class="mini-link">Next Ch ▶</a> •
+                  <a href="#chapter-4" onclick="scrollToChapter(4); return false;" class="mini-link highlight">Latest (Ch 4) ⏩</a>
+                </span>
+              </div>
+
+              <details class="source-story-details">
+                <summary class="source-summary">
+                  <span>📰 Real-World Inspiration (2 sources)</span>
+                </summary>
+                <div class="source-content">
+                  <div class="source-item">
+                  <span class="source-tag">Uplifting & Community News</span>
+                  <strong class="source-headline">Good News in History, September 1</strong>
+                  <p class="source-snippet">881 years ago today, Ibn Jubayir was born in Moorish Spain. This pilgrim and talented writer went on the Hajj to Mecca in 1183, and penned a valuable, beautiful, first-hand account of the places and people he saw, which included the Crusader states of Acre and the island of Sicily as controlled by the Norman [&#8230;] The post Good News in History, September 1 appeared first on Good News Network .</p>
+                  <a href="https://www.goodnewsnetwork.org/events060901/" target="_blank" rel="noopener noreferrer" class="threat-link">🔗 Read the real article ➔</a>
+                </div><div class="source-item">
+                  <span class="source-tag">Country Life & Rural England</span>
+                  <strong class="source-headline">Finding gold: An unexpected journey from river to ring</strong>
+                  <p class="source-snippet">When you get married, more often than not, you don a gold ring. But what has happened to that gold on its journey to your finger? Lotte Brundle goes on a treasure hunt.</p>
+                  <a href="https://www.countrylife.co.uk/lifestyle/jewellery/finding-gold-an-unexpected-journey-from-river-to-ring" target="_blank" rel="noopener noreferrer" class="threat-link">🔗 Read the real article ➔</a>
+                </div>
+                </div>
+              </details>
+            </header>
+
+            <div class="prose-content">
+              <p>Marigold Pemberton-Hale strolled through the rain-soaked streets of Willowbrook-on-Fen, her umbrella barely keeping up with the light drizzle. The air was crisp at 15.7°C, the kind that made you want to huddle in a cozy sweater and sip on a steaming cuppa. Her eyes scanned the rows of bookshelves at Pemberton Books, where the scent of old paper and ink filled the air. As she reached for another volume, her gaze fell upon a small, leather-bound journal nestled among the new arrivals.</p><p>The journal was unlike anything Marigold had seen before—its cover bore an intricate design that seemed to shift and change with the light. She opened it and found pages filled with delicate script and vivid descriptions of travels far from home. The first entry spoke of Ibn Jubayir, a pilgrim who had walked through lands as exotic as Acre and Sicily. Marigold smiled, tracing the lines of his handwriting.</p><p>As she turned the pages, another drawing caught her eye—a map that appeared to be a cross between medieval manuscript and modern GPS. The location was marked with a small, gold ring inscribed with the words "Norman Legacy." Intrigued, Marigold pocketed the journal and made her way to the tearoom down the street.</p><p>The Willowbrook Tearoom buzzed with activity as Mrs. Ottoline Vance bustled about behind the counter. The aroma of freshly baked bread and sweet tea filled the air. Marigold spotted Reverend Aubrey Finch, his eyes gleaming with a mixture of curiosity and mischief, standing at one of the windows, pretending to check the weather.</p><p>"Good afternoon, Inspector," Mrs. Ottoline greeted her warmly. "What can I do for you today?"</p><p>Marigold smiled politely. "I was wondering if you could tell me about that gold ring in the journal."</p><p>Mrs. Ottoline's eyes widened with interest. "Oh, that one! It's quite a story, really. A man brought it to town a few years back, claiming it belonged to his great-grandfather. But no one has ever been able to trace its origins."</p><p>Reverend Aubrey leaned in closer, eager for the details. "That sounds fascinating.</p>
+            </div>
+
+            
+            <div class="chapter-footer-nav">
+              <button class="ch-nav-btn next" onclick="scrollToChapter(3)">
+                <span>Continue to Chapter 3</span>
+                <span class="btn-arrow">➔</span>
+              </button>
+            </div>
+            
+          </article>
+        </details>
+        
+        <details class="chapter-details" id="chapter-3" data-chapter-index="3" open>
+          <summary class="chapter-summary">
+            <div class="summary-left">
+              <span class="chapter-badge">Chapter 3</span>
+              <strong class="summary-title">Willowbrook Whispers Unraveled</strong>
+            </div>
+            <div class="summary-right">
+              <span class="summary-pill">2 min read</span>
+              <span class="summary-pill">336 words</span>
+              <span class="summary-pill tone">Quietly Unsettling Village Mystery</span>
+              <span class="chevron">▼</span>
+            </div>
+          </summary>
+
+          <article class="chapter-body">
+            <img class="chapter-hero-img" src="https://picsum.photos/seed/willowbrook-3/800/320" alt="" loading="lazy" width="800" height="320">
+            <header class="chapter-header">
+              <div class="chapter-subtitle">The Manor’s Mysterious Past and the Rain's Unusual Silence</div>
+              <div class="featuring-row">
+                <span class="featuring-label">Featuring</span>
+                <span class="featuring-avatar" title="Marigold Pemberton-Hale"><img src="https://api.dicebear.com/9.x/adventurer/svg?seed=char_marigold&backgroundType=gradientLinear&backgroundColor=f4e9d8,e8d5b7" alt="Marigold Pemberton-Hale" width="28" height="28" loading="lazy"></span><span class="featuring-avatar" title="Reverend Aubrey Finch"><img src="https://api.dicebear.com/9.x/adventurer/svg?seed=char_aubrey&backgroundType=gradientLinear&backgroundColor=f4e9d8,e8d5b7" alt="Reverend Aubrey Finch" width="28" height="28" loading="lazy"></span><span class="featuring-avatar" title="Mrs. Ottoline Vance"><img src="https://api.dicebear.com/9.x/adventurer/svg?seed=char_ottoline&backgroundType=gradientLinear&backgroundColor=f4e9d8,e8d5b7" alt="Mrs. Ottoline Vance" width="28" height="28" loading="lazy"></span>
+                
+    <div class="weather-widget" title="Real Cotswolds weather when this chapter was written">
+      <div class="wx-scene wx-rain"><div class="wx-cloud"></div><div class="wx-rain"><span class="wx-drop" style="left:12%;animation-delay:0.0s"></span><span class="wx-drop" style="left:25%;animation-delay:0.18s"></span><span class="wx-drop" style="left:38%;animation-delay:0.36s"></span><span class="wx-drop" style="left:51%;animation-delay:0.54s"></span><span class="wx-drop" style="left:64%;animation-delay:0.72s"></span><span class="wx-drop" style="left:77%;animation-delay:0.8999999999999999s"></span></div></div>
+      <div class="wx-caption"><strong>light drizzle</strong> • 16°C</div>
+    </div>
+    
+              </div>
+              <div class="chapter-meta-line">
+                <span>Model: <strong>qwen2.5-coder:7b</strong></span> •
+                <span>Generated: 02/09/26 13:38 UK</span> •
+                <span class="quick-nav-links">
+                  <a href="#chapter-2" onclick="scrollToChapter(2); return false;" class="mini-link">◀ Prev Ch</a> •
+                  <a href="#chapter-4" onclick="scrollToChapter(4); return false;" class="mini-link">Next Ch ▶</a> •
+                  <a href="#chapter-4" onclick="scrollToChapter(4); return false;" class="mini-link highlight">Latest (Ch 4) ⏩</a>
+                </span>
+              </div>
+
+              <details class="source-story-details">
+                <summary class="source-summary">
+                  <span>📰 Real-World Inspiration (2 sources)</span>
+                </summary>
+                <div class="source-content">
+                  <div class="source-item">
+                  <span class="source-tag">Nature & Curious Science</span>
+                  <strong class="source-headline">More hosepipe bans in force as drought declared - is your area affected?</strong>
+                  <p class="source-snippet">About 30 million people have been placed under hosepipe bans due to higher demand and low rainfall.</p>
+                  <a href="https://www.bbc.co.uk/news/articles/crk661074ejo?at_medium=RSS&at_campaign=rss" target="_blank" rel="noopener noreferrer" class="threat-link">🔗 Read the real article ➔</a>
+                </div><div class="source-item">
+                  <span class="source-tag">Farming & Rural Affairs</span>
+                  <strong class="source-headline">Guidance: Fishing opportunities for British fishing boats: summary of current determinations</strong>
+                  <p class="source-snippet">Summary of the determinations that set out current fishing opportunities for certain fish stocks.</p>
+                  <a href="https://www.gov.uk/government/publications/fishing-opportunities-for-british-fishing-boats-summary-of-current-determinations" target="_blank" rel="noopener noreferrer" class="threat-link">🔗 Read the real article ➔</a>
+                </div>
+                </div>
+              </details>
+            </header>
+
+            <div class="prose-content">
+              <p>Marigold Pemberton-Hale strolled through the rain-soaked streets of Willowbrook-on-Fen, her umbrella barely keeping up with the light drizzle. The air was crisp at 15.7°C, the kind of weather that made you think the Cotswolds had finally given in to autumn. She paused outside the door of Pemberton Books, a small sign reading "New Arrivals" hanging above it. She could hear the distant chime of the church bell and the soft murmur of chatter coming from within.</p><p>As she entered, the scent of old books filled her nostrils, mingling with the faint aroma of tea. Marigold settled into her usual spot at the desk, a steaming mug of Earl Grey in front of her. The rain had brought a certain quietude to the village, and it was this peace that made her particularly attuned to any unusual sounds or whispers.</p><p>She heard the soft rattle of glass as Mrs. Ottoline Vance approached with a tray of freshly baked scones and clotted cream. "Good afternoon, Marigold," she said, setting down the tray with a flourish. "Have you seen Reverend Aubrey Finch today? He’s been unusually quiet."</p><p>Marigold nodded, her eyes scanning the room. "I haven’t, but then he has his Sundays off now. Is there anything in particular you wanted to talk about?"</p><p>"Ah, yes," Mrs. Ottoline replied with a mischievous glint in her eye. "You know how we all have our secrets here, don’t we? Well, Aubrey’s been talking about the old manor on the hillside. He’s been saying it holds more secrets than it does bricks."</p><p>Marigold smiled, intrigued by the idea of an old manor with hidden histories. "What makes you think so?"</p><p>Mrs. Ottoline leaned in conspiratorially. "Well, have you noticed how the rain seems to be unusually quiet today? Not like the usual patter on these streets. And let’s not forget that hosepipe ban they’ve got going on. It’s been a while since we had such strict water conservation rules."</p><p>Marigold raised an eyebrow, feeling a sense of unease stir in her stomach.</p>
+            </div>
+
+            
+            <div class="chapter-footer-nav">
+              <button class="ch-nav-btn next" onclick="scrollToChapter(4)">
+                <span>Continue to Chapter 4</span>
+                <span class="btn-arrow">➔</span>
+              </button>
+            </div>
+            
+          </article>
+        </details>
+        
+        <details class="chapter-details" id="chapter-4" data-chapter-index="4" open>
+          <summary class="chapter-summary">
+            <div class="summary-left">
+              <span class="chapter-badge">Chapter 4</span>
+              <strong class="summary-title">The Mysterious Echoes of Berkeley Castle</strong>
+            </div>
+            <div class="summary-right">
+              <span class="summary-pill">2 min read</span>
+              <span class="summary-pill">325 words</span>
+              <span class="summary-pill tone">Gentle Cosy Mystery</span>
+              <span class="chevron">▼</span>
+            </div>
+          </summary>
+
+          <article class="chapter-body">
+            <img class="chapter-hero-img" src="https://picsum.photos/seed/willowbrook-4/800/320" alt="" loading="lazy" width="800" height="320">
+            <header class="chapter-header">
+              <div class="chapter-subtitle">A Tea-Time Revelation and a Moonlit Mystery</div>
+              <div class="featuring-row">
+                <span class="featuring-label">Featuring</span>
+                <span class="featuring-avatar" title="Marigold Pemberton-Hale"><img src="https://api.dicebear.com/9.x/adventurer/svg?seed=char_marigold&backgroundType=gradientLinear&backgroundColor=f4e9d8,e8d5b7" alt="Marigold Pemberton-Hale" width="28" height="28" loading="lazy"></span><span class="featuring-avatar" title="Reverend Aubrey Finch"><img src="https://api.dicebear.com/9.x/adventurer/svg?seed=char_aubrey&backgroundType=gradientLinear&backgroundColor=f4e9d8,e8d5b7" alt="Reverend Aubrey Finch" width="28" height="28" loading="lazy"></span><span class="featuring-avatar" title="Mrs. Ottoline Vance"><img src="https://api.dicebear.com/9.x/adventurer/svg?seed=char_ottoline&backgroundType=gradientLinear&backgroundColor=f4e9d8,e8d5b7" alt="Mrs. Ottoline Vance" width="28" height="28" loading="lazy"></span>
+                
+    <div class="weather-widget" title="Real Cotswolds weather when this chapter was written">
+      <div class="wx-scene wx-rain"><div class="wx-cloud"></div><div class="wx-rain"><span class="wx-drop" style="left:12%;animation-delay:0.0s"></span><span class="wx-drop" style="left:25%;animation-delay:0.18s"></span><span class="wx-drop" style="left:38%;animation-delay:0.36s"></span><span class="wx-drop" style="left:51%;animation-delay:0.54s"></span><span class="wx-drop" style="left:64%;animation-delay:0.72s"></span><span class="wx-drop" style="left:77%;animation-delay:0.8999999999999999s"></span></div></div>
+      <div class="wx-caption"><strong>light drizzle</strong> • 16°C</div>
+    </div>
+    
+              </div>
+              <div class="chapter-meta-line">
+                <span>Model: <strong>qwen2.5-coder:7b</strong></span> •
+                <span>Generated: 02/09/26 13:39 UK</span> •
+                <span class="quick-nav-links">
+                  <a href="#chapter-3" onclick="scrollToChapter(3); return false;" class="mini-link">◀ Prev Ch</a> •
+                  
+                  <a href="#chapter-4" onclick="scrollToChapter(4); return false;" class="mini-link highlight">Latest (Ch 4) ⏩</a>
+                </span>
+              </div>
+
+              <details class="source-story-details">
+                <summary class="source-summary">
+                  <span>📰 Real-World Inspiration (2 sources)</span>
+                </summary>
+                <div class="source-content">
+                  <div class="source-item">
+                  <span class="source-tag">Country Life & Rural England</span>
+                  <strong class="source-headline">Charles Berkeley on the arch at the castle that's been in his family since the 1100s</strong>
+                  <p class="source-snippet">John Goodall meets Charles Berkeley, whose family have owned Berkeley Castle in Gloucestershire for nine centuries, to find out about one of its most striking original features.</p>
+                  <a href="https://www.countrylife.co.uk/architecture/charles-berkeley-on-the-arch-at-the-castle-thats-been-in-his-family-since-the-1100s" target="_blank" rel="noopener noreferrer" class="threat-link">🔗 Read the real article ➔</a>
+                </div><div class="source-item">
+                  <span class="source-tag">Nature & Curious Science</span>
+                  <strong class="source-headline">From blast off to splashdown: My days following Nasa's historic mission to the Moon</strong>
+                  <p class="source-snippet">BBC Science Editor Rebecca Morelle reflects on how it felt to watch history being made.</p>
+                  <a href="https://www.bbc.co.uk/news/articles/clyrdkxvmmpo?at_medium=RSS&at_campaign=rss" target="_blank" rel="noopener noreferrer" class="threat-link">🔗 Read the real article ➔</a>
+                </div>
+                </div>
+              </details>
+            </header>
+
+            <div class="prose-content">
+              <p>Marigold Pemberton-Hale strolled through the rain-soaked streets of Willowbrook-on-Fen, her umbrella barely keeping up with the light drizzle. The air was crisp at 15.7°C, the kind that made one feel almost as chilled as the silence in the village library, where she had just overheard a snippet about a mysterious book titled "The Echoes of Berkeley Castle." Her curiosity piqued, Marigold decided to investigate further.</p><p>As she passed by the Willowbrook Tearoom, the Green, she noticed Mrs. Ottoline Vance serving tea at her counter. The aroma of freshly brewed tea wafted through the air, mingling with the scent of rain-soaked earth and blooming hedgerows. "A lovely day for a cuppa," Marigold remarked as she took a seat.</p><p>"Indeed," replied Mrs. Vance, her eyes twinkling with interest. "What brings you to our little village, Detective Inspector?"</p><p>"I'm looking into a rather peculiar book mentioned in the library," Marigold explained. "The Echoes of Berkeley Castle. It's said to hold secrets about the history of the castle that's been in your family since the 1100s."</p><p>Mrs. Vance's eyes widened with intrigue. "Ah, yes, Berkeley Castle. A family treasure indeed! Do tell me more about this book."</p><p>Marigold leaned in closer, her curiosity piqued. "Well, it seems to be a collection of old photographs and stories passed down through generations. The last owner, Charles Berkeley, was quite the eccentric, always talking about the castle's hidden rooms and mysterious past."</p><p>As Marigold shared more details, she couldn't help but notice Reverend Aubrey Finch approaching with his Sunday sermon on the porch. His eyes darted around nervously as he overheard their conversation. Marigold winked at him, knowing he would be eager to hear more about this intriguing book.</p><p>"Speaking of history," Mrs. Vance interjected, "I heard the vicar is giving a talk on the Cotswolds' most famous historical sites. Maybe you'd like to join us for that?"</p><p>Marigold smiled warmly. "That sounds delightful! I might just pop by after my tea."</p>
+            </div>
+
+            
             <div class="chapter-footer-nav latest-badge">
               <span class="pulse-dot"></span>
-              <strong>You have reached the latest chapter (Chapter 1).</strong>
+              <strong>You have reached the latest chapter (Chapter 4).</strong>
               <p>A new case unfolds automatically.</p>
             </div>
             
@@ -336,8 +579,8 @@
                 <h3 class="char-name">Marigold Pemberton-Hale</h3>
                 <span class="char-role-badge">Retired Detective Inspector, now runs the village bookshop</span>
               </div>
-              <div class="char-location">📍 Pemberton Books, on the corner of Willow Lane, Willowbrook-on-Fen</div>
-              <div class="char-status">⚡ <em>Status:</em> <strong>Quietly cataloguing new arrivals while keeping one ear on village gossip</strong></div>
+              <div class="char-location">📍 Wandering down Willow Lane towards Pemberton Books.</div>
+              <div class="char-status">⚡ <em>Status:</em> <strong>Continuing her walk through the drizzle, determined to uncover more about 'The Echoes of Berkeley Castle'.</strong></div>
             </div>
           </div>
 
@@ -356,7 +599,7 @@
           <div class="char-section">
             <div class="char-section-title">Case History (Multi-Chapter Memory)</div>
             <ul class="arc-list">
-              <li class='arc-item'>Solved the matter of the vanishing church silver quietly, without telling anyone.</li><li class='arc-item'>Reluctantly agreed the bookshop needed a "Mystery" section after all.</li><li class='arc-item'>Chapter 1: Marigold discovers an old diary in a dusty attic, which contains clues to a local legend.</li>
+              <li class='arc-item'>Solved the matter of the vanishing church silver quietly, without telling anyone.</li><li class='arc-item'>Reluctantly agreed the bookshop needed a "Mystery" section after all.</li><li class='arc-item'>Chapter 1: Marigold discovers an old diary in a dusty attic, which contains clues to a local legend.</li><li class='arc-item'>Chapter 2: Marigold overhears a conversation between Mrs. Vance and Reverend Finch about an old manuscript in her possession.</li><li class='arc-item'>Chapter 3: Marigold notices an unusual silence in the rain that coincides with her latest discovery.</li><li class='arc-item'>Chapter 4: Marigold discovers a rare edition of 'The Echoes of Berkeley Castle' at an old antique shop.</li>
             </ul>
           </div>
         </div>
@@ -372,8 +615,8 @@
                 <h3 class="char-name">Reverend Aubrey Finch</h3>
                 <span class="char-role-badge">Vicar of St. Wilfred's, amateur historian, terrible gossip</span>
               </div>
-              <div class="char-location">📍 St. Wilfred's Church, Willowbrook-on-Fen</div>
-              <div class="char-status">⚡ <em>Status:</em> <strong>Pretending to work on Sunday's sermon while listening at the vestry door</strong></div>
+              <div class="char-location">📍 St. Wilfred's Church, preparing for Sunday's service.</div>
+              <div class="char-status">⚡ <em>Status:</em> <strong>Rehearsing his sermon, the church's steeple casting long shadows across the graveyard below.</strong></div>
             </div>
           </div>
 
@@ -392,7 +635,7 @@
           <div class="char-section">
             <div class="char-section-title">Case History (Multi-Chapter Memory)</div>
             <ul class="arc-list">
-              <li class='arc-item'>Accidentally revealed a fifty-year-old scandal during a christening.</li><li class='arc-item'>Won the village fete raffle three years running, which some find suspicious.</li><li class='arc-item'>Chapter 1: Aubrey overhears a group of villagers plotting a surprise wedding for an elderly bachelor.</li>
+              <li class='arc-item'>Accidentally revealed a fifty-year-old scandal during a christening.</li><li class='arc-item'>Won the village fete raffle three years running, which some find suspicious.</li><li class='arc-item'>Chapter 1: Aubrey overhears a group of villagers plotting a surprise wedding for an elderly bachelor.</li><li class='arc-item'>Chapter 2: Aubrey notices a faint disturbance outside the church during his supposed sermon prep.</li><li class='arc-item'>Chapter 3: Aubrey overhears Marigold and Mrs. Ottoline discussing a rare book's history.</li><li class='arc-item'>Chapter 4: Aubrey overhears a whispered conversation about a missing heirloom from Berkeley Castle that could be in Willowbrook.</li>
             </ul>
           </div>
         </div>
@@ -408,8 +651,8 @@
                 <h3 class="char-name">Mrs. Ottoline Vance</h3>
                 <span class="char-role-badge">Owner of the Willowbrook Tearoom, unofficial mayor of village opinion</span>
               </div>
-              <div class="char-location">📍 The Willowbrook Tearoom, the Green, Willowbrook-on-Fen</div>
-              <div class="char-status">⚡ <em>Status:</em> <strong>Behind the counter, hearing absolutely everything</strong></div>
+              <div class="char-location">📍 The Willowbrook Tearoom, the Green.</div>
+              <div class="char-status">⚡ <em>Status:</em> <strong>Serving tea and listening to the latest gossip, her eyes fixed on the door of Pemberton Books.</strong></div>
             </div>
           </div>
 
@@ -428,7 +671,7 @@
           <div class="char-section">
             <div class="char-section-title">Case History (Multi-Chapter Memory)</div>
             <ul class="arc-list">
-              <li class='arc-item'>Once refused to serve the Mayor his usual until he apologised to the postman.</li><li class='arc-item'>Keeps a "suspicious behaviour" ledger she insists is just for the parish newsletter.</li><li class='arc-item'>Chapter 1: Ottoline notices a new customer with an unusually keen interest in rare tea leaves.</li>
+              <li class='arc-item'>Once refused to serve the Mayor his usual until he apologised to the postman.</li><li class='arc-item'>Keeps a "suspicious behaviour" ledger she insists is just for the parish newsletter.</li><li class='arc-item'>Chapter 1: Ottoline notices a new customer with an unusually keen interest in rare tea leaves.</li><li class='arc-item'>Chapter 2: Ottoline spots Marigold consulting a rare book on the shelf, which matches Mrs. Vance's description.</li><li class='arc-item'>Chapter 3: Ottoline notices an unusually quiet atmosphere in the village and decides to investigate.</li><li class='arc-item'>Chapter 4: Ottoline learns from a local that 'The Echoes of Berkeley Castle' has been borrowed from the library by an unknown person.</li>
             </ul>
           </div>
         </div>
@@ -437,12 +680,12 @@
   </main>
 
   <div class="progress-bar-fixed">
-    <span>The Willowbrook Mysteries (1 Total Chapters)</span>
+    <span>The Willowbrook Mysteries (4 Total Chapters)</span>
     <span class="cursor-help">⌨️ [◀ / ▶] Next/Prev • [End / L] Latest • [Home] Ch 1</span>
   </div>
 
   <script>
-    const TOTAL_CHAPTERS = 1;
+    const TOTAL_CHAPTERS = 4;
     let currentChapterIndex = 1;
     function scrollToChapter(chNum) {
       if (chNum < 1) chNum = 1;

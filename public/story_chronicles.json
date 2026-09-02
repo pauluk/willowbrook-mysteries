@@ -2,16 +2,16 @@
   "bookTitle": "The Willowbrook Mysteries",
   "subtitle": "Small Village. Large Curiosity. Continuous Cases Synthesised by Edge Intelligence",
   "author": "Edge LLM Collective & Autonomous Multi-Agent System",
-  "lastUpdatedUk": "02/09/26 13:32",
+  "lastUpdatedUk": "02/09/26 13:39",
   "characters": [
     {
       "id": "char_marigold",
       "name": "Marigold Pemberton-Hale",
       "role": "Retired Detective Inspector, now runs the village bookshop",
       "avatar": "\ud83d\udd75\ufe0f\u200d\u2640\ufe0f\ud83d\udcda",
-      "status": "Quietly cataloguing new arrivals while keeping one ear on village gossip",
+      "status": "Continuing her walk through the drizzle, determined to uncover more about 'The Echoes of Berkeley Castle'.",
       "personality": "Sharp-eyed, dryly witty, deceptively unhurried, misses nothing.",
-      "location": "Pemberton Books, on the corner of Willow Lane, Willowbrook-on-Fen",
+      "location": "Wandering down Willow Lane towards Pemberton Books.",
       "backstory": "Thirty years with the Yard before retiring to her late aunt's bookshop. Insists she is done with detective work. She is not.",
       "inventory": [
         "Battered leather notebook",
@@ -26,18 +26,21 @@
       "arcHistory": [
         "Solved the matter of the vanishing church silver quietly, without telling anyone.",
         "Reluctantly agreed the bookshop needed a \"Mystery\" section after all.",
-        "Chapter 1: Marigold discovers an old diary in a dusty attic, which contains clues to a local legend."
+        "Chapter 1: Marigold discovers an old diary in a dusty attic, which contains clues to a local legend.",
+        "Chapter 2: Marigold overhears a conversation between Mrs. Vance and Reverend Finch about an old manuscript in her possession.",
+        "Chapter 3: Marigold notices an unusual silence in the rain that coincides with her latest discovery.",
+        "Chapter 4: Marigold discovers a rare edition of 'The Echoes of Berkeley Castle' at an old antique shop."
       ],
-      "lastObservedUk": "02/09/26 13:32"
+      "lastObservedUk": "02/09/26 13:39"
     },
     {
       "id": "char_aubrey",
       "name": "Reverend Aubrey Finch",
       "role": "Vicar of St. Wilfred's, amateur historian, terrible gossip",
       "avatar": "\u26ea\ufe0f\ud83e\udde3",
-      "status": "Pretending to work on Sunday's sermon while listening at the vestry door",
+      "status": "Rehearsing his sermon, the church's steeple casting long shadows across the graveyard below.",
       "personality": "Kind, curious to a fault, hopelessly nosy, surprisingly good at cards.",
-      "location": "St. Wilfred's Church, Willowbrook-on-Fen",
+      "location": "St. Wilfred's Church, preparing for Sunday's service.",
       "backstory": "Came to Willowbrook twelve years ago from London and never left. Knows every family secret in the parish register.",
       "inventory": [
         "Dog-eared parish records",
@@ -52,18 +55,21 @@
       "arcHistory": [
         "Accidentally revealed a fifty-year-old scandal during a christening.",
         "Won the village fete raffle three years running, which some find suspicious.",
-        "Chapter 1: Aubrey overhears a group of villagers plotting a surprise wedding for an elderly bachelor."
+        "Chapter 1: Aubrey overhears a group of villagers plotting a surprise wedding for an elderly bachelor.",
+        "Chapter 2: Aubrey notices a faint disturbance outside the church during his supposed sermon prep.",
+        "Chapter 3: Aubrey overhears Marigold and Mrs. Ottoline discussing a rare book's history.",
+        "Chapter 4: Aubrey overhears a whispered conversation about a missing heirloom from Berkeley Castle that could be in Willowbrook."
       ],
-      "lastObservedUk": "02/09/26 13:32"
+      "lastObservedUk": "02/09/26 13:39"
     },
     {
       "id": "char_ottoline",
       "name": "Mrs. Ottoline Vance",
       "role": "Owner of the Willowbrook Tearoom, unofficial mayor of village opinion",
       "avatar": "\u2615\ufe0f\ud83e\uddc1",
-      "status": "Behind the counter, hearing absolutely everything",
+      "status": "Serving tea and listening to the latest gossip, her eyes fixed on the door of Pemberton Books.",
       "personality": "Formidable, warm underneath it, terrifyingly well-informed, loyal.",
-      "location": "The Willowbrook Tearoom, the Green, Willowbrook-on-Fen",
+      "location": "The Willowbrook Tearoom, the Green.",
       "backstory": "Has run the tearoom for thirty years. Nothing happens in Willowbrook that does not pass through her counter first.",
       "inventory": [
         "A tray that never wobbles",
@@ -78,14 +84,23 @@
       "arcHistory": [
         "Once refused to serve the Mayor his usual until he apologised to the postman.",
         "Keeps a \"suspicious behaviour\" ledger she insists is just for the parish newsletter.",
-        "Chapter 1: Ottoline notices a new customer with an unusually keen interest in rare tea leaves."
+        "Chapter 1: Ottoline notices a new customer with an unusually keen interest in rare tea leaves.",
+        "Chapter 2: Ottoline spots Marigold consulting a rare book on the shelf, which matches Mrs. Vance's description.",
+        "Chapter 3: Ottoline notices an unusually quiet atmosphere in the village and decides to investigate.",
+        "Chapter 4: Ottoline learns from a local that 'The Echoes of Berkeley Castle' has been borrowed from the library by an unknown person."
       ],
-      "lastObservedUk": "02/09/26 13:32"
+      "lastObservedUk": "02/09/26 13:39"
     }
   ],
   "usedSourceHeadlines": [
     "'I'm a fitness instructor and you need to do only 1 thing for weight loss'",
-    "5 weekend-friendly DIY projects to improve your motorhome"
+    "5 weekend-friendly DIY projects to improve your motorhome",
+    "Good News in History, September 1",
+    "Finding gold: An unexpected journey from river to ring",
+    "More hosepipe bans in force as drought declared - is your area affected?",
+    "Guidance: Fishing opportunities for British fishing boats: summary of current determinations",
+    "Charles Berkeley on the arch at the castle that's been in his family since the 1100s",
+    "From blast off to splashdown: My days following Nasa's historic mission to the Moon"
   ],
   "chapters": [
     {
@@ -129,8 +144,134 @@
         "Reverend Aubrey Finch",
         "Mrs. Ottoline Vance"
       ]
+    },
+    {
+      "chapterNumber": 2,
+      "title": "Willowbrook Whispers Unraveled",
+      "subtitle": "A Mysterious Manor and a Hidden History Unveiled",
+      "contentMarkdown": "Marigold Pemberton-Hale strolled through the rain-soaked streets of Willowbrook-on-Fen, her umbrella barely keeping up with the light drizzle. The air was crisp at 15.7\u00b0C, the kind that made you want to huddle in a cozy sweater and sip on a steaming cuppa. Her eyes scanned the rows of bookshelves at Pemberton Books, where the scent of old paper and ink filled the air. As she reached for another volume, her gaze fell upon a small, leather-bound journal nestled among the new arrivals.\n\nThe journal was unlike anything Marigold had seen before\u2014its cover bore an intricate design that seemed to shift and change with the light. She opened it and found pages filled with delicate script and vivid descriptions of travels far from home. The first entry spoke of Ibn Jubayir, a pilgrim who had walked through lands as exotic as Acre and Sicily. Marigold smiled, tracing the lines of his handwriting.\n\nAs she turned the pages, another drawing caught her eye\u2014a map that appeared to be a cross between medieval manuscript and modern GPS. The location was marked with a small, gold ring inscribed with the words \"Norman Legacy.\" Intrigued, Marigold pocketed the journal and made her way to the tearoom down the street.\n\nThe Willowbrook Tearoom buzzed with activity as Mrs. Ottoline Vance bustled about behind the counter. The aroma of freshly baked bread and sweet tea filled the air. Marigold spotted Reverend Aubrey Finch, his eyes gleaming with a mixture of curiosity and mischief, standing at one of the windows, pretending to check the weather.\n\n\"Good afternoon, Inspector,\" Mrs. Ottoline greeted her warmly. \"What can I do for you today?\"\n\nMarigold smiled politely. \"I was wondering if you could tell me about that gold ring in the journal.\"\n\nMrs. Ottoline's eyes widened with interest. \"Oh, that one! It's quite a story, really. A man brought it to town a few years back, claiming it belonged to his great-grandfather. But no one has ever been able to trace its origins.\"\n\nReverend Aubrey leaned in closer, eager for the details. \"That sounds fascinating.",
+      "wordCount": 343,
+      "readingTimeMinutes": 2,
+      "modelUsed": "qwen2.5-coder:7b",
+      "tone": "Quietly Unsettling Village Mystery",
+      "sourceTrigger": {
+        "headline": "Good News in History, September 1",
+        "category": "Uplifting & Community News",
+        "sourceUrl": "https://www.goodnewsnetwork.org/events060901/",
+        "extractedContextSnippet": "881 years ago today, Ibn Jubayir was born in Moorish Spain. This pilgrim and talented writer went on the Hajj to Mecca in 1183, and penned a valuable, beautiful, first-hand account of the places and people he saw, which included the Crusader states of Acre and the island of Sicily as controlled by the Norman [&#8230;] The post Good News in History, September 1 appeared first on Good News Network ."
+      },
+      "sourceTriggers": [
+        {
+          "headline": "Good News in History, September 1",
+          "category": "Uplifting & Community News",
+          "sourceUrl": "https://www.goodnewsnetwork.org/events060901/",
+          "extractedContextSnippet": "881 years ago today, Ibn Jubayir was born in Moorish Spain. This pilgrim and talented writer went on the Hajj to Mecca in 1183, and penned a valuable, beautiful, first-hand account of the places and people he saw, which included the Crusader states of Acre and the island of Sicily as controlled by the Norman [&#8230;] The post Good News in History, September 1 appeared first on Good News Network ."
+        },
+        {
+          "headline": "Finding gold: An unexpected journey from river to ring",
+          "category": "Country Life & Rural England",
+          "sourceUrl": "https://www.countrylife.co.uk/lifestyle/jewellery/finding-gold-an-unexpected-journey-from-river-to-ring",
+          "extractedContextSnippet": "When you get married, more often than not, you don a gold ring. But what has happened to that gold on its journey to your finger? Lotte Brundle goes on a treasure hunt."
+        }
+      ],
+      "weather": {
+        "label": "light drizzle",
+        "animation": "rain",
+        "temperatureC": 15.7,
+        "windKmh": 20.2
+      },
+      "generatedAtUk": "02/09/26 13:38",
+      "charactersInvolved": [
+        "Marigold Pemberton-Hale",
+        "Reverend Aubrey Finch",
+        "Mrs. Ottoline Vance"
+      ]
+    },
+    {
+      "chapterNumber": 3,
+      "title": "Willowbrook Whispers Unraveled",
+      "subtitle": "The Manor\u2019s Mysterious Past and the Rain's Unusual Silence",
+      "contentMarkdown": "Marigold Pemberton-Hale strolled through the rain-soaked streets of Willowbrook-on-Fen, her umbrella barely keeping up with the light drizzle. The air was crisp at 15.7\u00b0C, the kind of weather that made you think the Cotswolds had finally given in to autumn. She paused outside the door of Pemberton Books, a small sign reading \"New Arrivals\" hanging above it. She could hear the distant chime of the church bell and the soft murmur of chatter coming from within.\n\nAs she entered, the scent of old books filled her nostrils, mingling with the faint aroma of tea. Marigold settled into her usual spot at the desk, a steaming mug of Earl Grey in front of her. The rain had brought a certain quietude to the village, and it was this peace that made her particularly attuned to any unusual sounds or whispers.\n\nShe heard the soft rattle of glass as Mrs. Ottoline Vance approached with a tray of freshly baked scones and clotted cream. \"Good afternoon, Marigold,\" she said, setting down the tray with a flourish. \"Have you seen Reverend Aubrey Finch today? He\u2019s been unusually quiet.\"\n\nMarigold nodded, her eyes scanning the room. \"I haven\u2019t, but then he has his Sundays off now. Is there anything in particular you wanted to talk about?\"\n\n\"Ah, yes,\" Mrs. Ottoline replied with a mischievous glint in her eye. \"You know how we all have our secrets here, don\u2019t we? Well, Aubrey\u2019s been talking about the old manor on the hillside. He\u2019s been saying it holds more secrets than it does bricks.\"\n\nMarigold smiled, intrigued by the idea of an old manor with hidden histories. \"What makes you think so?\"\n\nMrs. Ottoline leaned in conspiratorially. \"Well, have you noticed how the rain seems to be unusually quiet today? Not like the usual patter on these streets. And let\u2019s not forget that hosepipe ban they\u2019ve got going on. It\u2019s been a while since we had such strict water conservation rules.\"\n\nMarigold raised an eyebrow, feeling a sense of unease stir in her stomach.",
+      "wordCount": 336,
+      "readingTimeMinutes": 2,
+      "modelUsed": "qwen2.5-coder:7b",
+      "tone": "Quietly Unsettling Village Mystery",
+      "sourceTrigger": {
+        "headline": "More hosepipe bans in force as drought declared - is your area affected?",
+        "category": "Nature & Curious Science",
+        "sourceUrl": "https://www.bbc.co.uk/news/articles/crk661074ejo?at_medium=RSS&at_campaign=rss",
+        "extractedContextSnippet": "About 30 million people have been placed under hosepipe bans due to higher demand and low rainfall."
+      },
+      "sourceTriggers": [
+        {
+          "headline": "More hosepipe bans in force as drought declared - is your area affected?",
+          "category": "Nature & Curious Science",
+          "sourceUrl": "https://www.bbc.co.uk/news/articles/crk661074ejo?at_medium=RSS&at_campaign=rss",
+          "extractedContextSnippet": "About 30 million people have been placed under hosepipe bans due to higher demand and low rainfall."
+        },
+        {
+          "headline": "Guidance: Fishing opportunities for British fishing boats: summary of current determinations",
+          "category": "Farming & Rural Affairs",
+          "sourceUrl": "https://www.gov.uk/government/publications/fishing-opportunities-for-british-fishing-boats-summary-of-current-determinations",
+          "extractedContextSnippet": "Summary of the determinations that set out current fishing opportunities for certain fish stocks."
+        }
+      ],
+      "weather": {
+        "label": "light drizzle",
+        "animation": "rain",
+        "temperatureC": 15.7,
+        "windKmh": 20.2
+      },
+      "generatedAtUk": "02/09/26 13:38",
+      "charactersInvolved": [
+        "Marigold Pemberton-Hale",
+        "Reverend Aubrey Finch",
+        "Mrs. Ottoline Vance"
+      ]
+    },
+    {
+      "chapterNumber": 4,
+      "title": "The Mysterious Echoes of Berkeley Castle",
+      "subtitle": "A Tea-Time Revelation and a Moonlit Mystery",
+      "contentMarkdown": "Marigold Pemberton-Hale strolled through the rain-soaked streets of Willowbrook-on-Fen, her umbrella barely keeping up with the light drizzle. The air was crisp at 15.7\u00b0C, the kind that made one feel almost as chilled as the silence in the village library, where she had just overheard a snippet about a mysterious book titled \"The Echoes of Berkeley Castle.\" Her curiosity piqued, Marigold decided to investigate further.\n\nAs she passed by the Willowbrook Tearoom, the Green, she noticed Mrs. Ottoline Vance serving tea at her counter. The aroma of freshly brewed tea wafted through the air, mingling with the scent of rain-soaked earth and blooming hedgerows. \"A lovely day for a cuppa,\" Marigold remarked as she took a seat.\n\n\"Indeed,\" replied Mrs. Vance, her eyes twinkling with interest. \"What brings you to our little village, Detective Inspector?\"\n\n\"I'm looking into a rather peculiar book mentioned in the library,\" Marigold explained. \"The Echoes of Berkeley Castle. It's said to hold secrets about the history of the castle that's been in your family since the 1100s.\"\n\nMrs. Vance's eyes widened with intrigue. \"Ah, yes, Berkeley Castle. A family treasure indeed! Do tell me more about this book.\"\n\nMarigold leaned in closer, her curiosity piqued. \"Well, it seems to be a collection of old photographs and stories passed down through generations. The last owner, Charles Berkeley, was quite the eccentric, always talking about the castle's hidden rooms and mysterious past.\"\n\nAs Marigold shared more details, she couldn't help but notice Reverend Aubrey Finch approaching with his Sunday sermon on the porch. His eyes darted around nervously as he overheard their conversation. Marigold winked at him, knowing he would be eager to hear more about this intriguing book.\n\n\"Speaking of history,\" Mrs. Vance interjected, \"I heard the vicar is giving a talk on the Cotswolds' most famous historical sites. Maybe you'd like to join us for that?\"\n\nMarigold smiled warmly. \"That sounds delightful! I might just pop by after my tea.\"",
+      "wordCount": 325,
+      "readingTimeMinutes": 2,
+      "modelUsed": "qwen2.5-coder:7b",
+      "tone": "Gentle Cosy Mystery",
+      "sourceTrigger": {
+        "headline": "Charles Berkeley on the arch at the castle that's been in his family since the 1100s",
+        "category": "Country Life & Rural England",
+        "sourceUrl": "https://www.countrylife.co.uk/architecture/charles-berkeley-on-the-arch-at-the-castle-thats-been-in-his-family-since-the-1100s",
+        "extractedContextSnippet": "John Goodall meets Charles Berkeley, whose family have owned Berkeley Castle in Gloucestershire for nine centuries, to find out about one of its most striking original features."
+      },
+      "sourceTriggers": [
+        {
+          "headline": "Charles Berkeley on the arch at the castle that's been in his family since the 1100s",
+          "category": "Country Life & Rural England",
+          "sourceUrl": "https://www.countrylife.co.uk/architecture/charles-berkeley-on-the-arch-at-the-castle-thats-been-in-his-family-since-the-1100s",
+          "extractedContextSnippet": "John Goodall meets Charles Berkeley, whose family have owned Berkeley Castle in Gloucestershire for nine centuries, to find out about one of its most striking original features."
+        },
+        {
+          "headline": "From blast off to splashdown: My days following Nasa's historic mission to the Moon",
+          "category": "Nature & Curious Science",
+          "sourceUrl": "https://www.bbc.co.uk/news/articles/clyrdkxvmmpo?at_medium=RSS&at_campaign=rss",
+          "extractedContextSnippet": "BBC Science Editor Rebecca Morelle reflects on how it felt to watch history being made."
+        }
+      ],
+      "weather": {
+        "label": "light drizzle",
+        "animation": "rain",
+        "temperatureC": 15.7,
+        "windKmh": 20.2
+      },
+      "generatedAtUk": "02/09/26 13:39",
+      "charactersInvolved": [
+        "Marigold Pemberton-Hale",
+        "Reverend Aubrey Finch",
+        "Mrs. Ottoline Vance"
+      ]
     }
   ],
-  "totalChapters": 1,
-  "totalWords": 325
+  "totalChapters": 4,
+  "totalWords": 1329
 }
