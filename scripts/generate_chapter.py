@@ -38,7 +38,6 @@ OLLAMA_HOST = "http://192.168.0.141:11434"
 
 TOP_MODELS = [
     'qwen2.5-coder:7b',
-    'qwen2.5-coder:14b',
     'qwen2.5-coder:32b',
     'mistral-small3.1:latest',
     'gemma3:12b',
