@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="paperwhite" data-font="bookerly" data-size="base" data-width="optimal" data-spacing="relaxed">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Willowbrook Mysteries — Kindle Reader</title>
+  <style>
+    :root {
+      --bg: #f7efe1;
+      --text: #3a2c1c;
+      --header-bg: rgba(247, 239, 225, 0.95);
+      --border: #e3d3ae;
+      --card-bg: rgba(255, 255, 255, 0.72);
+      --accent: #7a8f5c;
+      --accent-2: #c17a63;
+      --font-family: 'Bookerly', 'Georgia', serif;
+      --font-size: 19px;
+      --line-height: 1.8;
+      --max-width: 760px;
+      --paper-texture:
+        radial-gradient(circle at 15% 20%, rgba(196, 164, 108, 0.05) 0%, transparent 45%),
+        radial-gradient(circle at 85% 75%, rgba(122, 143, 92, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(193, 122, 99, 0.03) 0%, transparent 60%);
+    }
+    [data-theme="sepia"] {
+      --bg: #f4ecd8; --text: #2c2217; --header-bg: rgba(244, 236, 216, 0.95);
+      --border: #d8cca8; --card-bg: rgba(255, 255, 255, 0.5); --accent: #78350f; --accent-2: #a8622f;
+    }
+    [data-theme="dark"] {
+      --bg: #191510; --text: #ecdfc4; --header-bg: rgba(25, 21, 16, 0.95);
+      --border: #3d3527; --card-bg: #241f17; --accent: #9bc17e; --accent-2: #d99678;
+    }
+    [data-theme="mint"] {
+      --bg: #0d1b14; --text: #c2e0cb; --header-bg: rgba(13, 27, 20, 0.95);
+      --border: #1f3d2a; --card-bg: #112519; --accent: #52d18a; --accent-2: #6fb8d9;
+    }
+    [data-font="bookerly"] { --font-family: 'Bookerly', 'Georgia', serif; }
+    [data-font="georgia"] { --font-family: 'Georgia', 'Times New Roman', serif; }
+    [data-font="atkinson"] { --font-family: 'Atkinson Hyperlegible', sans-serif; }
+    [data-font="sans"] { --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+    [data-size="sm"] { --font-size: 16px; }
+    [data-size="base"] { --font-size: 19px; }
+    [data-size="lg"] { --font-size: 22px; }
+    [data-size="xl"] { --font-size: 26px; }
+    [data-width="narrow"] { --max-width: 620px; }
+    [data-width="optimal"] { --max-width: 760px; }
+    [data-width="wide"] { --max-width: 940px; }
+    body { background-color: var(--bg); background-image: var(--paper-texture); color: var(--text); font-family: var(--font-family); font-size: var(--font-size); line-height: var(--line-height); margin: 0; padding: 0; transition: all 0.2s ease; cursor: default; }
+    .top-nav { position: sticky; top: 0; background: var(--header-bg); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 10px 20px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; z-index: 100; font-family: -apple-system, sans-serif; font-size: 13px; }
+    .nav-left { display: flex; align-items: center; gap: 14px; }
+    .nav-title { font-weight: 800; letter-spacing: 0.5px; color: var(--accent); text-transform: uppercase; }
+    .nav-tabs { display: flex; gap: 4px; background: rgba(0,0,0,0.05); padding: 3px; border-radius: 6px; border: 1px solid var(--border); }
+    .nav-tab-btn { background: transparent; border: none; color: var(--text); padding: 4px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; }
+    .nav-tab-btn.active { background: var(--accent); color: #ffffff; }
+    .controls-group { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+    .ctrl-btn { background: transparent; border: 1px solid var(--border); color: var(--text); padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; transition: all 0.15s ease; }
+    .ctrl-btn:hover { border-color: var(--accent); background: rgba(0,0,0,0.05); }
+    .ctrl-btn.jump-latest { background: var(--accent); color: #ffffff; border-color: var(--accent); }
+    .floating-nav-hud { position: fixed; right: 20px; bottom: 70px; display: flex; flex-direction: column; gap: 8px; z-index: 99; font-family: -apple-system, sans-serif; }
+    .hud-btn { background: var(--header-bg); backdrop-filter: blur(12px); border: 1px solid var(--border); color: var(--text); padding: 8px 14px; border-radius: 20px; cursor: pointer; font-size: 12px; font-weight: bold; box-shadow: 0 4px 14px rgba(0,0,0,0.15); transition: transform 0.15s ease, background 0.15s ease; display: flex; align-items: center; gap: 6px; }
+    .hud-btn:hover { transform: translateY(-2px); border-color: var(--accent); color: var(--accent); }
+    .hud-btn.primary { background: var(--accent); color: #ffffff; border-color: var(--accent); }
+    .hud-btn.primary:hover { opacity: 0.9; color: #ffffff; }
+    .book-container { max-width: var(--max-width); margin: 0 auto; padding: 40px 20px 140px; transition: max-width 0.3s ease; }
+    .book-cover { text-align: center; margin-bottom: 40px; padding-bottom: 30px; border-bottom: 2px solid var(--border); }
+    .book-title { font-size: 2.2em; font-weight: 900; margin: 0 0 10px; line-height: 1.2; }
+    .book-subtitle { font-size: 1.1em; font-style: italic; opacity: 0.85; margin-bottom: 16px; }
+    .global-collapse-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; font-family: -apple-system, sans-serif; font-size: 13px; font-weight: bold; }
+    details.chapter-details { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; margin-bottom: 28px; overflow: hidden; scroll-margin-top: 80px; transition: box-shadow 0.2s ease, border-color 0.2s ease; box-shadow: 0 3px 14px rgba(60, 40, 20, 0.06); }
+    .chapter-hero-img { display: block; width: 100%; height: 220px; object-fit: cover; border-bottom: 1px solid var(--border); background: var(--border); }
+    .featuring-row { display: flex; align-items: center; gap: 6px; margin: 6px 0 12px; font-family: -apple-system, sans-serif; }
+    .featuring-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; color: var(--accent-2); margin-right: 4px; }
+    .featuring-avatar img { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--card-bg); box-shadow: 0 0 0 1px var(--border); display: block; margin-left: -8px; }
+    .featuring-avatar:first-of-type img { margin-left: 0; }
+    .toc-box { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; margin-bottom: 28px; overflow: hidden; box-shadow: 0 3px 14px rgba(60, 40, 20, 0.06); }
+    .toc-box-summary { padding: 16px 20px; cursor: pointer; font-weight: 800; font-family: -apple-system, sans-serif; font-size: 14px; color: var(--accent-2); user-select: none; }
+    .toc-list { list-style: none; margin: 0; padding: 0 12px 12px; }
+    .toc-item { margin: 0 0 4px; }
+    .toc-link { width: 100%; text-align: left; background: transparent; border: none; border-radius: 10px; padding: 10px 12px; cursor: pointer; display: flex; align-items: center; gap: 12px; font-family: inherit; color: var(--text); transition: background 0.15s ease; }
+    .toc-link:hover { background: rgba(0,0,0,0.04); }
+    .toc-num { flex: none; width: 26px; height: 26px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; font-family: -apple-system, sans-serif; }
+    .toc-text { display: flex; flex-direction: column; gap: 1px; font-size: 14.5px; }
+    .toc-text em { font-family: -apple-system, sans-serif; font-size: 12px; opacity: 0.75; font-style: italic; }
+    details.chapter-details.focused { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); }
+    summary.chapter-summary { padding: 16px 20px; cursor: pointer; user-select: none; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.02); border-bottom: 1px solid transparent; font-family: -apple-system, sans-serif; }
+    details.chapter-details[open] summary.chapter-summary { border-bottom: 1px solid var(--border); }
+    .summary-left { display: flex; align-items: center; gap: 10px; }
+    .chapter-badge { background: var(--accent); color: #ffffff; font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; }
+    .summary-title { font-size: 17px; font-weight: 800; }
+    .summary-right { display: flex; align-items: center; gap: 8px; }
+    .summary-pill { font-size: 11px; background: rgba(0,0,0,0.05); border: 1px solid var(--border); padding: 2px 8px; border-radius: 12px; font-weight: 600; }
+    .summary-pill.tone { background: rgba(63, 107, 79, 0.12); color: var(--accent); border-color: var(--accent); }
+    .chevron { font-size: 12px; transition: transform 0.2s ease; }
+    details.chapter-details[open] .chevron { transform: rotate(180deg); }
+    .chapter-body { padding: 28px 24px 20px; }
+    .chapter-header { margin-bottom: 24px; border-bottom: 1px solid var(--border); padding-bottom: 16px; }
+    .chapter-subtitle { font-size: 1.05em; font-style: italic; opacity: 0.85; margin-bottom: 8px; }
+    .chapter-meta-line { font-size: 12px; font-family: -apple-system, sans-serif; opacity: 0.8; margin-bottom: 14px; }
+    .quick-nav-links { margin-left: 8px; }
+    .mini-link { color: var(--text); text-decoration: underline; cursor: pointer; font-weight: 600; margin: 0 4px; }
+    .mini-link.highlight { color: var(--accent); font-weight: 800; }
+    details.source-story-details { background: rgba(0,0,0,0.03); border: 1px dashed var(--border); border-radius: 6px; margin: 12px 0; font-family: -apple-system, sans-serif; font-size: 12px; }
+    summary.source-summary { padding: 8px 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 700; color: var(--accent); }
+    .source-tag { background: rgba(0,0,0,0.08); padding: 1px 6px; border-radius: 3px; font-size: 10px; text-transform: uppercase; }
+    .source-content { padding: 10px 12px; border-top: 1px dashed var(--border); }
+    .source-item { margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px dashed var(--border); }
+    .source-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+
+    /* --- Animated weather widget (real Cotswolds weather via Open-Meteo) --- */
+    .weather-widget { display: flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.03); border: 1px solid var(--border); border-radius: 20px; padding: 3px 10px 3px 3px; }
+    .wx-scene { position: relative; width: 32px; height: 32px; flex: none; overflow: hidden; }
+    .wx-caption { font-size: 11px; font-family: -apple-system, sans-serif; }
+
+    .wx-sun { position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+    .wx-sun-core { width: 14px; height: 14px; border-radius: 50%; background: #f4b942; box-shadow: 0 0 8px 2px rgba(244, 185, 66, 0.6); }
+    .wx-sun-rays { position: absolute; inset: 0; animation: wx-spin 8s linear infinite; }
+    .wx-sun-rays::before, .wx-sun-rays::after { content: ''; position: absolute; top: 50%; left: 50%; width: 2px; height: 30px; background: rgba(244, 185, 66, 0.35); transform: translate(-50%, -50%); }
+    .wx-sun-rays::after { transform: translate(-50%, -50%) rotate(90deg); }
+    @keyframes wx-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+    .wx-cloud { position: absolute; top: 8px; left: 4px; width: 20px; height: 10px; background: #d8d2c4; border-radius: 10px; }
+    .wx-cloud::before { content: ''; position: absolute; top: -5px; left: 3px; width: 10px; height: 10px; background: #d8d2c4; border-radius: 50%; }
+    .wx-cloud-2 { top: 16px; left: 12px; width: 14px; height: 7px; opacity: 0.7; animation: wx-drift 6s ease-in-out infinite alternate; }
+    .wx-cloud-storm { background: #9c9484; }
+    .wx-cloud-storm::before { background: #9c9484; }
+    @keyframes wx-drift { from { transform: translateX(-3px); } to { transform: translateX(3px); } }
+
+    .wx-rain { position: absolute; inset: 0; }
+    .wx-drop { position: absolute; top: 16px; width: 2px; height: 8px; background: #6fa8c9; border-radius: 2px; animation: wx-fall 0.9s linear infinite; }
+    @keyframes wx-fall { from { transform: translateY(0); opacity: 1; } to { transform: translateY(14px); opacity: 0; } }
+
+    .wx-snow { position: absolute; inset: 0; }
+    .wx-flake { position: absolute; top: 14px; font-size: 8px; color: #cfe4f2; animation: wx-flutter 2.2s linear infinite; }
+    @keyframes wx-flutter { 0% { transform: translate(0,0); opacity: 1; } 100% { transform: translate(3px, 16px); opacity: 0; } }
+
+    .wx-fog { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; gap: 4px; }
+    .wx-fog-band { position: absolute; left: 0; width: 100%; height: 3px; background: rgba(180, 180, 180, 0.5); border-radius: 2px; animation: wx-fogslide 4s ease-in-out infinite alternate; }
+    @keyframes wx-fogslide { from { transform: translateX(-4px); opacity: 0.4; } to { transform: translateX(4px); opacity: 0.9; } }
+
+    .wx-bolt { position: absolute; bottom: 2px; right: 4px; font-size: 12px; animation: wx-flicker 1.4s ease-in-out infinite; }
+    @keyframes wx-flicker { 0%, 100% { opacity: 0; } 48%, 52% { opacity: 1; } 60% { opacity: 0.3; } }
+    .source-headline { display: block; margin-bottom: 4px; }
+    .source-snippet { margin: 0; opacity: 0.8; font-size: 11.5px; }
+    .threat-link { color: var(--accent); font-size: 11px; text-decoration: underline; font-weight: bold; display: inline-block; margin-top: 6px; }
+    .prose-content p { margin-bottom: 24px; text-align: justify; text-justify: inter-word; hyphens: auto; }
+    .prose-content p:first-of-type::first-letter { font-size: 3.2em; float: left; line-height: 0.85; padding-right: 8px; padding-top: 4px; color: var(--accent); font-weight: bold; }
+    .chapter-footer-nav { margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; font-family: -apple-system, sans-serif; }
+    .ch-nav-btn { background: var(--accent); color: #ffffff; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 14px; display: flex; align-items: center; gap: 8px; transition: opacity 0.15s ease, transform 0.15s ease; }
+    .ch-nav-btn:hover { opacity: 0.9; transform: translateX(3px); }
+    .chapter-footer-nav.latest-badge { display: flex; flex-direction: column; align-items: center; text-align: center; background: rgba(0,0,0,0.03); padding: 16px; border-radius: 6px; }
+    .pulse-dot { width: 10px; height: 10px; background: #10b981; border-radius: 50%; margin-bottom: 6px; box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2); }
+    .character-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 24px; box-shadow: 0 3px 14px rgba(60, 40, 20, 0.06); }
+    .char-header { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 16px; border-bottom: 1px solid var(--border); padding-bottom: 16px; }
+    .char-avatar { position: relative; flex: none; width: 72px; height: 72px; background: rgba(0,0,0,0.04); border-radius: 50%; border: 1px solid var(--border); overflow: visible; }
+    .char-avatar img { width: 100%; height: 100%; border-radius: 50%; display: block; }
+    .char-avatar-emoji { position: absolute; bottom: -4px; right: -4px; font-size: 20px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; line-height: 1; }
+    .char-title-area { flex: 1; }
+    .char-name-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 4px; }
+    .char-name { font-size: 22px; font-weight: 900; margin: 0; color: var(--accent); }
+    .char-role-badge { font-size: 11px; font-family: -apple-system, sans-serif; background: rgba(0,0,0,0.06); padding: 2px 8px; border-radius: 4px; font-weight: 700; border: 1px solid var(--border); }
+    .char-location { font-size: 13px; font-family: -apple-system, sans-serif; opacity: 0.85; margin-bottom: 4px; }
+    .char-status { font-size: 13px; font-family: -apple-system, sans-serif; color: var(--accent); }
+    .char-backstory { font-size: 15px; font-style: italic; margin-bottom: 18px; opacity: 0.9; }
+    .char-section { margin-top: 14px; font-family: -apple-system, sans-serif; }
+    .char-section-title { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; color: var(--accent); }
+    .inv-wrapper { display: flex; flex-wrap: wrap; gap: 6px; }
+    .inv-pill { font-size: 11px; background: rgba(0,0,0,0.05); border: 1px solid var(--border); padding: 3px 8px; border-radius: 4px; font-weight: 600; }
+    .rel-line { font-size: 12px; margin-bottom: 4px; }
+    .arc-list { margin: 0; padding-left: 20px; font-size: 13px; }
+    .arc-item { margin-bottom: 6px; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .progress-bar-fixed { position: fixed; bottom: 0; left: 0; right: 0; background: var(--header-bg); border-top: 1px solid var(--border); padding: 8px 24px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-family: -apple-system, sans-serif; opacity: 0.95; z-index: 100; }
+    .cursor-help { font-size: 11px; opacity: 0.7; }
+  </style>
+</head>
+<body>
+
+  <nav class="top-nav">
+    <div class="nav-left">
+      <div class="nav-title">📖 The Willowbrook Mysteries</div>
+      <div class="nav-tabs">
+        <button id="btnTabNovel" class="nav-tab-btn active" onclick="switchMainTab('novel')">📖 Read (6)</button>
+        <button id="btnTabCodex" class="nav-tab-btn" onclick="switchMainTab('codex')">👥 Cast (3)</button>
+      </div>
+    </div>
+    <div class="controls-group">
+      <button class="ctrl-btn jump-latest" onclick="scrollToChapter(6)">⚡ Latest (Ch 6)</button>
+      <button class="ctrl-btn" onclick="setFontSize('sm')">A-</button>
+      <button class="ctrl-btn" onclick="setFontSize('base')">A</button>
+      <button class="ctrl-btn" onclick="setFontSize('lg')">A+</button>
+      <button class="ctrl-btn" onclick="setFontSize('xl')">A++</button>
+      <select onchange="setFontFamily(this.value)" class="ctrl-btn" style="background:var(--header-bg);">
+        <option value="bookerly">Bookerly (Serif)</option>
+        <option value="georgia">Georgia</option>
+        <option value="atkinson">Atkinson (Accessible)</option>
+        <option value="sans">System Sans</option>
+      </select>
+      <button class="ctrl-btn" onclick="setColumnWidth('narrow')">Narrow</button>
+      <button class="ctrl-btn" onclick="setColumnWidth('optimal')">Optimal</button>
+      <button class="ctrl-btn" onclick="setColumnWidth('wide')">Wide</button>
+      <button class="ctrl-btn" onclick="setTheme('paperwhite')">Paperwhite</button>
+      <button class="ctrl-btn" onclick="setTheme('sepia')">Sepia</button>
+      <button class="ctrl-btn" onclick="setTheme('dark')">Dark</button>
+      <button class="ctrl-btn" onclick="setTheme('mint')">Mint</button>
+    </div>
+  </nav>
+
+  <aside class="floating-nav-hud">
+    <button class="hud-btn primary" onclick="scrollToChapter(6)" title="Jump to latest (Press End or L)"><span>⏩ Latest (Ch 6)</span></button>
+    <button class="hud-btn" onclick="scrollPrevChapter()" title="Previous chapter (Press ArrowLeft or P)"><span>▲ Prev Ch</span></button>
+    <button class="hud-btn" onclick="scrollNextChapter()" title="Next chapter (Press ArrowRight or N)"><span>▼ Next Ch</span></button>
+    <button class="hud-btn" onclick="scrollToChapter(1)" title="Return to Chapter 1 (Press Home)"><span>⏮️ Ch 1</span></button>
+  </aside>
+
+  <main class="book-container">
+    <div id="tabNovel" class="tab-content active">
+      <div class="book-cover">
+        <h1 class="book-title">The Willowbrook Mysteries</h1>
+        <div class="book-subtitle">Small Village. Large Curiosity. Continuous Cases Synthesised by Edge Intelligence</div>
+        <div style="font-size:12px; font-family:-apple-system,sans-serif; opacity:0.8;">
+          Authored by Edge AI Collective • 6 Chapters • 2127 Words • Real Headlines Woven In ✓
+        </div>
+      </div>
+      <details class="toc-box" open>
+        <summary class="toc-box-summary">📑 Table of Contents (6 Chapters)</summary>
+        <ol class="toc-list">
+          <li class="toc-item">
+              <button class="toc-link" onclick="scrollToChapter(1)">
+                <span class="toc-num">1</span>
+                <span class="toc-text">
+                  <strong>Willowbrook Whispers</strong>
+                  <em>A village tale of tea, gossip, and unexpected weight loss.</em>
+                </span>
+              </button>
+            </li><li class="toc-item">
+              <button class="toc-link" onclick="scrollToChapter(2)">
+                <span class="toc-num">2</span>
+                <span class="toc-text">
+                  <strong>Willowbrook Whispers Unraveled</strong>
+                  <em>A Mysterious Manor and a Hidden History Unveiled</em>
+                </span>
+              </button>
+            </li><li class="toc-item">
+              <button class="toc-link" onclick="scrollToChapter(3)">
+                <span class="toc-num">3</span>
+                <span class="toc-text">
+                  <strong>Willowbrook Whispers Unraveled</strong>
+                  <em>The Manor’s Mysterious Past and the Rain's Unusual Silence</em>
+                </span>
+              </button>
+            </li><li class="toc-item">
+              <button class="toc-link" onclick="scrollToChapter(4)">
+                <span class="toc-num">4</span>
+                <span class="toc-text">
+                  <strong>The Mysterious Echoes of Berkeley Castle</strong>
+                  <em>A Tea-Time Revelation and a Moonlit Mystery</em>
+                </span>
+              </button>
+            </li><li class="toc-item">
+              <button class="toc-link" onclick="scrollToChapter(5)">
+                <span class="toc-num">5</span>
+                <span class="toc-text">
+                  <strong>The Echoes of Willowbrook</strong>
+                  <em>A Tea-Time Revelation and a Moonlit Mystery</em>
+                </span>
+              </button>
+            </li><li class="toc-item">
+              <button class="toc-link" onclick="scrollToChapter(6)">
+                <span class="toc-num">6</span>
+                <span class="toc-text">
+                  <strong>Willowbrook Whispers: The Cheese and the Scooter</strong>
+                  <em>When a mystery cheese delivery collides with an e-scooter mishap, Marigold, Reverend Aubrey, and Mrs. Vance must untangle the tangled threads of village gossip and forgotten lore.</em>
+                </span>
+              </button>
+            </li>
+        </ol>
+      </details>
+
+      <div class="global-collapse-bar">
+        <span>All Chapters</span>
+        <div class="controls-group">
+          <button class="ctrl-btn" onclick="toggleAllChapters(true)">📂 Expand All</button>
+          <button class="ctrl-btn" onclick="toggleAllChapters(false)">📁 Collapse All</button>
+        </div>
+      </div>
+      
+        <details class="chapter-details" id="chapter-1" data-chapter-index="1" open>
+          <summary class="chapter-summary">
+            <div class="summary-left">
+              <span class="chapter-badge">Chapter 1</span>
+              <strong class="summary-title">Willowbrook Whispers</strong>
+            </div>
+            <div class="summary-right">
+              <span class="summary-pill">2 min read</span>
+              <span class="summary-pill">325 words</span>
+              <span class="summary-pill tone">Gentle Cosy Mystery</span>
+              <span class="chevron">▼</span>
+            </div>
+          </summary>
+
+          <article class="chapter-body">
+            <img class="chapter-hero-img" src="https://picsum.photos/seed/willowbrook-1/800/320" alt="" loading="lazy" width="800" height="320">
+            <header class="chapter-header">
+              <div class="chapter-subtitle">A village tale of tea, gossip, and unexpected weight loss.</div>
+              <div class="featuring-row">
+                <span class="featuring-label">Featuring</span>
+                <span class="featuring-avatar" title="Marigold Pemberton-Hale"><img src="https://api.dicebear.com/9.x/adventurer/svg?seed=char_marigold&backgroundType=gradientLinear&backgroundColor=f4e9d8,e8d5b7" alt="Marigold Pemberton-Hale" width="28" height="28" loading="lazy"></span><span class="featuring-avatar" title="Reverend Aubrey Finch"><img src="https://api.dicebear.com/9.x/adventurer/svg?seed=char_aubrey&backgroundType=gradientLinear&backgroundColor=f4e9d8,e8d5b7" alt="Reverend Aubrey Finch" width="28" height="28" loading="lazy"></span><span class="featuring-avatar" title="Mrs. Ottoline Vance"><img src="https://api.dicebear.com/9.x/adventurer/svg?seed=char_ottoline&backgroundType=gradientLinear&backgroundColor=f4e9d8,e8d5b7" alt="Mrs. Ottoline Vance" width="28" height="28" loading="lazy"></span>
+                
+    <div class="weather-widget" title="Real Cotswolds weather when this chapter was written">
+      <div class="wx-scene wx-rain"><div class="wx-cloud"></div><div class="wx-rain"><span class="wx-drop" style="left:12%;animation-delay:0.0s"></span><span class="wx-drop" style="left:25%;animation-delay:0.18s"></span><span class="wx-drop" style="left:38%;animation-delay:0.36s"></span><span class="wx-drop" style="left:51%;animation-delay:0.54s"></span><span class="wx-drop" style="left:64%;animation-delay:0.72s"></span><span class="wx-drop" style="left:77%;animation-delay:0.8999999999999999s"></span></div></div>
+      <div class="wx-caption"><strong>light drizzle</strong> • 16°C</div>
+    </div>
+    
+              </div>
+              <div class="chapter-meta-line">
+                <span>Model: <strong>qwen2.5-coder:7b</strong></span> •
+                <span>Generated: 02/09/26 13:32 UK</span> •
+                <span class="quick-nav-links">
+                  
+                  <a href="#chapter-2" onclick="scrollToChapter(2); return false;" class="mini-link">Next Ch ▶</a> •
+                  <a href="#chapter-6" onclick="scrollToChapter(6); return false;" class="mini-link highlight">Latest (Ch 6) ⏩</a>
+                </span>
+              </div>
+
+              <details class="source-story-details">
+                <summary class="source-summary">
+                  <span>📰 Real-World Inspiration (2 sources)</span>
+                </summary>
+                <div class="source-content">
+                  <div class="source-item">
+                  <span class="source-tag">Cotswolds & Local Gloucestershire News</span>
+                  <strong class="source-headline">'I'm a fitness instructor and you need to do only 1 thing for weight loss'</strong>
+                  <p class="source-snippet">A fitness instructor has shared that doing one thing for weight loss could be more effective than running or high-intensity workouts – and it's even backed by the NHS</p>
+                  <a href="https://www.gloucestershirelive.co.uk/news/health/im-fitness-instructor-you-need-11132521" target="_blank" rel="noopener noreferrer" class="threat-link">🔗 Read the real article ➔</a>
+                </div><div class="source-item">
+                  <span class="source-tag">Caravan & Motorhome Life</span>
+                  <strong class="source-headline">5 weekend-friendly DIY projects to improve your motorhome</strong>
+                  <p class="source-snippet">A motorhome should feel like home from the moment you step inside, but small niggles can chip away at that feeling over time. The good news is you don&#8217;t need any real DIY experience to fix them. These five projects can each be done in a weekend and every one makes a noticeable difference on... Read more &#187; The post 5 weekend-friendly DIY projects to improve your motorhome appeared first on CaravanTimes .</p>
+                  <a href="https://www.caravantimes.co.uk/news/5-weekend-friendly-diy-projects-to-improve-your-motorhome/" target="_blank" rel="noopener noreferrer" class="threat-link">🔗 Read the real article ➔</a>
+                </div>
+                </div>
+              </details>
+            </header>
+
+            <div class="prose-content">
+              <p>Marigold Pemberton-Hale stood beneath the drizzly sky of the Cotswolds, her eyes scanning the rows of bookshelves at Pemberton Books. The light rain pattered softly against the windowsill, casting a gentle sheen over the old stone walls. Today was Sunday, and her mind wandered as it often did during these quiet afternoons.</p><p>The latest addition to her collection caught her eye—a small, leather-bound journal titled "A Day in the Life of an Unlikely Fitness Guru." Curious, Marigold opened it to find a fitness instructor's advice on weight loss. The simplicity of his suggestion—doing only one thing for weight loss—made her smile. Who knew that even in the sleepy Cotswolds, there could be such a practical guide?</p><p>Meanwhile, Reverend Aubrey Finch stood at the vestry door, listening intently to the conversations filtering through the walls. "Mrs. Vance," he heard someone call out from inside the tearoom. His heart skipped a beat as he recognized the voice of his old friend and rival.</p><p>"Good afternoon, Reverend," Mrs. Vance replied warmly, her eyes twinkling behind the lacey veil she wore. "I was just telling Marigold about this fantastic new fitness journal I found."</p><p>Reverend Finch's ears perked up. "Oh, really? What did it say?"</p><p>"It all boils down to doing one thing for weight loss," Mrs. Vance explained excitedly. "The NHS even backs it!"</p><p>Reverend Finch felt a pang of envy. He had always prided himself on his knowledge and expertise, but now it seemed that the Cotswolds could offer something more practical than his theological musings.</p><p>As Marigold closed the journal, she felt a twinge of curiosity. What exactly did this one thing entail? And why was it so effective?</p><p>The village buzzed with activity around her—children playing in the hedgerows, women chatting over tea at the tearoom, and men discussing the latest news from the Cotswolds. Yet, Marigold couldn't shake off the feeling that there was something more to this quiet Sunday than met the eye.</p>
+            </div>
+
+            
+            <div class="chapter-footer-nav">
+              <button class="ch-nav-btn next" onclick="scrollToChapter(2)">
+                <span>Continue to Chapter 2</span>
+                <span class="btn-arrow">➔</span>
+              </button>
+            </div>
+            
+          </article>
+        </details>
+        
+        <details class="chapter-details" id="chapter-2" data-chapter-index="2" open>
+          <summary class="chapter-summary">
+            <div class="summary-left">
+              <span class="chapter-badge">Chapter 2</span>
+              <strong class="summary-title">Willowbrook Whispers Unraveled</strong>
+            </div>
+            <div class="summary-right">
+              <span class="summary-pill">2 min read</span>
+              <span class="summary-pill">343 words</span>
+              <span class="summary-pill tone">Quietly Unsettling Village Mystery</span>
+              <span class="chevron">▼</span>
+            </div>
+          </summary>
+
+          <article class="chapter-body">
+            <img class="chapter-hero-img" src="https://picsum.photos/seed/willowbrook-2/800/320" alt="" loading="lazy" width="800" height="320">
+            <header class="chapter-header">
+              <div class="chapter-subtitle">A Mysterious Manor and a Hidden History Unveiled</div>
+              <div class="featuring-row">
+                <span class="featuring-label">Featuring</span>
+                <span class="featuring-avatar" title="Marigold Pemberton-Hale"><img src="https://api.dicebear.com/9.x/adventurer/svg?seed=char_marigold&backgroundType=gradientLinear&backgroundColor=f4e9d8,e8d5b7" alt="Marigold Pemberton-Hale" width="28" height="28" loading="lazy"></span><span class="featuring-avatar" title="Reverend Aubrey Finch"><img src="https://api.dicebear.com/9.x/adventurer/svg?seed=char_aubrey&backgroundType=gradientLinear&backgroundColor=f4e9d8,e8d5b7" alt="Reverend Aubrey Finch" width="28" height="28" loading="lazy"></span><span class="featuring-avatar" title="Mrs. Ottoline Vance"><img src="https://api.dicebear.com/9.x/adventurer/svg?seed=char_ottoline&backgroundType=gradientLinear&backgroundColor=f4e9d8,e8d5b7" alt="Mrs. Ottoline Vance" width="28" height="28" loading="lazy"></span>
+                
+    <div class="weather-widget" title="Real Cotswolds weather when this chapter was written">
+      <div class="wx-scene wx-rain"><div class="wx-cloud"></div><div class="wx-rain"><span class="wx-drop" style="left:12%;animation-delay:0.0s"></span><span class="wx-drop" style="left:25%;animation-delay:0.18s"></span><span class="wx-drop" style="left:38%;animation-delay:0.36s"></span><span class="wx-drop" style="left:51%;animation-delay:0.54s"></span><span class="wx-drop" style="left:64%;animation-delay:0.72s"></span><span class="wx-drop" style="left:77%;animation-delay:0.8999999999999999s"></span></div></div>
+      <div class="wx-caption"><strong>light drizzle</strong> • 16°C</div>
+    </div>
+    
+              </div>
+              <div class="chapter-meta-line">
+                <span>Model: <strong>qwen2.5-coder:7b</strong></span> •
+                <span>Generated: 02/09/26 13:38 UK</span> •
+                <span class="quick-nav-links">
+                  <a href="#chapter-1" onclick="scrollToChapter(1); return false;" class="mini-link">◀ Prev Ch</a> •
+                  <a href="#chapter-3" onclick="scrollToChapter(3); return false;" class="mini-link">Next Ch ▶</a> •
+                  <a href="#chapter-6" onclick="scrollToChapter(6); return false;" class="mini-link highlight">Latest (Ch 6) ⏩</a>
+                </span>
+              </div>
+
+              <details class="source-story-details">
+                <summary class="source-summary">
+                  <span>📰 Real-World Inspiration (2 sources)</span>
+                </summary>
+                <div class="source-content">
+                  <div class="source-item">
+                  <span class="source-tag">Uplifting & Community News</span>
+                  <strong class="source-headline">Good News in History, September 1</strong>
+                  <p class="source-snippet">881 years ago today, Ibn Jubayir was born in Moorish Spain. This pilgrim and talented writer went on the Hajj to Mecca in 1183, and penned a valuable, beautiful, first-hand account of the places and people he saw, which included the Crusader states of Acre and the island of Sicily as controlled by the Norman [&#8230;] The post Good News in History, September 1 appeared first on Good News Network .</p>
+                  <a href="https://www.goodnewsnetwork.org/events060901/" target="_blank" rel="noopener noreferrer" class="threat-link">🔗 Read the real article ➔</a>
+                </div><div class="source-item">
+                  <span class="source-tag">Country Life & Rural England</span>
+                  <strong class="source-headline">Finding gold: An unexpected journey from river to ring</strong>
+                  <p class="source-snippet">When you get married, more often than not, you don a gold ring. But what has happened to that gold on its journey to your finger? Lotte Brundle goes on a treasure hunt.</p>
+                  <a href="https://www.countrylife.co.uk/lifestyle/jewellery/finding-gold-an-unexpected-journey-from-river-to-ring" target="_blank" rel="noopener noreferrer" class="threat-link">🔗 Read the real article ➔</a>
+                </div>
+                </div>
+              </details>
+            </header>
+
+            <div class="prose-content">
+              <p>Marigold Pemberton-Hale strolled through the rain-soaked streets of Willowbrook-on-Fen, her umbrella barely keeping up with the light drizzle. The air was crisp at 15.7°C, the kind that made you want to huddle in a cozy sweater and sip on a steaming cuppa. Her eyes scanned the rows of bookshelves at Pemberton Books, where the scent of old paper and ink filled the air. As she reached for another volume, her gaze fell upon a small, leather-bound journal nestled among the new arrivals.</p><p>The journal was unlike anything Marigold had seen before—its cover bore an intricate design that seemed to shift and change with the light. She opened it and found pages filled with delicate script and vivid descriptions of travels far from home. The first entry spoke of Ibn Jubayir, a pilgrim who had walked through lands as exotic as Acre and Sicily. Marigold smiled, tracing the lines of his handwriting.</p><p>As she turned the pages, another drawing caught her eye—a map that appeared to be a cross between medieval manuscript and modern GPS. The location was marked with a small, gold ring inscribed with the words "Norman Legacy." Intrigued, Marigold pocketed the journal and made her way to the tearoom down the street.</p><p>The Willowbrook Tearoom buzzed with activity as Mrs. Ottoline Vance bustled about behind the counter. The aroma of freshly baked bread and sweet tea filled the air. Marigold spotted Reverend Aubrey Finch, his eyes gleaming with a mixture of curiosity and mischief, standing at one of the windows, pretending to check the weather.</p><p>"Good afternoon, Inspector," Mrs. Ottoline greeted her warmly. "What can I do for you today?"</p><p>Marigold smiled politely. "I was wondering if you could tell me about that gold ring in the journal."</p><p>Mrs. Ottoline's eyes widened with interest. "Oh, that one! It's quite a story, really. A man brought it to town a few years back, claiming it belonged to his great-grandfather. But no one has ever been able to trace its origins."</p><p>Reverend Aubrey leaned in closer, eager for the details. "That sounds fascinating.</p>
+            </div>
+
+            
+            <div class="chapter-footer-nav">
+              <button class="ch-nav-btn next" onclick="scrollToChapter(3)">
+                <span>Continue to Chapter 3</span>
+                <span class="btn-arrow">➔</span>
+              </button>
+            </div>
+            
+          </article>
+        </details>
+        
+        <details class="chapter-details" id="chapter-3" data-chapter-index="3" open>
+          <summary class="chapter-summary">
+            <div class="summary-left">
+              <span class="chapter-badge">Chapter 3</span>
+              <strong class="summary-title">Willowbrook Whispers Unraveled</strong>
+            </div>
+            <div class="summary-right">
+              <span class="summary-pill">2 min read</span>
+              <span class="summary-pill">336 words</span>
+              <span class="summary-pill tone">Quietly Unsettling Village Mystery</span>
+              <span class="chevron">▼</span>
+            </div>
+          </summary>
+
+          <article class="chapter-body">
+            <img class="chapter-hero-img" src="https://picsum.photos/seed/willowbrook-3/800/320" alt="" loading="lazy" width="800" height="320">
+            <header class="chapter-header">
+              <div class="chapter-subtitle">The Manor’s Mysterious Past and the Rain's Unusual Silence</div>
+              <div class="featuring-row">
+                <span class="featuring-label">Featuring</span>
+                <span class="featuring-avatar" title="Marigold Pemberton-Hale"><img src="https://api.dicebear.com/9.x/adventurer/svg?seed=char_marigold&backgroundType=gradientLinear&backgroundColor=f4e9d8,e8d5b7" alt="Marigold Pemberton-Hale" width="28" height="28" loading="lazy"></span><span class="featuring-avatar" title="Reverend Aubrey Finch"><img src="https://api.dicebear.com/9.x/adventurer/svg?seed=char_aubrey&backgroundType=gradientLinear&backgroundColor=f4e9d8,e8d5b7" alt="Reverend Aubrey Finch" width="28" height="28" loading="lazy"></span><span class="featuring-avatar" title="Mrs. Ottoline Vance"><img src="https://api.dicebear.com/9.x/adventurer/svg?seed=char_ottoline&backgroundType=gradientLinear&backgroundColor=f4e9d8,e8d5b7" alt="Mrs. Ottoline Vance" width="28" height="28" loading="lazy"></span>
+                
+    <div class="weather-widget" title="Real Cotswolds weather when this chapter was written">
+      <div class="wx-scene wx-rain"><div class="wx-cloud"></div><div class="wx-rain"><span class="wx-drop" style="left:12%;animation-delay:0.0s"></span><span class="wx-drop" style="left:25%;animation-delay:0.18s"></span><span class="wx-drop" style="left:38%;animation-delay:0.36s"></span><span class="wx-drop" style="left:51%;animation-delay:0.54s"></span><span class="wx-drop" style="left:64%;animation-delay:0.72s"></span><span class="wx-drop" style="left:77%;animation-delay:0.8999999999999999s"></span></div></div>
+      <div class="wx-caption"><strong>light drizzle</strong> • 16°C</div>
+    </div>
+    
+              </div>
+              <div class="chapter-meta-line">
+                <span>Model: <strong>qwen2.5-coder:7b</strong></span> •
+                <span>Generated: 02/09/26 13:38 UK</span> •
+                <span class="quick-nav-links">
+                  <a href="#chapter-2" onclick="scrollToChapter(2); return false;" class="mini-link">◀ Prev Ch</a> •
+                  <a href="#chapter-4" onclick="scrollToChapter(4); return false;" class="mini-link">Next Ch ▶</a> •
+                  <a href="#chapter-6" onclick="scrollToChapter(6); return false;" class="mini-link highlight">Latest (Ch 6) ⏩</a>
+                </span>
+              </div>
+
+              <details class="source-story-details">
+                <summary class="source-summary">
+                  <span>📰 Real-World Inspiration (2 sources)</span>
+                </summary>
+                <div class="source-content">
+                  <div class="source-item">
+                  <span class="source-tag">Nature & Curious Science</span>
+                  <strong class="source-headline">More hosepipe bans in force as drought declared - is your area affected?</strong>
+                  <p class="source-snippet">About 30 million people have been placed under hosepipe bans due to higher demand and low rainfall.</p>
+                  <a href="https://www.bbc.co.uk/news/articles/crk661074ejo?at_medium=RSS&at_campaign=rss" target="_blank" rel="noopener noreferrer" class="threat-link">🔗 Read the real article ➔</a>
+                </div><div class="source-item">
+                  <span class="source-tag">Farming & Rural Affairs</span>
+                  <strong class="source-headline">Guidance: Fishing opportunities for British fishing boats: summary of current determinations</strong>
+                  <p class="source-snippet">Summary of the determinations that set out current fishing opportunities for certain fish stocks.</p>
+                  <a href="https://www.gov.uk/government/publications/fishing-opportunities-for-british-fishing-boats-summary-of-current-determinations" target="_blank" rel="noopener noreferrer" class="threat-link">🔗 Read the real article ➔</a>
+                </div>
+                </div>
+              </details>
+            </header>
+
+            <div class="prose-content">
+              <p>Marigold Pemberton-Hale strolled through the rain-soaked streets of Willowbrook-on-Fen, her umbrella barely keeping up with the light drizzle. The air was crisp at 15.7°C, the kind of weather that made you think the Cotswolds had finally given in to autumn. She paused outside the door of Pemberton Books, a small sign reading "New Arrivals" hanging above it. She could hear the distant chime of the church bell and the soft murmur of chatter coming from within.</p><p>As she entered, the scent of old books filled her nostrils, mingling with the faint aroma of tea. Marigold settled into her usual spot at the desk, a steaming mug of Earl Grey in front of her. The rain had brought a certain quietude to the village, and it was this peace that made her particularly attuned to any unusual sounds or whispers.</p><p>She heard the soft rattle of glass as Mrs. Ottoline Vance approached with a tray of freshly baked scones and clotted cream. "Good afternoon, Marigold," she said, setting down the tray with a flourish. "Have you seen Reverend Aubrey Finch today? He’s been unusually quiet."</p><p>Marigold nodded, her eyes scanning the room. "I haven’t, but then he has his Sundays off now. Is there anything in particular you wanted to talk about?"</p><p>"Ah, yes," Mrs. Ottoline replied with a mischievous glint in her eye. "You know how we all have our secrets here, don’t we? Well, Aubrey’s been talking about the old manor on the hillside. He’s been saying it holds more secrets than it does bricks."</p><p>Marigold smiled, intrigued by the idea of an old manor with hidden histories. "What makes you think so?"</p><p>Mrs. Ottoline leaned in conspiratorially. "Well, have you noticed how the rain seems to be unusually quiet today? Not like the usual patter on these streets. And let’s not forget that hosepipe ban they’ve got going on. It’s been a while since we had such strict water conservation rules."</p><p>Marigold raised an eyebrow, feeling a sense of unease stir in her stomach.</p>
+            </div>
+
+            
+            <div class="chapter-footer-nav">
+              <button class="ch-nav-btn next" onclick="scrollToChapter(4)">
+                <span>Continue to Chapter 4</span>
+                <span class="btn-arrow">➔</span>
+              </button>
+            </div>
+            
+          </article>
+        </details>
+        
+        <details class="chapter-details" id="chapter-4" data-chapter-index="4" open>
+          <summary class="chapter-summary">
+            <div class="summary-left">
+              <span class="chapter-badge">Chapter 4</span>
+              <strong class="summary-title">The Mysterious Echoes of Berkeley Castle</strong>
+            </div>
+            <div class="summary-right">
+              <span class="summary-pill">2 min read</span>
+              <span class="summary-pill">325 words</span>
+              <span class="summary-pill tone">Gentle Cosy Mystery</span>
+              <span class="chevron">▼</span>
+            </div>
+          </summary>
+
+          <article class="chapter-body">
+            <img class="chapter-hero-img" src="https://picsum.photos/seed/willowbrook-4/800/320" alt="" loading="lazy" width="800" height="320">
+            <header class="chapter-header">
+              <div class="chapter-subtitle">A Tea-Time Revelation and a Moonlit Mystery</div>
+              <div class="featuring-row">
+                <span class="featuring-label">Featuring</span>
+                <span class="featuring-avatar" title="Marigold Pemberton-Hale"><img src="https://api.dicebear.com/9.x/adventurer/svg?seed=char_marigold&backgroundType=gradientLinear&backgroundColor=f4e9d8,e8d5b7" alt="Marigold Pemberton-Hale" width="28" height="28" loading="lazy"></span><span class="featuring-avatar" title="Reverend Aubrey Finch"><img src="https://api.dicebear.com/9.x/adventurer/svg?seed=char_aubrey&backgroundType=gradientLinear&backgroundColor=f4e9d8,e8d5b7" alt="Reverend Aubrey Finch" width="28" height="28" loading="lazy"></span><span class="featuring-avatar" title="Mrs. Ottoline Vance"><img src="https://api.dicebear.com/9.x/adventurer/svg?seed=char_ottoline&backgroundType=gradientLinear&backgroundColor=f4e9d8,e8d5b7" alt="Mrs. Ottoline Vance" width="28" height="28" loading="lazy"></span>
+                
+    <div class="weather-widget" title="Real Cotswolds weather when this chapter was written">
+      <div class="wx-scene wx-rain"><div class="wx-cloud"></div><div class="wx-rain"><span class="wx-drop" style="left:12%;animation-delay:0.0s"></span><span class="wx-drop" style="left:25%;animation-delay:0.18s"></span><span class="wx-drop" style="left:38%;animation-delay:0.36s"></span><span class="wx-drop" style="left:51%;animation-delay:0.54s"></span><span class="wx-drop" style="left:64%;animation-delay:0.72s"></span><span class="wx-drop" style="left:77%;animation-delay:0.8999999999999999s"></span></div></div>
+      <div class="wx-caption"><strong>light drizzle</strong> • 16°C</div>
+    </div>
+    
+              </div>
+              <div class="chapter-meta-line">
+                <span>Model: <strong>qwen2.5-coder:7b</strong></span> •
+                <span>Generated: 02/09/26 13:39 UK</span> •
+                <span class="quick-nav-links">
+                  <a href="#chapter-3" onclick="scrollToChapter(3); return false;" class="mini-link">◀ Prev Ch</a> •
+                  <a href="#chapter-5" onclick="scrollToChapter(5); return false;" class="mini-link">Next Ch ▶</a> •
+                  <a href="#chapter-6" onclick="scrollToChapter(6); return false;" class="mini-link highlight">Latest (Ch 6) ⏩</a>
+                </span>
+              </div>
+
+              <details class="source-story-details">
+                <summary class="source-summary">
+                  <span>📰 Real-World Inspiration (2 sources)</span>
+                </summary>
+                <div class="source-content">
+                  <div class="source-item">
+                  <span class="source-tag">Country Life & Rural England</span>
+                  <strong class="source-headline">Charles Berkeley on the arch at the castle that's been in his family since the 1100s</strong>
+                  <p class="source-snippet">John Goodall meets Charles Berkeley, whose family have owned Berkeley Castle in Gloucestershire for nine centuries, to find out about one of its most striking original features.</p>
+                  <a href="https://www.countrylife.co.uk/architecture/charles-berkeley-on-the-arch-at-the-castle-thats-been-in-his-family-since-the-1100s" target="_blank" rel="noopener noreferrer" class="threat-link">🔗 Read the real article ➔</a>
+                </div><div class="source-item">
+                  <span class="source-tag">Nature & Curious Science</span>
+                  <strong class="source-headline">From blast off to splashdown: My days following Nasa's historic mission to the Moon</strong>
+                  <p class="source-snippet">BBC Science Editor Rebecca Morelle reflects on how it felt to watch history being made.</p>
+                  <a href="https://www.bbc.co.uk/news/articles/clyrdkxvmmpo?at_medium=RSS&at_campaign=rss" target="_blank" rel="noopener noreferrer" class="threat-link">🔗 Read the real article ➔</a>
+                </div>
+                </div>
+              </details>
+            </header>
+
+            <div class="prose-content">
+              <p>Marigold Pemberton-Hale strolled through the rain-soaked streets of Willowbrook-on-Fen, her umbrella barely keeping up with the light drizzle. The air was crisp at 15.7°C, the kind that made one feel almost as chilled as the silence in the village library, where she had just overheard a snippet about a mysterious book titled "The Echoes of Berkeley Castle." Her curiosity piqued, Marigold decided to investigate further.</p><p>As she passed by the Willowbrook Tearoom, the Green, she noticed Mrs. Ottoline Vance serving tea at her counter. The aroma of freshly brewed tea wafted through the air, mingling with the scent of rain-soaked earth and blooming hedgerows. "A lovely day for a cuppa," Marigold remarked as she took a seat.</p><p>"Indeed," replied Mrs. Vance, her eyes twinkling with interest. "What brings you to our little village, Detective Inspector?"</p><p>"I'm looking into a rather peculiar book mentioned in the library," Marigold explained. "The Echoes of Berkeley Castle. It's said to hold secrets about the history of the castle that's been in your family since the 1100s."</p><p>Mrs. Vance's eyes widened with intrigue. "Ah, yes, Berkeley Castle. A family treasure indeed! Do tell me more about this book."</p><p>Marigold leaned in closer, her curiosity piqued. "Well, it seems to be a collection of old photographs and stories passed down through generations. The last owner, Charles Berkeley, was quite the eccentric, always talking about the castle's hidden rooms and mysterious past."</p><p>As Marigold shared more details, she couldn't help but notice Reverend Aubrey Finch approaching with his Sunday sermon on the porch. His eyes darted around nervously as he overheard their conversation. Marigold winked at him, knowing he would be eager to hear more about this intriguing book.</p><p>"Speaking of history," Mrs. Vance interjected, "I heard the vicar is giving a talk on the Cotswolds' most famous historical sites. Maybe you'd like to join us for that?"</p><p>Marigold smiled warmly. "That sounds delightful! I might just pop by after my tea."</p>
+            </div>
+
+            
+            <div class="chapter-footer-nav">
+              <button class="ch-nav-btn next" onclick="scrollToChapter(5)">
+                <span>Continue to Chapter 5</span>
+                <span class="btn-arrow">➔</span>
+              </button>
+            </div>
+            
+          </article>
+        </details>
+        
+        <details class="chapter-details" id="chapter-5" data-chapter-index="5" open>
+          <summary class="chapter-summary">
+            <div class="summary-left">
+              <span class="chapter-badge">Chapter 5</span>
+              <strong class="summary-title">The Echoes of Willowbrook</strong>
+            </div>
+            <div class="summary-right">
+              <span class="summary-pill">2 min read</span>
+              <span class="summary-pill">428 words</span>
+              <span class="summary-pill tone">Warm-Hearted Amateur Sleuth Caper</span>
+              <span class="chevron">▼</span>
+            </div>
+          </summary>
+
+          <article class="chapter-body">
+            <img class="chapter-hero-img" src="https://picsum.photos/seed/willowbrook-5/800/320" alt="" loading="lazy" width="800" height="320">
+            <header class="chapter-header">
+              <div class="chapter-subtitle">A Tea-Time Revelation and a Moonlit Mystery</div>
+              <div class="featuring-row">
+                <span class="featuring-label">Featuring</span>
+                <span class="featuring-avatar" title="Marigold Pemberton-Hale"><img src="https://api.dicebear.com/9.x/adventurer/svg?seed=char_marigold&backgroundType=gradientLinear&backgroundColor=f4e9d8,e8d5b7" alt="Marigold Pemberton-Hale" width="28" height="28" loading="lazy"></span><span class="featuring-avatar" title="Reverend Aubrey Finch"><img src="https://api.dicebear.com/9.x/adventurer/svg?seed=char_aubrey&backgroundType=gradientLinear&backgroundColor=f4e9d8,e8d5b7" alt="Reverend Aubrey Finch" width="28" height="28" loading="lazy"></span><span class="featuring-avatar" title="Mrs. Ottoline Vance"><img src="https://api.dicebear.com/9.x/adventurer/svg?seed=char_ottoline&backgroundType=gradientLinear&backgroundColor=f4e9d8,e8d5b7" alt="Mrs. Ottoline Vance" width="28" height="28" loading="lazy"></span>
+                
+    <div class="weather-widget" title="Real Cotswolds weather when this chapter was written">
+      <div class="wx-scene wx-rain"><div class="wx-cloud"></div><div class="wx-rain"><span class="wx-drop" style="left:12%;animation-delay:0.0s"></span><span class="wx-drop" style="left:25%;animation-delay:0.18s"></span><span class="wx-drop" style="left:38%;animation-delay:0.36s"></span><span class="wx-drop" style="left:51%;animation-delay:0.54s"></span><span class="wx-drop" style="left:64%;animation-delay:0.72s"></span><span class="wx-drop" style="left:77%;animation-delay:0.8999999999999999s"></span></div></div>
+      <div class="wx-caption"><strong>light drizzle</strong> • 16°C</div>
+    </div>
+    
+              </div>
+              <div class="chapter-meta-line">
+                <span>Model: <strong>qwen2.5-coder:7b</strong></span> •
+                <span>Generated: 02/09/26 13:44 UK</span> •
+                <span class="quick-nav-links">
+                  <a href="#chapter-4" onclick="scrollToChapter(4); return false;" class="mini-link">◀ Prev Ch</a> •
+                  <a href="#chapter-6" onclick="scrollToChapter(6); return false;" class="mini-link">Next Ch ▶</a> •
+                  <a href="#chapter-6" onclick="scrollToChapter(6); return false;" class="mini-link highlight">Latest (Ch 6) ⏩</a>
+                </span>
+              </div>
+
+              <details class="source-story-details">
+                <summary class="source-summary">
+                  <span>📰 Real-World Inspiration (2 sources)</span>
+                </summary>
+                <div class="source-content">
+                  <div class="source-item">
+                  <span class="source-tag">Country Life & Rural England</span>
+                  <strong class="source-headline">It's karaoke in the Country Life Quiz of the Day, August 24, 2026</strong>
+                  <p class="source-snippet">We have the lyrics, but do you know the song titles? Put your knowledge to the test in today's quiz.</p>
+                  <a href="https://www.countrylife.co.uk/quiz/its-karaoke-in-the-country-life-quiz-of-the-day-august-24-2026" target="_blank" rel="noopener noreferrer" class="threat-link">🔗 Read the real article ➔</a>
+                </div><div class="source-item">
+                  <span class="source-tag">Uplifting & Community News</span>
+                  <strong class="source-headline">Inventor Envisioned a Waterless Toilet for Astronauts, Realized it Could Solve a Global Sanitation Crisis Instead</strong>
+                  <p class="source-snippet">An inventor and serial entrepreneur has created a non-flushing, waterless toilet that&#8217;s already making sanitation safer and accessible for some 20,000 households, Deployed in Uganda, Panama, and the United States, the &#8216;iThrone&#8217; was created when Diana Yousef was working at NASA on spaceborne sanitation. While brainstorming bathrooms on board space stations, Yousef realized that the [&#8230;] The post Inventor Envisioned a Waterless Toilet for Astronauts, Realized it Could Solve a Global Sanitation Crisis Instead appeared first on Good News Network .</p>
+                  <a href="https://www.goodnewsnetwork.org/inventor-envisioned-a-waterless-toilet-for-astronauts-realized-it-could-solve-a-global-sanitation-crisis-instead/" target="_blank" rel="noopener noreferrer" class="threat-link">🔗 Read the real article ➔</a>
+                </div>
+                </div>
+              </details>
+            </header>
+
+            <div class="prose-content">
+              <p>Marigold Pemberton-Hale waded through the light drizzle, her umbrella barely keeping up with the gentle rain. The air was crisp at 15.7°C, the kind that made her think of cozy evenings spent indoors over steaming cups of tea. She strolled down Willow Lane towards Pemberton Books, determined to uncover more about 'The Echoes of Berkeley Castle'. As she approached the small bookshop, the scent of old paper and ink filled the air, drawing her inside.</p><p>Inside, the shop was dimly lit by the soft glow of candlelight and the gentle murmur of conversation. Mrs. Ottoline Vance, the owner of The Willowbrook Tearoom, sat at the counter, serving tea and listening to the latest gossip. Her eyes fixed on Marigold as she passed by, her expression a mix of curiosity and disapproval.</p><p>"Good evening, Inspector Pemberton-Hale," Mrs. Vance greeted warmly, almost too warmly for Marigold’s liking. "What brings you to our little bookshop this fine evening?"</p><p>Marigold smiled politely, trying not to let her irritation show. "I'm just looking for a few more clues about 'The Echoes of Berkeley Castle'. I've been chasing some leads all day."</p><p>Mrs. Vance's eyes narrowed slightly as she continued serving tea. "That case is causing quite the stir around here, Inspector. People have been whispering and gossiping like it’s their own personal scandal."</p><p>Marigold shook her head. "Nonsense. It's just a bit of local history that needs some unraveling."</p><p>As she settled into a chair by the window, Marigold couldn't help but notice the steeple of St. Wilfred's Church casting long shadows across the graveyard below. The vicar, Reverend Aubrey Finch, was rehearsing his sermon in the church hall. His voice carried through the air, echoing off the walls and adding to the quiet atmosphere.</p><p>Reverend Finch's voice filled her with a strange mix of admiration and dread. "And now, let us pray that this world may be transformed by our faith," he was saying, his tone somber but sincere. "May we find peace in our hearts and strength in our unity."</p><p>As she listened, Marigold couldn't help but feel a connection to the man's words. She had always admired Reverend Finch's passion for history and his commitment to preserving the village's heritage. But she couldn’t shake the feeling that there was more to him than met the eye.</p><p>The church bell tolled, signaling the start of Sunday's service. Marigold stood up and made her way towards the door, her mind already racing with new ideas. She had to find out what Reverend Finch was hiding, and she knew exactly where to look.</p>
+            </div>
+
+            
+            <div class="chapter-footer-nav">
+              <button class="ch-nav-btn next" onclick="scrollToChapter(6)">
+                <span>Continue to Chapter 6</span>
+                <span class="btn-arrow">➔</span>
+              </button>
+            </div>
+            
+          </article>
+        </details>
+        
+        <details class="chapter-details" id="chapter-6" data-chapter-index="6" open>
+          <summary class="chapter-summary">
+            <div class="summary-left">
+              <span class="chapter-badge">Chapter 6</span>
+              <strong class="summary-title">Willowbrook Whispers: The Cheese and the Scooter</strong>
+            </div>
+            <div class="summary-right">
+              <span class="summary-pill">2 min read</span>
+              <span class="summary-pill">370 words</span>
+              <span class="summary-pill tone">Wry Village Comedy-of-Manners</span>
+              <span class="chevron">▼</span>
+            </div>
+          </summary>
+
+          <article class="chapter-body">
+            <img class="chapter-hero-img" src="https://picsum.photos/seed/willowbrook-6/800/320" alt="" loading="lazy" width="800" height="320">
+            <header class="chapter-header">
+              <div class="chapter-subtitle">When a mystery cheese delivery collides with an e-scooter mishap, Marigold, Reverend Aubrey, and Mrs. Vance must untangle the tangled threads of village gossip and forgotten lore.</div>
+              <div class="featuring-row">
+                <span class="featuring-label">Featuring</span>
+                <span class="featuring-avatar" title="Marigold Pemberton-Hale"><img src="https://api.dicebear.com/9.x/adventurer/svg?seed=char_marigold&backgroundType=gradientLinear&backgroundColor=f4e9d8,e8d5b7" alt="Marigold Pemberton-Hale" width="28" height="28" loading="lazy"></span><span class="featuring-avatar" title="Reverend Aubrey Finch"><img src="https://api.dicebear.com/9.x/adventurer/svg?seed=char_aubrey&backgroundType=gradientLinear&backgroundColor=f4e9d8,e8d5b7" alt="Reverend Aubrey Finch" width="28" height="28" loading="lazy"></span><span class="featuring-avatar" title="Mrs. Ottoline Vance"><img src="https://api.dicebear.com/9.x/adventurer/svg?seed=char_ottoline&backgroundType=gradientLinear&backgroundColor=f4e9d8,e8d5b7" alt="Mrs. Ottoline Vance" width="28" height="28" loading="lazy"></span>
+                
+    <div class="weather-widget" title="Real Cotswolds weather when this chapter was written">
+      <div class="wx-scene wx-sun"><div class="wx-sun"><div class="wx-sun-core"></div><div class="wx-sun-rays"></div></div></div>
+      <div class="wx-caption"><strong>clear sky</strong> • 18°C</div>
+    </div>
+    
+              </div>
+              <div class="chapter-meta-line">
+                <span>Model: <strong>qwen2.5-coder:7b</strong></span> •
+                <span>Generated: 03/09/26 18:31 UK</span> •
+                <span class="quick-nav-links">
+                  <a href="#chapter-5" onclick="scrollToChapter(5); return false;" class="mini-link">◀ Prev Ch</a> •
+                  
+                  <a href="#chapter-6" onclick="scrollToChapter(6); return false;" class="mini-link highlight">Latest (Ch 6) ⏩</a>
+                </span>
+              </div>
+
+              <details class="source-story-details">
+                <summary class="source-summary">
+                  <span>📰 Real-World Inspiration (2 sources)</span>
+                </summary>
+                <div class="source-content">
+                  <div class="source-item">
+                  <span class="source-tag">Nature & Curious Science</span>
+                  <strong class="source-headline">France relaxes strict cheese-making rules after prolonged drought</strong>
+                  <p class="source-snippet">Makers of some of France's most famous cheeses get waivers on where herds graze due to the lack of grass.</p>
+                  <a href="https://www.bbc.co.uk/news/articles/c980e36dd5do?at_medium=RSS&at_campaign=rss" target="_blank" rel="noopener noreferrer" class="threat-link">🔗 Read the real article ➔</a>
+                </div><div class="source-item">
+                  <span class="source-tag">Cotswolds & Local Gloucestershire News</span>
+                  <strong class="source-headline">Police officer suffers broken leg after being hit by e-scooter in Cheltenham</strong>
+                  <p class="source-snippet">A teenage boy was arrested</p>
+                  <a href="https://www.gloucestershirelive.co.uk/news/cheltenham-news/police-officer-suffers-broken-leg-11138918" target="_blank" rel="noopener noreferrer" class="threat-link">🔗 Read the real article ➔</a>
+                </div>
+                </div>
+              </details>
+            </header>
+
+            <div class="prose-content">
+              <p>Marigold Pemberton-Hale stood at the counter of Outside Pemberton Books, her eyes wide as she examined the mysterious envelope addressed to her. The fine script was unmistakable – her name in elegant calligraphy. She reached out slowly, a mix of curiosity and dread settling in her chest. Inside, there was a small, perfectly folded note and an intriguing package wrapped in parchment.</p><p>"Good afternoon," Marigold greeted the postmistress with a smile. "Would you mind if I open this? It's addressed to me."</p><p>The postmistress hesitated, then nodded. Marigold carefully unfolded the note. "It seems someone has sent me some cheese and asked me to help them find its way home," she said aloud, her voice tinged with surprise.</p><p>Aubrey Finch appeared at the tearoom door, his vicar's hat tilted slightly to one side. He was dressed in his Sunday best and carrying a small bag of books, looking around curiously. "Good afternoon, Marigold! What’s all this talk about cheese?"</p><p>"Ah, Reverend Aubrey," Marigold said warmly, handing him the note. "Someone has sent me some cheese, but they don’t know where it came from. They asked if I could help them find its way home."</p><p>Aubrey's eyes twinkled with interest. "Cheese? As in a dairy product?" he asked, clearly amused.</p><p>Marigold nodded. "Yes, and someone thinks it’s lost. I’m thinking it might have something to do with the recent change in cheese-making rules in France due to the drought."</p><p>Reverend Aubrey's eyes widened. "Ah, I see." He glanced out of the window at the clear sky, a slight frown on his face. "You know, Marigold, there was an incident involving an e-scooter a few days ago that ended up in Cheltenham. The police officer suffered a broken leg."</p><p>Marigold's brow furrowed as she considered this new piece of information. "That does seem like a coincidence," she mused aloud.</p><p>Just then, Mrs. Ottoline Vance breezed into the tearoom, her eyes scanning the room. She spotted Marigold and Aubrey and came over with an eager expression. "Good afternoon, ladies! I see you have some interesting visitors here."</p><p>Marigold smiled warmly. "Mrs. Vance, this is Reverend Aubrey Finch. He’s been helping us with our local history project."</p><p>"Ah, yes," Mrs. Vance said, nodding approvingly.</p>
+            </div>
+
+            
+            <div class="chapter-footer-nav latest-badge">
+              <span class="pulse-dot"></span>
+              <strong>You have reached the latest chapter (Chapter 6).</strong>
+              <p>A new case unfolds automatically.</p>
+            </div>
+            
+          </article>
+        </details>
+        
+    </div>
+
+    <div id="tabCodex" class="tab-content">
+      <div class="book-cover">
+        <h1 class="book-title">👥 The Willowbrook Cast</h1>
+        <div class="book-subtitle">Persistent memory, evolving case history, updated after each chapter</div>
+      </div>
+      
+        <div class="character-card">
+          <div class="char-header">
+            <div class="char-avatar">
+              <img src="https://api.dicebear.com/9.x/adventurer/svg?seed=char_marigold&backgroundType=gradientLinear&backgroundColor=f4e9d8,e8d5b7" alt="" loading="lazy" width="56" height="56">
+              <span class="char-avatar-emoji">🕵️‍♀️📚</span>
+            </div>
+            <div class="char-title-area">
+              <div class="char-name-row">
+                <h3 class="char-name">Marigold Pemberton-Hale</h3>
+                <span class="char-role-badge">Retired Detective Inspector, now runs the village bookshop</span>
+              </div>
+              <div class="char-location">📍 Outside Pemberton Books</div>
+              <div class="char-status">⚡ <em>Status:</em> <strong>Unpacking the mysterious package and note found at Outside Pemberton Books.</strong></div>
+            </div>
+          </div>
+
+          <p class="char-backstory">Thirty years with the Yard before retiring to her late aunt's bookshop. Insists she is done with detective work. She is not.</p>
+
+          <div class="char-section">
+            <div class="char-section-title">Current Effects</div>
+            <div class="inv-wrapper"><span class='inv-pill'>🎒 Battered leather notebook</span><span class='inv-pill'>🎒 Reading glasses on a chain</span><span class='inv-pill'>🎒 A rather good magnifying glass</span><span class='inv-pill'>🎒 Thermos of Earl Grey</span></div>
+          </div>
+
+          <div class="char-section">
+            <div class="char-section-title">Relationships</div>
+            <div class="rel-wrapper"><div class='rel-line'><strong>Reverend Aubrey Finch:</strong> Old friend and reluctant partner-in-snooping (Trust: 91%)</div><div class='rel-line'><strong>PC Nesbit:</strong> Fond but exasperated (Trust: 70%)</div></div>
+          </div>
+
+          <div class="char-section">
+            <div class="char-section-title">Case History (Multi-Chapter Memory)</div>
+            <ul class="arc-list">
+              <li class='arc-item'>Solved the matter of the vanishing church silver quietly, without telling anyone.</li><li class='arc-item'>Reluctantly agreed the bookshop needed a "Mystery" section after all.</li><li class='arc-item'>Chapter 1: Marigold discovers an old diary in a dusty attic, which contains clues to a local legend.</li><li class='arc-item'>Chapter 2: Marigold overhears a conversation between Mrs. Vance and Reverend Finch about an old manuscript in her possession.</li><li class='arc-item'>Chapter 3: Marigold notices an unusual silence in the rain that coincides with her latest discovery.</li><li class='arc-item'>Chapter 4: Marigold discovers a rare edition of 'The Echoes of Berkeley Castle' at an old antique shop.</li><li class='arc-item'>Chapter 5: Marigold discovers an unexpected letter that could lead to more information about 'The Echoes of Berkeley Castle'.</li><li class='arc-item'>Chapter 6: Marigold discovers a cheese delivery gone wrong, causing concern for its timely arrival.</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="character-card">
+          <div class="char-header">
+            <div class="char-avatar">
+              <img src="https://api.dicebear.com/9.x/adventurer/svg?seed=char_aubrey&backgroundType=gradientLinear&backgroundColor=f4e9d8,e8d5b7" alt="" loading="lazy" width="56" height="56">
+              <span class="char-avatar-emoji">⛪️🧣</span>
+            </div>
+            <div class="char-title-area">
+              <div class="char-name-row">
+                <h3 class="char-name">Reverend Aubrey Finch</h3>
+                <span class="char-role-badge">Vicar of St. Wilfred's, amateur historian, terrible gossip</span>
+              </div>
+              <div class="char-location">📍 St. Wilfred's Church</div>
+              <div class="char-status">⚡ <em>Status:</em> <strong>Distributing the final copies of Sunday's sermon to parishioners.</strong></div>
+            </div>
+          </div>
+
+          <p class="char-backstory">Came to Willowbrook twelve years ago from London and never left. Knows every family secret in the parish register.</p>
+
+          <div class="char-section">
+            <div class="char-section-title">Current Effects</div>
+            <div class="inv-wrapper"><span class='inv-pill'>🎒 Dog-eared parish records</span><span class='inv-pill'>🎒 A bicycle called Bertha</span><span class='inv-pill'>🎒 Emergency biscuit tin</span><span class='inv-pill'>🎒 Reading spectacles, usually lost</span></div>
+          </div>
+
+          <div class="char-section">
+            <div class="char-section-title">Relationships</div>
+            <div class="rel-wrapper"><div class='rel-line'><strong>Marigold Pemberton-Hale:</strong> Partner-in-crime-solving, mostly against his will (Trust: 91%)</div><div class='rel-line'><strong>Mrs. Ottoline Vance:</strong> Wary respect (Trust: 60%)</div></div>
+          </div>
+
+          <div class="char-section">
+            <div class="char-section-title">Case History (Multi-Chapter Memory)</div>
+            <ul class="arc-list">
+              <li class='arc-item'>Accidentally revealed a fifty-year-old scandal during a christening.</li><li class='arc-item'>Won the village fete raffle three years running, which some find suspicious.</li><li class='arc-item'>Chapter 1: Aubrey overhears a group of villagers plotting a surprise wedding for an elderly bachelor.</li><li class='arc-item'>Chapter 2: Aubrey notices a faint disturbance outside the church during his supposed sermon prep.</li><li class='arc-item'>Chapter 3: Aubrey overhears Marigold and Mrs. Ottoline discussing a rare book's history.</li><li class='arc-item'>Chapter 4: Aubrey overhears a whispered conversation about a missing heirloom from Berkeley Castle that could be in Willowbrook.</li><li class='arc-item'>Chapter 5: As he rings the bell, he notices a curious figure lingering outside the church gates.</li><li class='arc-item'>Chapter 6: Aubrey notices a peculiar e-scooter outside the church, which seems to be causing disruption.</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="character-card">
+          <div class="char-header">
+            <div class="char-avatar">
+              <img src="https://api.dicebear.com/9.x/adventurer/svg?seed=char_ottoline&backgroundType=gradientLinear&backgroundColor=f4e9d8,e8d5b7" alt="" loading="lazy" width="56" height="56">
+              <span class="char-avatar-emoji">☕️🧁</span>
+            </div>
+            <div class="char-title-area">
+              <div class="char-name-row">
+                <h3 class="char-name">Mrs. Ottoline Vance</h3>
+                <span class="char-role-badge">Owner of the Willowbrook Tearoom, unofficial mayor of village opinion</span>
+              </div>
+              <div class="char-location">📍 The Willowbrook Tearoom, the Green</div>
+              <div class="char-status">⚡ <em>Status:</em> <strong>Listening attentively to the intriguing new customer's story at The Willowbrook Tearoom.</strong></div>
+            </div>
+          </div>
+
+          <p class="char-backstory">Has run the tearoom for thirty years. Nothing happens in Willowbrook that does not pass through her counter first.</p>
+
+          <div class="char-section">
+            <div class="char-section-title">Current Effects</div>
+            <div class="inv-wrapper"><span class='inv-pill'>🎒 A tray that never wobbles</span><span class='inv-pill'>🎒 A ledger of who owes what gossip</span><span class='inv-pill'>🎒 Spare umbrella for regulars</span><span class='inv-pill'>🎒 A truly excellent Victoria sponge recipe</span></div>
+          </div>
+
+          <div class="char-section">
+            <div class="char-section-title">Relationships</div>
+            <div class="rel-wrapper"><div class='rel-line'><strong>Marigold Pemberton-Hale:</strong> Trusted confidante (Trust: 88%)</div><div class='rel-line'><strong>Reverend Aubrey Finch:</strong> Wary respect, mutual (Trust: 60%)</div></div>
+          </div>
+
+          <div class="char-section">
+            <div class="char-section-title">Case History (Multi-Chapter Memory)</div>
+            <ul class="arc-list">
+              <li class='arc-item'>Once refused to serve the Mayor his usual until he apologised to the postman.</li><li class='arc-item'>Keeps a "suspicious behaviour" ledger she insists is just for the parish newsletter.</li><li class='arc-item'>Chapter 1: Ottoline notices a new customer with an unusually keen interest in rare tea leaves.</li><li class='arc-item'>Chapter 2: Ottoline spots Marigold consulting a rare book on the shelf, which matches Mrs. Vance's description.</li><li class='arc-item'>Chapter 3: Ottoline notices an unusually quiet atmosphere in the village and decides to investigate.</li><li class='arc-item'>Chapter 4: Ottoline learns from a local that 'The Echoes of Berkeley Castle' has been borrowed from the library by an unknown person.</li><li class='arc-item'>Chapter 5: Ottoline overheard a customer discussing odd events happening around the castle, hinting at potential supernatural activities.</li><li class='arc-item'>Chapter 6: Mrs. Vance overheard a conversation about a cheese delivery gone wrong in town.</li>
+            </ul>
+          </div>
+        </div>
+        
+    </div>
+  </main>
+
+  <div class="progress-bar-fixed">
+    <span>The Willowbrook Mysteries (6 Total Chapters)</span>
+    <span class="cursor-help">⌨️ [◀ / ▶] Next/Prev • [End / L] Latest • [Home] Ch 1</span>
+  </div>
+
+  <script>
+    const TOTAL_CHAPTERS = 6;
+    let currentChapterIndex = 1;
+    function scrollToChapter(chNum) {
+      if (chNum < 1) chNum = 1;
+      if (chNum > TOTAL_CHAPTERS) chNum = TOTAL_CHAPTERS;
+      currentChapterIndex = chNum;
+      switchMainTab('novel');
+      const el = document.getElementById('chapter-' + chNum);
+      if (el) {
+        el.open = true;
+        document.querySelectorAll('details.chapter-details').forEach(c => c.classList.remove('focused'));
+        el.classList.add('focused');
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+    function scrollNextChapter() { if (currentChapterIndex < TOTAL_CHAPTERS) scrollToChapter(currentChapterIndex + 1); else scrollToChapter(TOTAL_CHAPTERS); }
+    function scrollPrevChapter() { if (currentChapterIndex > 1) scrollToChapter(currentChapterIndex - 1); }
+    window.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowRight' || e.key === 'n' || e.key === 'N') scrollNextChapter();
+      else if (e.key === 'ArrowLeft' || e.key === 'p' || e.key === 'P') scrollPrevChapter();
+      else if (e.key === 'End' || e.key === 'l' || e.key === 'L') scrollToChapter(TOTAL_CHAPTERS);
+      else if (e.key === 'Home') scrollToChapter(1);
+    });
+    function switchMainTab(tab) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-tab-btn').forEach(el => el.classList.remove('active'));
+      if (tab === 'novel') { document.getElementById('tabNovel').classList.add('active'); document.getElementById('btnTabNovel').classList.add('active'); }
+      else { document.getElementById('tabCodex').classList.add('active'); document.getElementById('btnTabCodex').classList.add('active'); }
+    }
+    function setTheme(t) { document.documentElement.setAttribute('data-theme', t); localStorage.setItem('wb_theme', t); }
+    function setFontSize(s) { document.documentElement.setAttribute('data-size', s); localStorage.setItem('wb_size', s); }
+    function setFontFamily(f) { document.documentElement.setAttribute('data-font', f); localStorage.setItem('wb_font', f); }
+    function setColumnWidth(w) { document.documentElement.setAttribute('data-width', w); localStorage.setItem('wb_width', w); }
+    function toggleAllChapters(openState) { document.querySelectorAll('details.chapter-details').forEach(el => { el.open = openState; }); }
+    if (localStorage.getItem('wb_theme')) setTheme(localStorage.getItem('wb_theme'));
+    if (localStorage.getItem('wb_size')) setFontSize(localStorage.getItem('wb_size'));
+    if (localStorage.getItem('wb_font')) setFontFamily(localStorage.getItem('wb_font'));
+    if (localStorage.getItem('wb_width')) setColumnWidth(localStorage.getItem('wb_width'));
+  </script>
+
+</body>
+</html>
